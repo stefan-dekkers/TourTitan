@@ -1,2 +1,33 @@
 Samenwerkingscontract
 
+Contact
+1. Maandag en vrijdag zijn we geacht op school te zijn tenzij er een goede reden is. Dit omvat werk, ziekte of prive omstandigheden.
+2. Werkdagen beginnen om 9.30.
+3. Minimaal dag van tevoren aangeven of je aanwezig bent op school.
+4. Elke dag wordt er om 10.00 een daily standup gehouden.
+5. Vragen worden in persoon of via de groepsapp gesteld en zo snel mogelijk beantwoord.
+6. Voor de sprint review wordt een retrospective gehouden.
+7. Contact met de PO gaat via Koen van Steen.
+
+Opdracht
+1. Verplicht om het board up to date te houden.
+2. Stefan Dekkers is de enige die naar main branch mag mergen.
+3. Afgesproken taken moeten af voor de deadline. Als dit niet lukt moet er eerst om hulp gevraagd worden. 
+   Mocht het dan nog steeds niet lukken wordt er in het team overlegd hoe de situatie opgelost kan worden.
+4. Alle ingeleverde onderdelen worden door minimaal 1 persoon goedgekeurd.
+5. Pas na de sprint review mogen relevante taken op done worden gezet. Dit zijn taken die de PO moet goedkeuren.
+6. Testen moeten samen met de functionaliteit gemaakt worden en ook nagekeken worden tijdens de review.
+7. Alle code wordt in het engels geschreven, dit bevat dus ook de content en de comments.
+8. Voor elke functie wordt kort commentaar gegeven over wat het doet.
+9. Er wordt aan het technisch en functioneel ontwerp gehouden.
+
+Gevolgen
+1. Als iemand zich niet aan een van de afspraken houdt wordt er onderling in het team overlegd wat er met het probleem wordt gedaan.
+
+Ondertekeningen
+Koen van Steen
+Stefan Dekkers
+Davit Dashyan
+Ammmar Almifalani
+Sterre Vriens
+Stijn Robben
