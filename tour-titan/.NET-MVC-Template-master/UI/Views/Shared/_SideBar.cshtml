@@ -1,0 +1,45 @@
+﻿@using Microsoft.AspNetCore.Identity
+
+@inject UserManager<ApplicationUser> userManager
+
+@{
+    var user = userManager.GetUserAsync(User);
+}
+
+<aside>
+    <div>
+        <div>
+            <img src="~/img/user-placeholder.jpg" />
+            <span>
+                @user.Result.Name
+                @if (User.IsInRole("Admin"))
+                {
+                    <i class="fas fa-star"></i>
+                }
+            </span>
+            <span>@user.Result.Email</span>
+        </div>
+        <hr>
+        <ul>
+            <li>
+                <a asp-action="Index" asp-controller="Home">
+                    <i class="fas fa-table-columns ml-2"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fas fa-users ml-2"></i>
+                    <span>Users</span>
+                    <span>0</span>
+                </a>
+            </li>
+        </ul>
+        <div>
+            <hr>
+            <a asp-action="Logout" asp-controller="Account" type="button">
+                Logout <i class="fas fa-arrow-right-from-bracket"></i>
+            </a>
+        </div>
+    </div>
+</aside>
