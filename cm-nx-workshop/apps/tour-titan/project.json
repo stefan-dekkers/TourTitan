@@ -1,0 +1,91 @@
+{
+  "name": "tour-titan",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "prefix": "cm-nx-workshop",
+  "sourceRoot": "apps/tour-titan/src",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:application",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/tour-titan",
+        "index": "apps/tour-titan/src/index.html",
+        "browser": "apps/tour-titan/src/main.ts",
+        "polyfills": ["zone.js"],
+        "tsConfig": "apps/tour-titan/tsconfig.app.json",
+        "assets": [
+          "apps/tour-titan/src/favicon.ico",
+          "apps/tour-titan/src/assets"
+        ],
+        "styles": ["apps/tour-titan/src/styles.css"],
+        "scripts": [],
+        "server": "apps/tour-titan/src/main.server.ts",
+        "prerender": true,
+        "ssr": {
+          "entry": "apps/tour-titan/server.ts"
+        }
+      },
+      "configurations": {
+        "production": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "500kb",
+              "maximumError": "1mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "2kb",
+              "maximumError": "4kb"
+            }
+          ],
+          "outputHashing": "all"
+        },
+        "development": {
+          "optimization": false,
+          "extractLicenses": false,
+          "sourceMap": true
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@angular-devkit/build-angular:dev-server",
+      "configurations": {
+        "production": {
+          "buildTarget": "tour-titan:build:production"
+        },
+        "development": {
+          "buildTarget": "tour-titan:build:development"
+        }
+      },
+      "defaultConfiguration": "development"
+    },
+    "extract-i18n": {
+      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "options": {
+        "buildTarget": "tour-titan:build"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "apps/tour-titan/jest.config.ts"
+      }
+    },
+    "serve-static": {
+      "executor": "@nx/web:file-server",
+      "options": {
+        "buildTarget": "tour-titan:build",
+        "staticFilePath": "dist/apps/tour-titan/browser"
+      }
+    }
+  }
+}
