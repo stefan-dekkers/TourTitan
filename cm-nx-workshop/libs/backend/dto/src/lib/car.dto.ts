@@ -40,7 +40,7 @@ export class UpdateCarDto implements IUpdateCar{
     @IsNumber()
     @IsOptional()
     capacity!: number;
-    @ApiPropertyOptional({ example: 'Breda Office', description: 'The location of the car' })
+    @ApiPropertyOptional({ example: '0', description: 'The location id of the car' })
     @IsOptional()
     @IsString()
     location!: string;

@@ -1,4 +1,5 @@
 import { Id } from "./id.type";
+import { ILocation } from "./location.interface";
 
 export interface ICar{
     id:Id;
@@ -8,6 +9,7 @@ export interface ICar{
     mileage?: number;
     available: boolean;
     location: string;
+    locationObject? : ILocation
 }
 
 export type ICreateCar = Pick<
