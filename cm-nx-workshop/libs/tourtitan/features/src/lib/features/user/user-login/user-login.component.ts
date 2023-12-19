@@ -24,4 +24,8 @@ export class UserLoginComponent implements OnInit, OnDestroy {
     ngOnDestroy(): void {
         if (this.subscription) this.subscription.unsubscribe();
     }
+
+    authenticate(email: string, password: string): void{
+        UserService.authenticate(email, password);
+    }
 }

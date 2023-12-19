@@ -18,15 +18,21 @@ export const httpOptions = {
  */
 @Injectable()
 export class UserService {
-    endpoint = 'http://localhost:3000/api/user';
+    endpoint_user = 'http://localhost:3000/api/user';
     endpoint_auth = 'http://localhost:3000/api/auth/login'
+
+    static authenticate(email: string, password: string) {
+        throw new Error('Method not implemented.');
+    }
+    
+    
     constructor(private readonly http: HttpClient) {}
 
     public list(options?: any): Observable<IUser[] | null> {
-        console.log(`list ${this.endpoint}`);
+        console.log(`list ${this.endpoint_user}`);
 
         return this.http
-            .get<ApiResponse<IUser[]>>(this.endpoint, {
+            .get<ApiResponse<IUser[]>>(this.endpoint_user, {
                 ...options,
                 ...httpOptions,
             })
@@ -42,9 +48,9 @@ export class UserService {
      *
      */
     public read(id: string | null, options?: any): Observable<IUser> {
-        console.log(`read ${this.endpoint}`);
+        console.log(`read ${this.endpoint_user}`);
         return this.http
-            .get<ApiResponse<IUser>>(this.endpoint, {
+            .get<ApiResponse<IUser>>(this.endpoint_user, {
                 ...options,
                 ...httpOptions,
             })
@@ -55,9 +61,7 @@ export class UserService {
             );
     }
 
-    public authenticate(email: string, password: string) : void{
-        //code voor het authenticate (via de api?)
-    }
+    
     /**
      * Handle errors.
      */
