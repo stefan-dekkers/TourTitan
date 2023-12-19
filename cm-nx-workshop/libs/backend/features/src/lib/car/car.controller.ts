@@ -1,7 +1,7 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { CarService } from './car.service';
 import { ICar } from '@cm-nx-workshop/shared/api';
-import { CreateCarDto } from '@cm-nx-workshop/backend/dto';
+import { CreateCarDto, UpdateCarDto } from '@cm-nx-workshop/backend/dto';
 
 @Controller('car')
 export class CarController {
@@ -23,6 +23,17 @@ export class CarController {
       console.log("Training create - create controller");
         
       return this.carService.create(data);
+    }
+
+    @Put(':id')
+    async update(@Body() data: UpdateCarDto, @Param('id') id: string): Promise<ICar|null> {
+    return this.carService.update(id,data);
+    }
+
+
+    @Delete(':id')
+    delete(@Param('id')id: string):Promise<{ deleted: boolean; message?: string }>{
+        return this.carService.delete(id)
     }
 
 }

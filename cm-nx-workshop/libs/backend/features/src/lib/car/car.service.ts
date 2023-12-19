@@ -1,4 +1,4 @@
-import { ICar, ICreateCar } from "@cm-nx-workshop/shared/api";
+import { ICar, ICreateCar, IUpdateCar } from "@cm-nx-workshop/shared/api";
 import { ConflictException, Injectable, Logger } from "@nestjs/common";
 
 const mockCar: ICar[] =[
@@ -75,5 +75,28 @@ export class CarService{
 
         mockCar.push(newCar);
         return newCar
+    }
+
+    async update(id: string, car: IUpdateCar): Promise <ICar | null>{
+        this.logger.log(`Updating car with id: ${id}`)
+        const index = mockCar.findIndex(car => car.id === id);
+        if (index === -1) {
+            this.logger.debug('Car not found');
+            return null;
+        }
+        const updatedCar = { ...mockCar[index], ...car};
+        mockCar[index] = updatedCar;
+        return updatedCar
+    }
+
+    async delete(id:string): Promise<{ deleted: boolean; message?: string }>{
+        const index = mockCar.findIndex(car => car.id === id);
+        if (index === -1) {
+            this.logger.debug(`No car found to delete with id: ${id}`);
+            return { deleted: false, message: 'No car found with that ID' };
+        }
+        mockCar.splice(index, 1);
+        this.logger.log(`Deleted car with id: ${id}`);
+        return { deleted: true };
     }
 }
