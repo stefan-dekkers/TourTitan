@@ -5,9 +5,12 @@ import {
     IsEnum,
     IsOptional,
   } from 'class-validator';
-  import { UserRole } from '@cm-nx-workshop/shared/api';
+  import { IUpdateUser, IUser, UserRole } from '@cm-nx-workshop/shared/api';
   import { ApiProperty,ApiPropertyOptional } from '@nestjs/swagger';
-  export class CreateUserDto {
+import { Id } from 'libs/shared/api/src/lib/models/id.type';
+  export class CreateUserDto implements IUser {
+    id!: Id;
+    
     @ApiProperty({ example: 'John Doe', description: 'The name of the user' })
     @IsNotEmpty()
     @IsString()
@@ -27,7 +30,7 @@ import {
     role!: UserRole;
   }
   
-  export class UpdateUserDto {
+  export class UpdateUserDto implements IUpdateUser{
     @ApiPropertyOptional({ example: 'John Doe', description: 'The  name of the user' })
     @IsOptional()
     @IsString()
@@ -50,9 +53,6 @@ import {
     role?: UserRole;
   }
   
-  export class UpsertUserDto extends CreateUserDto {
-    id!: string;
-  }
   export class LoginFormDto {
     @ApiProperty({ example: 'john@example.com', description: 'The email address of the user' })
     @IsNotEmpty()
