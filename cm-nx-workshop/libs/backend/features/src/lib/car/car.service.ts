@@ -34,21 +34,18 @@ const mockCar: ICar[] =[
 const mockLocation: ILocation[] =[
     {
         id: '0',
-        name: 'Breda office',
         zipCode: '1234AB',
         street: 'Bredastraat',
         number: 12
     },
     {
         id: '1',
-        name: 'Amsterdam office',
         zipCode: '1234AB',
         street: 'Amsterdanweg',
         number: 14
     },
     {
         id: '2',
-        name: 'Groningen office',
         zipCode: '1234AB',
         street: 'Groningenweg',
         number: 34
@@ -97,20 +94,18 @@ export class CarService{
         let locationId = '';
 
         const existingLocation = mockLocation.find(l =>
-          l.name === location.name &&
           l.zipCode === location.zipCode &&
           l.street === location.street &&
           l.number === location.number
         );
       
         if (existingLocation) {
-          this.logger.log(`Location ${location.name} already exits at id ${existingLocation.id}`);
+          this.logger.log(`Location  already exits at id ${existingLocation.id}`);
           locationId = existingLocation.id;
         } else {
-          this.logger.log(`Creating location: ${location.name}`);
+          this.logger.log(`Creating location`);
           const newLocation = {
             id: mockCar.length.toString(), 
-            name: location.name,
             zipCode: location.zipCode,
             street: location.street,
             number: location.number

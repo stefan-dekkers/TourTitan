@@ -12,10 +12,6 @@ export class CarController {
     getAll():Promise<ICar[]>{
         return this.carService.findAll();
     }
-    // @Get('location')
-    // getAllL():Promise<ILocation[]>{
-    //     return this.carService.findAllL();
-    // }
 
     @Get(':id')
     getOne(@Param('id') id:string):Promise<ICar | null>{

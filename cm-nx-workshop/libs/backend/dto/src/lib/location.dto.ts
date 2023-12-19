@@ -8,10 +8,6 @@ import {
   } from 'class-validator';
 
 export class CreateLocationDto implements ICreateLocation{
-    @ApiProperty({ example: 'Breda head office', description: 'The name of the location' })
-    @IsNotEmpty()
-    @IsString()
-    name!: string;
     @ApiProperty({ example: '4352RD', description: 'The zipcode of the location' })
     @IsNotEmpty()
     @IsString()
