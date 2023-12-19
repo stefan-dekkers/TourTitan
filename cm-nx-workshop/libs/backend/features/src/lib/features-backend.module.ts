@@ -5,6 +5,7 @@ import { UserService } from './user/user.service';
 import { AuthService } from './auth/auth.service';
 import { JwtModule } from '@nestjs/jwt';
 import { CarController } from './car/car.controller';
+import { CarService } from './car/car.service';
 
 @Module({
   imports: [
@@ -14,7 +15,7 @@ import { CarController } from './car/car.controller';
     }),
   ],
   controllers: [AuthController, UserController, CarController],
-  providers: [UserService, AuthService],
-  exports: [UserService, AuthService],
+  providers: [UserService, AuthService, CarService],
+  exports: [UserService, AuthService, CarService],
 })
 export class FeaturesBackendModule {}
