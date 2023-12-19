@@ -3,6 +3,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { map, catchError, tap } from 'rxjs/operators';
 import { ApiResponse, IUser } from '@cm-nx-workshop/shared/api';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 
 /**
  * See https://angular.io/guide/http#requesting-data-from-a-server
@@ -21,12 +22,17 @@ export class UserService {
     endpoint_user = 'http://localhost:3000/api/user';
     endpoint_auth = 'http://localhost:3000/api/auth/login'
 
-    static authenticate(email: string, password: string) {
-        throw new Error('Method not implemented.');
+    
+    
+    
+    constructor(private readonly http: HttpClient, private router: Router) {}
+
+    authenticate(email: string, password: string) {
+        if(true){ //als authenticatie succesvol is...
+            this.router.navigate(['myrides']);
+
+        }
     }
-    
-    
-    constructor(private readonly http: HttpClient) {}
 
     public list(options?: any): Observable<IUser[] | null> {
         console.log(`list ${this.endpoint_user}`);

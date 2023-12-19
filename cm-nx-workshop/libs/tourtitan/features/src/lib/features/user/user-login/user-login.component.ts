@@ -26,6 +26,6 @@ export class UserLoginComponent implements OnInit, OnDestroy {
     }
 
     authenticate(email: string, password: string): void{
-        UserService.authenticate(email, password);
+        this.userService.authenticate(email, password);
     }
 }
