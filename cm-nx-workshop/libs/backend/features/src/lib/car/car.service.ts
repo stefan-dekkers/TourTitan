@@ -59,21 +59,14 @@ const mockLocation: ILocation[] =[
 export class CarService{
     private readonly logger: Logger = new Logger(CarService.name);
 
-    async findAll(): Promise<ICar[]>{
+    async findAll(): Promise<ICar[]> {
         this.logger.log('Find all cars');
-        //return mock data
-        return mockCar.map(car =>{
-            return car;
-        })
-    }
-
-    async findAllL(): Promise<ILocation[]>{
-        this.logger.log('Find all cars');
-        //return mock data
-        return mockLocation.map(car =>{
-            return car;
-        })
-    }
+        const carsWithLocations = mockCar.map((car) => {
+          const location = mockLocation.find((l) => l.id === car.location);
+          return { ...car, locationObject: location };
+        });
+        return carsWithLocations;
+      }
 
     async findOne(id:string):Promise<ICar | null>{
         this.logger.log(`Looking for car with id ${id}`)
