@@ -19,7 +19,7 @@ export const httpOptions = {
 @Injectable()
 export class UserService {
     endpoint = 'http://localhost:3000/api/user';
-
+    endpoint_auth = 'http://localhost:3000/api/auth/login'
     constructor(private readonly http: HttpClient) {}
 
     public list(options?: any): Observable<IUser[] | null> {
@@ -55,6 +55,9 @@ export class UserService {
             );
     }
 
+    public authenticate(email: string, password: string) : void{
+        //code voor het authenticate (via de api?)
+    }
     /**
      * Handle errors.
      */
