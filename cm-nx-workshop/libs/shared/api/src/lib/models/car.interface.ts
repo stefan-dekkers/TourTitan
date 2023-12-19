@@ -14,7 +14,7 @@ export interface ICar{
 
 export type ICreateCar = Pick<
     ICar,
-    'name' | 'plateNumber' | 'capacity' | 'location'
+    'name' | 'plateNumber' | 'capacity'
 >;
 
 export type IUpdateCar = Partial<Omit<ICar, 'id'>>;

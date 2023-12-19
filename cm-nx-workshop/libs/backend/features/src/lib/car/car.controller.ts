@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { CarService } from './car.service';
-import { ICar } from '@cm-nx-workshop/shared/api';
+import { ICar, ICreateLocation, ILocation } from '@cm-nx-workshop/shared/api';
 import { CreateCarDto, UpdateCarDto } from '@cm-nx-workshop/backend/dto';
 
 @Controller('car')
@@ -12,17 +12,23 @@ export class CarController {
     getAll():Promise<ICar[]>{
         return this.carService.findAll();
     }
+    @Get('location')
+    getAllL():Promise<ILocation[]>{
+        return this.carService.findAllL();
+    }
 
     @Get(':id')
     getOne(@Param('id') id:string):Promise<ICar | null>{
         return this.carService.findOne(id);
     }
 
+
     @Post('')
-    async create(@Body() data: CreateCarDto): Promise<ICar|null> {
-      console.log("Training create - create controller");
-        
-      return this.carService.create(data);
+    async create(@Body() requestData: { dataCar: CreateCarDto, dataLocation: ICreateLocation }): Promise<ICar|null> {
+        console.log("Training create - create controller");
+
+        const { dataCar, dataLocation } = requestData;
+        return this.carService.create(dataCar, dataLocation);
     }
 
     @Put(':id')

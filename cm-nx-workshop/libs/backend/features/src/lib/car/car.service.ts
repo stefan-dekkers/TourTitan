@@ -1,4 +1,4 @@
-import { ICar, ICreateCar, IUpdateCar } from "@cm-nx-workshop/shared/api";
+import { ICar, ICreateCar, ICreateLocation, ILocation, IUpdateCar } from "@cm-nx-workshop/shared/api";
 import { ConflictException, Injectable, Logger } from "@nestjs/common";
 
 const mockCar: ICar[] =[
@@ -9,7 +9,7 @@ const mockCar: ICar[] =[
         capacity: 5,
         mileage: 10000,
         available: true,
-        location: 'Parking Lot A'
+        location: '0'
     },
     {
         id: '1',
@@ -18,7 +18,7 @@ const mockCar: ICar[] =[
         capacity: 4,
         mileage: 8000,
         available: false,
-        location: 'Garage B'
+        location: '0'
     },
     {
         id: '2',
@@ -27,9 +27,33 @@ const mockCar: ICar[] =[
         capacity: 7,
         mileage: 12000,
         available: true,
-        location: 'Street C'
+        location: '2'
     }
 ];
+
+const mockLocation: ILocation[] =[
+    {
+        id: '0',
+        name: 'Breda office',
+        zipCode: '1234AB',
+        street: 'Bredastraat',
+        number: 12
+    },
+    {
+        id: '1',
+        name: 'Amsterdam office',
+        zipCode: '1234AB',
+        street: 'Amsterdanweg',
+        number: 14
+    },
+    {
+        id: '2',
+        name: 'Groningen office',
+        zipCode: '1234AB',
+        street: 'Groningenweg',
+        number: 34
+    },
+]
 
 @Injectable()
 export class CarService{
@@ -39,6 +63,14 @@ export class CarService{
         this.logger.log('Find all cars');
         //return mock data
         return mockCar.map(car =>{
+            return car;
+        })
+    }
+
+    async findAllL(): Promise<ILocation[]>{
+        this.logger.log('Find all cars');
+        //return mock data
+        return mockLocation.map(car =>{
             return car;
         })
     }
@@ -53,30 +85,66 @@ export class CarService{
             return null
         }
 
-        return car;
+        const location = mockLocation.find(l => l.id === car.location)
+        if(!location){
+            this.logger.debug('Location of car not found')
+            return null
+        }
+
+        const carWithTraining: ICar ={
+            ...car,
+            locationObject: location
+        }
+
+        return carWithTraining;
     }
 
-    async create(car: ICreateCar): Promise<ICar>{
+    async create(car: ICreateCar, location: ICreateLocation): Promise<ICar> {
         this.logger.log('Create new car');
+        let locationId = '';
 
-        const exixtingCar = mockCar.find(c => c.plateNumber === car.plateNumber);
-        if(exixtingCar){
-            throw new ConflictException(`Car with plateNumber ${car.plateNumber} already exists`)
+        const existingLocation = mockLocation.find(l =>
+          l.name === location.name &&
+          l.zipCode === location.zipCode &&
+          l.street === location.street &&
+          l.number === location.number
+        );
+      
+        if (existingLocation) {
+          this.logger.log(`Location ${location.name} already exits at id ${existingLocation.id}`);
+          locationId = existingLocation.id;
+        } else {
+          this.logger.log(`Creating location: ${location.name}`);
+          const newLocation = {
+            id: mockCar.length.toString(), 
+            name: location.name,
+            zipCode: location.zipCode,
+            street: location.street,
+            number: location.number
+          };
+      
+          mockLocation.push(newLocation);
+          locationId = newLocation.id;
         }
-
-        const newCar ={
-            id: mockCar.length.toString(),
-            name: car.name,
-            plateNumber: car.plateNumber,
-            capacity: car.capacity,
-            location: car.location,
-            available: true
+      
+        const existingCar = mockCar.find(c => c.plateNumber === car.plateNumber);
+        if (existingCar) {
+          throw new ConflictException(`Car with plateNumber ${car.plateNumber} already exists`);
         }
-
+      
+        const newCar = {
+          id: mockCar.length.toString(),
+          name: car.name, 
+          plateNumber: car.plateNumber,
+          capacity: car.capacity,
+          location: locationId,
+          available: true
+        };
+      
         mockCar.push(newCar);
-        return newCar
-    }
-
+        return newCar;
+      }
+      
     async update(id: string, car: IUpdateCar): Promise <ICar | null>{
         this.logger.log(`Updating car with id: ${id}`)
         const index = mockCar.findIndex(car => car.id === id);

@@ -1,4 +1,4 @@
-import { ICreateCar, IUpdateCar } from "@cm-nx-workshop/shared/api";
+import { ICreateCar, ICreateLocation, IUpdateCar } from "@cm-nx-workshop/shared/api";
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 import {
     IsNotEmpty,
