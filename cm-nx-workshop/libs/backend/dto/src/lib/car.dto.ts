@@ -1,6 +1,11 @@
 import { ICreateCar, IUpdateCar } from "@cm-nx-workshop/shared/api";
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
-import { IsBoolean, IsNotEmpty,IsNumber,IsOptional,IsString } from "class-validator/types/decorator/decorators";
+import {
+    IsNotEmpty,
+    IsString,
+    IsOptional,
+    IsNumber,
+  } from 'class-validator';
 
 export class CreateCarDto implements ICreateCar{
     @ApiProperty({ example: 'CruiseMobile', description: 'The name of the car' })

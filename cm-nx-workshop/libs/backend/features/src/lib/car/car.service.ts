@@ -1,5 +1,5 @@
-import { ICar } from "@cm-nx-workshop/shared/api";
-import { Injectable, Logger } from "@nestjs/common";
+import { ICar, ICreateCar } from "@cm-nx-workshop/shared/api";
+import { ConflictException, Injectable, Logger } from "@nestjs/common";
 
 const mockCar: ICar[] =[
     {
@@ -54,5 +54,26 @@ export class CarService{
         }
 
         return car;
+    }
+
+    async create(car: ICreateCar): Promise<ICar>{
+        this.logger.log('Create new car');
+
+        const exixtingCar = mockCar.find(c => c.plateNumber === car.plateNumber);
+        if(exixtingCar){
+            throw new ConflictException(`Car with plateNumber ${car.plateNumber} already exists`)
+        }
+
+        const newCar ={
+            id: mockCar.length.toString(),
+            name: car.name,
+            plateNumber: car.plateNumber,
+            capacity: car.capacity,
+            location: car.location,
+            available: true
+        }
+
+        mockCar.push(newCar);
+        return newCar
     }
 }

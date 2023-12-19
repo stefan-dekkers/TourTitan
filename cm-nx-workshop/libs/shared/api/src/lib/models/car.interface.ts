@@ -5,7 +5,7 @@ export interface ICar{
     name: string;
     plateNumber: string;
     capacity: number;
-    mileage: number;
+    mileage?: number;
     available: boolean;
     location: string;
 }
