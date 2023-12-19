@@ -26,7 +26,10 @@
       "@cm-nx-workshop/tourtitan/features": [
         "libs/tourtitan/features/src/index.ts"
       ],
-      "@cm-nx-workshop/ui": ["libs/tourtitan/ui/src/index.ts"]
+      "@cm-nx-workshop/ui": ["libs/tourtitan/ui/src/index.ts"],
+      "@fit-reserve/backend/features": [
+        "libs/backend/features/car/src/index.ts"
+      ]
     }
   },
   "exclude": ["node_modules", "tmp"]
