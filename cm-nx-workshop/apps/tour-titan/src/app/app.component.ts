@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { NxWelcomeComponent } from './nx-welcome.component';
-
+import { FeaturesModule } from '@cm-nx-workshop/tourtitan/features'
 @Component({
   standalone: true,
-  imports: [NxWelcomeComponent, RouterModule],
+  imports: [FeaturesModule, NxWelcomeComponent, RouterModule],
   selector: 'cm-nx-workshop-root',
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
