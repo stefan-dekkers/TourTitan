@@ -15,7 +15,7 @@ export class AuthService {
     private jwtService: JwtService
   ) {}
   async validateUser(emailAddress: string, pass: string): Promise<Omit<IUser, 'password'>> {
-    Logger.log('Validating user', this.TAG, emailAddress);
+    Logger.log('Validating user', this.TAG, emailAddress,pass);
     // Use .lean() to get a plain object and then await the result
     const user = await this.userService.findOneByEmail(emailAddress);
     if (!user) {
@@ -51,11 +51,12 @@ export class AuthService {
 
     // Verifieer de gebruiker door het e-mailadres en wachtwoord te valideren
     const user = await this.validateUser(emailAddress, pass);
-
+    console.log('Returned user:', user);
     if (user) {
         // Maak een payload voor het JWT token met de nodige gebruikersinformatie
         const payload = { username: user.emailAddress, sub: user.id, role: user.role };
-        
+        Logger.log(`Attempting to log in user with ID: ${user.id} and email: ${emailAddress}`, this.TAG);
+
         // Teken het JWT token asynchroon
         const access_token = await this.jwtService.signAsync(payload);
         user.token = access_token;
