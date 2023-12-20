@@ -5,16 +5,17 @@ import { HttpClientModule } from '@angular/common/http';
 import { UserService } from './user/user.service';
 import { FormsModule } from '@angular/forms';
 import { MyRidesComponent } from './my-rides/my-rides.component'
-import { CarsComponent } from './cars/cars.component';
+import { CarsListComponent } from './cars/cars-list/cars-list.component';
 import { AvailableRidesComponent } from './available-rides/available-rides.component';
 import { UserProfileComponent } from './user/user-profile/user-profile.component';
 import { RouterModule } from '@angular/router';
+import { CarsService } from './cars/cars.service';
 
 
 @NgModule({
   imports: [CommonModule, HttpClientModule, FormsModule, RouterModule],
-  declarations: [UserLoginComponent, MyRidesComponent, CarsComponent, AvailableRidesComponent, UserProfileComponent],
-  providers: [UserService],
-  exports: [UserLoginComponent, MyRidesComponent, CarsComponent, AvailableRidesComponent, UserProfileComponent],
+  declarations: [UserLoginComponent, MyRidesComponent, CarsListComponent, AvailableRidesComponent, UserProfileComponent],
+  providers: [UserService, CarsService],
+  exports: [UserLoginComponent, MyRidesComponent, CarsListComponent, AvailableRidesComponent, UserProfileComponent],
 })
 export class FeaturesModule {}

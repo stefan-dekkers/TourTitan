@@ -1,7 +1,7 @@
 import { Route } from '@angular/router';
 import { UserLoginComponent } from 'libs/tourtitan/features/src/lib/features/user/user-login/user-login.component';
 import { MyRidesComponent } from 'libs/tourtitan/features/src/lib/features/my-rides/my-rides.component';
-import { CarsComponent } from 'libs/tourtitan/features/src/lib/features/cars/cars.component';
+import { CarsListComponent } from 'libs/tourtitan/features/src/lib/features/cars/cars-list/cars-list.component';
 import { UserProfileComponent } from 'libs/tourtitan/features/src/lib/features/user/user-profile/user-profile.component';
 import { AvailableRidesComponent } from 'libs/tourtitan/features/src/lib/features/available-rides/available-rides.component';
 export const appRoutes: Route[] = [
@@ -21,7 +21,7 @@ export const appRoutes: Route[] = [
          pathMatch: 'full'
      },{
         path: 'cars',
-        component: CarsComponent,
+        component: CarsListComponent,
         pathMatch: 'full'
     },{
         path: 'user-profile',
