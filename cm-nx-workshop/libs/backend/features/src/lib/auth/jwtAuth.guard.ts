@@ -17,6 +17,7 @@ export class JwtAuthGuard implements CanActivate {
   
     try {
       const decoded = this.jwtService.verify(token);
+      this.logger.debug(`Decoded token: ${JSON.stringify(decoded)}`);
       request.user = decoded; 
       this.logger.debug('Token successfully verified');
       return true;
