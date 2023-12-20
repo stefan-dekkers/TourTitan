@@ -21,7 +21,7 @@ html, body {
     --color2: #101E1E;
     --color3: #0074E8;
     --color4: #ffffff;
-    --color5: #DBECFF;
+    --color5: #ffffff;
     --color6:#c1c1c1;
     --color7:#CCE5FF;
 }
@@ -151,4 +151,19 @@ hr{
     font-family: var(--font1);
     font-size:16px;
     font-weight:600;
+}
+
+.license-plate {
+    position: absolute;
+    bottom: 10px;
+    width: calc(50% - 20%); /* Adjust the width as needed */
+    height: 30px; /* Adjust the height as needed */
+    background: url('./img/dutch-licenseplate.png') center center no-repeat;
+    background-size:contain;
+    display: flex;
+        align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    margin-block-end:0 !important;
+    margin-block-end: 0 !important;
 }
