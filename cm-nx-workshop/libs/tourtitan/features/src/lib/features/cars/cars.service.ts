@@ -42,22 +42,28 @@ export class CarsService {
       );
   }
 
-  
   public read(id: string | null, options?: any): Observable<ICar> {
     const url = this.endpoint + '/' + id;
     console.log(`read ${url}`);
     return this.http
-        .get<ApiResponse<ICar>>(url, {
-            ...options,
-            ...httpOptions,
-        })
-        .pipe(
-            tap(console.log),
-            map((response: any) => response.results as ICar  ),
-            catchError(this.handleError)
-        );
-}
+      .get<ApiResponse<ICar>>(url, {
+        ...options,
+        ...httpOptions,
+      })
+      .pipe(
+        tap(console.log),
+        map((response: any) => response.results as ICar),
+        catchError(this.handleError)
+      );
+  }
 
+  public delete(car: ICar): Observable<ICar> {
+    console.log(`delete ${this.endpoint}/${car.id}`);
+    return this.http
+      .delete<ApiResponse<ICar>>(`${this.endpoint}/${car.id}`)
+      .pipe(tap(console.log), catchError(this.handleError));
+  }
+  
   /**
    * Handle errors.
    */

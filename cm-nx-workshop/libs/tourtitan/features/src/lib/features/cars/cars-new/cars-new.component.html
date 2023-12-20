@@ -1,0 +1,53 @@
+<!-- <form>
+    <div class="form-group">
+        <label for="exampleInputEmail1">Name</label>
+        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+            placeholder="Enter email">
+    </div>
+    <div class="form-group">
+        <label for="exampleInputPassword1">Capasity</label>
+        <input type="number" class="form-control" id="exampleInputPassword1" placeholder="Password">
+    </div>
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" id="exampleCheck1">
+        <label class="form-check-label" for="exampleCheck1">Check me out</label>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form> -->
+
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 offset-lg-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title mb-4">Add New Car</h4>
+                        <form (ngSubmit)="submitForm()" #carForm="ngForm">
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Car Name:</label>
+                                <input type="text" class="form-control" id="name" name="name" [(ngModel)]="newCar.name"
+                                    required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="plateNumber" class="form-label">Plate Number:</label>
+                                <input type="text" class="form-control" id="plateNumber" name="plateNumber"
+                                    [(ngModel)]="newCar.plateNumber" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="capacity" class="form-label">Capacity:</label>
+                                <input type="number" class="form-control" id="capacity" name="capacity"
+                                    [(ngModel)]="newCar.capacity" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="mileage" class="form-label">Mileage:</label>
+                                <input type="number" class="form-control" id="mileage" name="mileage"
+                                    [(ngModel)]="newCar.mileage" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Add Car</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
