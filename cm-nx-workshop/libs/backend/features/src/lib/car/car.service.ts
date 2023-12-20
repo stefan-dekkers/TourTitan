@@ -28,6 +28,7 @@ export class CarService {
         'location',
         'imageUrl',
       ],
+      relations: ['location'],
     });
   }
 
@@ -45,6 +46,7 @@ export class CarService {
         'location',
         'imageUrl',
       ],
+      relations: ['location'],
     });
   }
 
@@ -58,20 +60,28 @@ export class CarService {
       throw new ConflictException('Plate number already in use');
     }
 
-    const existingLocation = await this.locationRepository.findOne({
-      where: { zipCode: car.location.zipCode, number: car.location.number },
-    });
-
-    if (existingLocation) {
-      car.location = existingLocation;
-    } else {
-      const newLocation = this.locationRepository.create(car.location);
-      car.location = await this.locationRepository.save(newLocation);
-    }
-
-    const newCar = this.carRepository.create(car);
-    return this.carRepository.save(newCar);
+   // Ensure that location information is provided
+  if (!car.location || !car.location.zipCode || !car.location.number) {
+    throw new ConflictException('Location information is required to create a car');
   }
+
+  // Check if the location already exists
+  const existingLocation = await this.locationRepository.findOne({
+    where: { zipCode: car.location.zipCode, number: car.location.number },
+  });
+
+  if (existingLocation) {
+    car.location = existingLocation;
+  } else {
+    // Create a new location if it doesn't exist
+    const newLocation = this.locationRepository.create(car.location);
+    car.location = await this.locationRepository.save(newLocation);
+  }
+
+  // Create the new car
+  const newCar = this.carRepository.create(car);
+  return this.carRepository.save(newCar);
+}
 
   async update(_id: string, carUpdate: UpdateCarDto): Promise<ICar | null> {
     this.logger.log(`Updating car with id ${_id}`);
