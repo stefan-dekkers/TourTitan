@@ -1,0 +1,25 @@
+  
+<div class="col-md-12 story pb-5 text-center">
+    <div class="row justify-content-center align-items-center">
+        <div class="col-lg-4 col-md-6 col-sm-12 pt-5">
+            <div class="card bg-login">
+                <div>
+                    <h3 class="pt-5 pb-5">Login</h3>
+                    <form #loginForm="ngForm" (ngSubmit)="authenticate(email.value, password.value)" novalidate>
+                      <label for="email" class="form-text">Email address:</label><br>
+                      <input type="email" id="email" class="input" name="email" required #email><br>
+                  
+                      <label for="password" class="form-text">Password:</label><br>
+                      <input type="password" id="password" class="input" name="password" required #password><br>
+                  
+                      <button type="submit" class="mt-4 input button" aria-label="Login">
+                          <div class="button-text">Inloggen</div>
+                      </button>
+                  </form>
+                      
+                    <!-- Add your form elements here -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

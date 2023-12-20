@@ -19,8 +19,10 @@
           "apps/tour-titan/src/favicon.ico",
           "apps/tour-titan/src/assets"
         ],
-        "styles": ["apps/tour-titan/src/styles.css"],
-        "scripts": [],
+        "styles": [
+          "./node_modules/bootstrap/dist/css/bootstrap.min.css",
+          "apps/tour-titan/src/assets/styles.css"],        
+          "scripts": [],
         "server": "apps/tour-titan/src/main.server.ts",
         "prerender": true,
         "ssr": {

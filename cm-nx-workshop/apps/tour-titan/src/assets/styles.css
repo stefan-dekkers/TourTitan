@@ -1,0 +1,148 @@
+@font-face {
+    font-family: 'Nunito';
+    src: url(./fonts/Nunito.ttf);
+}
+
+@font-face {
+    font-family: 'Montserrat';
+    src: url(./fonts/Nunito.ttf);
+}
+
+html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+
+:root {
+    --font1: 'Nunito';
+    --font2: 'Montserrat';
+    --color1: #5412C7;
+    --color2: #101E1E;
+    --color3: #0074E8;
+    --color4: #ffffff;
+    --color5: #DBECFF;
+    --color6:#c1c1c1;
+    --color7:#CCE5FF;
+}
+
+body {
+    margin: 0;
+}
+
+p{
+    color: var(--color2);
+    font-family: var(--font1);
+}
+
+h1 {
+    color: var(--color1);
+    font-family: var(--font1);
+    font-size: 4em;
+}
+
+.sidebar-title {
+    font-family: var(--font2);
+    font-size: 1.8rem;
+    color:var(--color2);
+    font-weight: 700;
+}
+
+h2 {
+    color: var(--color2);
+    font-family: var(--font2);
+    font-size: 2rem;
+}
+
+h3 {
+    color: var(--color5);
+    font-family: var(--font2);
+    font-size: 2.3rem;
+    font-weight: 700;
+
+}
+
+* {
+    list-style: none;
+    scroll-behavior: smooth;
+    text-decoration: none;
+}
+
+.container {
+    --bs-gutter-x: 0% !important;
+}
+
+.text-1 {
+    font-family: var(--font1);
+    font-size: 1.2rem;
+    color:var(--color2)
+}
+
+.text-2 {
+    font-family: var(--font1);
+    font-size: 2.4rem;
+}
+
+.full-vh {
+    min-height: 100vh !important;
+}
+
+.bg-light-blue{
+    background-color: var(--color5);
+}
+
+hr{
+    margin:1px;
+    padding-top:5px;
+}
+
+.card{
+    border:0px;
+}
+
+
+
+.form-text{
+    color: var(--color5);
+    font-family: var(--font1);
+    font-size:16px;
+    font-weight:600;
+}
+
+.bg-login {
+    background-image: url(./img/login_background.jpg);
+    /* Full height */
+  height: 100%;
+  min-height: 70vh;
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.input{
+    border-radius: 25px;
+    width:55%;
+    padding:5px;
+    padding-left:10px;
+    border-color: var(--color6);
+    border:0;
+}
+
+.form-control:focus {
+    border-color: #28a745;
+    box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+} 
+
+.button{
+    color:var(--color5);
+}
+
+
+.button-text{
+    color: var(--color3);
+    font-family: var(--font1);
+    font-size:16px;
+    font-weight:600;
+}
