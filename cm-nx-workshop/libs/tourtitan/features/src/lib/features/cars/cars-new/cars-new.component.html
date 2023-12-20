@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-lg-2 col-md-3 col-sm-3">
-      <div class="full-vh d-flex flex-column flex-shrink-0 px-3 bg-light">
+      <div class="d-flex flex-column flex-shrink-0 px-3 bg-light">
         <ul class="nav nav-pills flex-column mb-auto">
           <li class="nav-item">
             <a routerLink="/my-rides" routerLinkActive="active" class="nav-link link-dark text-1" aria-current="page">
@@ -45,17 +45,20 @@
   
       </div>
     </div>
-    <div class="col-lg-10 col-md-9 col-sm-9 bg-light-gray">
+    <div class="col-lg-10 col-md-12 col-sm-12 bg-light-gray">
 
       <!-- Content van de pagina moet hier -->
         
 <section class="py-1">
     <div class="container">
         <div class="row">
-            <div class="col-lg-6">
+            <div class="col-lg-4 d-none d-lg-block">
+
+            </div>
+            <div class="col-lg-4 col-md-12 col-sm-12">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title mb-4">Add New Car</h4>
+                        <h4 class="card-title mb-4">Add a new car</h4>
                         <form (ngSubmit)="submitForm()" #carForm="ngForm">
                             <div class="mb-3">
                                 <label for="name" class="form-text-2 form-label">Car Name:</label>
@@ -63,18 +66,18 @@
                                     required>
                             </div>
                             <div class="mb-3">
-                                <label for="plateNumber" class="form-label">Plate Number:</label>
-                                <input type="text" class="form-control" id="plateNumber" name="plateNumber"
+                                <label for="plateNumber" class="form-text-2 form-label">Plate Number:</label>
+                                <input type="text" class="input-2 form-control" id="plateNumber" name="plateNumber"
                                     [(ngModel)]="newCar.plateNumber" required>
                             </div>
                             <div class="mb-3">
-                                <label for="capacity" class="form-label">Capacity:</label>
-                                <input type="number" class="form-control" id="capacity" name="capacity"
+                                <label for="capacity" class="form-text-2 form-label">Capacity:</label>
+                                <input type="number" class="input-2 form-control" id="capacity" name="capacity"
                                     [(ngModel)]="newCar.capacity" required>
                             </div>
                             <div class="mb-3">
-                                <label for="mileage" class="form-label">Mileage:</label>
-                                <input type="number" class="form-control" id="mileage" name="mileage"
+                                <label for="mileage" class="form-text-2 form-label">Mileage:</label>
+                                <input type="number" class="input-2 form-control" id="mileage" name="mileage"
                                     [(ngModel)]="newCar.mileage" required>
                             </div>
 
@@ -88,25 +91,30 @@
                             </div> -->
                             
                             <div class="mb-3">
-                                <label for="zipCode" class="form-label">Zip Code:</label>
-                                <input type="text" class="form-control" id="zipCode" name="zipCode"
+                                <label for="zipCode" class="form-text-2 form-label">Zip Code:</label>
+                                <input type="text" class="input-2 form-control" id="zipCode" name="zipCode"
                                     [(ngModel)]="newCar.location.zipCode" required>
                             </div>
                             <div class="mb-3">
-                                <label for="street" class="form-label">Street:</label>
-                                <input type="text" class="form-control" id="street" name="street"
+                                <label for="street" class="form-text-2 form-label">Street:</label>
+                                <input type="text" class="input-2 form-control" id="street" name="street"
                                     [(ngModel)]="newCar.location.street" required>
                             </div>
                             <div class="mb-3">
-                                <label for="number" class="form-label">Number:</label>
-                                <input type="number" class="form-control" id="number" name="number"
+                                <label for="number" class="form-text-2 form-label">Number:</label>
+                                <input type="number" class="input-2 form-control" id="number" name="number"
                                     [(ngModel)]="newCar.location.number" required>
                             </div>
                             <!-- End Location Fields -->
-                            <button type="submit" class="btn btn-primary">Add Car</button>
-                        </form>
+                            <button type="submit" class="mt-2 button-2 input" aria-label="Add" style="width:100%">
+                              <div class="button-text-2">Add car</div>
+                          </button>
+                            </form>
                     </div>
                 </div>
+            </div>
+            <div class="col-lg-4 d-none d-lg-block">
+
             </div>
         </div>
     </div>
