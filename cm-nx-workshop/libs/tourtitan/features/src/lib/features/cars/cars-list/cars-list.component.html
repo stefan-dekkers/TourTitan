@@ -45,22 +45,25 @@
 
     </div>
   </div>
-  <div class="col-lg-10 col-md-9 col-sm-9 bg-light-blue">
+  <div class="col-lg-10 col-md-9 col-sm-9 bg-light-gray">
 
     <!-- Content van de pagina moet hier -->
     <div class="row">
       <div *ngFor="let cars of cars" class="col-lg-4 col-md-10 col-sm-10 py-4 px-4">
-          <div class="card" style="position: relative;"> <!-- Adjust the height as needed -->
+        <a [routerLink]="['/cars', cars.id]" routerLinkActive="active">
+          <div class="card shadow-lg" style="position: relative;"> <!-- Adjust the height as needed -->
               <img [src]="cars.imageUrl ? cars.imageUrl : 'https://www.bahmansport.com/media/com_store/images/empty.png'" class="rounded-3" style="width: 100%; height: 200px; object-fit: cover;">
-              <h4 class="pt-3 card-title">{{cars.name}}</h4>
-              <p class="card-text">Id: {{cars.id}}</p>
+              <h4 class="pt-3 px-3 card-title">{{cars.name}}</h4>
+              <p class="card-text px-3"><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25"><path fill="#fffffff" fill-rule="evenodd" d="M12 2c6.063 0 10 5.145 10 14 0 2.604-1.015 4.301-2.982 5.175-.847.376-1.76.59-3 .706l-.553.043-.293.018-.62.027-.672.018-1.115.012h-1.532l-1.114-.012-.671-.018a34.594 34.594 0 0 1-.317-.012l-.597-.033-.552-.043c-1.24-.116-2.153-.33-3-.706C3.015 20.301 2 18.604 2 16 2 7.145 5.937 2 12 2Zm0 2C7.176 4 4 8.15 4 16l.002.182c.044 2.276.933 3.254 3.568 3.623l.43.053.461.044.242.019.507.03c.087.005.175.009.265.012l.555.02.587.01.621.006 1.837-.002.894-.015.282-.008.538-.023.258-.014.49-.035.461-.044.431-.053C19.134 19.426 20 18.406 20 16c0-7.85-3.176-12-8-12Zm0 11.25c1.765 0 3.528.264 5.287.792a1 1 0 0 1-.574 1.916A16.324 16.324 0 0 0 12 17.25c-1.568 0-3.138.235-4.713.708a1 1 0 0 1-.574-1.916A18.322 18.322 0 0 1 12 15.25Z"/></svg> {{cars.capacity}}</p>
               <p [ngClass]="{'bg-success': cars.isAvailable, 'bg-danger': !cars.isAvailable}" class="badge" style="position: absolute; top: 10px; right: 10px;">
                   {{cars.isAvailable ? 'Available' : 'Unavailable'}}
               </p>
+              <div class="px-3">
               <p class="card-text">Capacity: {{cars.capacity}}</p>
               <p class="card-text px-2 license-plate">{{formatLicensePlate(cars.plateNumber)}}</p>
-              
+              </div>
           </div>
+          </a>
       </div>
   </div>
   
@@ -71,12 +74,5 @@
   
     </div>
 </div>
-<!-- id:Id;
-    name: string;
-    plateNumber: string;
-    capacity: number;
-    mileage?: number;
-    available: boolean;
-    location: string;
-    locationObject? : ILocation -->
+
     
