@@ -1,20 +1,3 @@
-<!-- <form>
-    <div class="form-group">
-        <label for="exampleInputEmail1">Name</label>
-        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
-            placeholder="Enter email">
-    </div>
-    <div class="form-group">
-        <label for="exampleInputPassword1">Capasity</label>
-        <input type="number" class="form-control" id="exampleInputPassword1" placeholder="Password">
-    </div>
-    <div class="form-check">
-        <input type="checkbox" class="form-check-input" id="exampleCheck1">
-        <label class="form-check-label" for="exampleCheck1">Check me out</label>
-    </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
-</form> -->
-
 <section class="py-5">
     <div class="container">
         <div class="row">
@@ -43,6 +26,32 @@
                                 <input type="number" class="form-control" id="mileage" name="mileage"
                                     [(ngModel)]="newCar.mileage" required>
                             </div>
+
+
+                            <!-- Location Fields -->
+
+                            <!-- <div class="mb-3">
+                                <label for="locationId" class="form-label">Location ID:</label>
+                                <input type="text" class="form-control" id="locationId" name="locationId"
+                                    [(ngModel)]="newCar.location.id" required>
+                            </div> -->
+                            
+                            <div class="mb-3">
+                                <label for="zipCode" class="form-label">Zip Code:</label>
+                                <input type="text" class="form-control" id="zipCode" name="zipCode"
+                                    [(ngModel)]="newCar.location.zipCode" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="street" class="form-label">Street:</label>
+                                <input type="text" class="form-control" id="street" name="street"
+                                    [(ngModel)]="newCar.location.street" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="number" class="form-label">Number:</label>
+                                <input type="number" class="form-control" id="number" name="number"
+                                    [(ngModel)]="newCar.location.number" required>
+                            </div>
+                            <!-- End Location Fields -->
                             <button type="submit" class="btn btn-primary">Add Car</button>
                         </form>
                     </div>
