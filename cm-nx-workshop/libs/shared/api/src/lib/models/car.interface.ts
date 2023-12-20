@@ -9,7 +9,7 @@ export interface ICar{
     mileage?: number;
     available: boolean;
     location: string;
-    locationObject? : ILocation
+    locationObject? : ILocation;
 }
 
 export type ICreateCar = Pick<

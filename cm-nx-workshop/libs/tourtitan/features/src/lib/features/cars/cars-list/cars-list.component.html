@@ -45,24 +45,29 @@
 
     </div>
   </div>
-  <div class="col-lg-10 col-md-9 col-sm-9">
+  <div class="col-lg-10 col-md-9 col-sm-9 bg-light-blue">
 
     <!-- Content van de pagina moet hier -->
     <div class="row">
-      <div *ngFor="let cars of cars" class="col-lg-5 col-md-10 col-sm-10 pt-4">
-                
-        <div class="card">
-                    
-                <h4 class="pt-3 card-title">{{cars.id}}</h4>
-                <p class="card-text">€{{cars.name}}</p>
-            
-                
-                
-        </div>
-    
-</div>
-    </div>
+      <div *ngFor="let cars of cars" class="col-lg-4 col-md-10 col-sm-10 py-4 px-4">
+          <div class="card" style="height: 200px; position: relative;"> <!-- Adjust the height as needed -->
+              <img src="https://images0.persgroep.net/rcs/dU7zjnCKpJ3x8iWBzeCuoO18biM/diocontent/231566831/_fitwidth/694/?appId=21791a8992982cd8da851550a453bd7f&quality=0.8" class="rounded-3" style="width: 100%; height: 100%; object-fit: cover;">
+              <!-- <img src={{menuitem.img_url}} class="rounded-3" style="width: 100%; height: 100%; object-fit: cover;"> -->
+              <h4 class="pt-3 card-title">{{cars.name}}</h4>
+              <p [ngClass]="{'bg-success': cars.available, 'bg-danger': !cars.available}" class="badge" style="position: absolute; top: 10px; right: 10px;">
+                  {{cars.available ? 'Available' : 'Unavailable'}}
+              </p>
+              <p class="card-text">Capacity: {{cars.capacity}}</p>
+              <p class="card-text" style="font-size: 1.2em; font-weight: bold;">{{formatLicensePlate(cars.plateNumber)}}</p>
+          </div>
+      </div>
   </div>
+  
+  
+  
+  
+  
+    </div>
 </div>
 <!-- id:Id;
     name: string;
@@ -72,3 +77,4 @@
     available: boolean;
     location: string;
     locationObject? : ILocation -->
+    

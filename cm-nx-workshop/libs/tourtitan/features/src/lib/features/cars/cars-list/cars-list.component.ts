@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, getLocaleTimeFormat } from '@angular/common';
 import { Subscription } from 'rxjs';
 import { ICar } from '@cm-nx-workshop/shared/api';
 import { CarsService } from '../cars.service';
@@ -25,4 +25,12 @@ export class CarsListComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
       if (this.subscription) this.subscription.unsubscribe();
   }
+
+  formatLicensePlate(plateNumber: string): string {
+    // Format license plate to resemble Dutch format (e.g., XX-99-99)
+    if (plateNumber && plateNumber.length === 6) {
+        return `${plateNumber.substring(0, 2)}-${plateNumber.substring(2, 4)}-${plateNumber.substring(4, 6)}`;
+    }
+    return plateNumber; // Return original if not in the expected format
+}
 }
