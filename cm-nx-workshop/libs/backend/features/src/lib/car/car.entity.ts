@@ -24,4 +24,7 @@ export class CarEntity {
 
   @ManyToOne(() => LocationEntity, (location) => location.cars)
   location!: LocationEntity;
+
+  @Column({ nullable: true })
+  imageUrl?: string;
 }
