@@ -9,6 +9,7 @@ export interface ICar {
   mileage: number;
   isAvailable: boolean;
   location: ILocation;
+  imageUrl?: string;
 }
 
 export type ICreateCar = Pick<

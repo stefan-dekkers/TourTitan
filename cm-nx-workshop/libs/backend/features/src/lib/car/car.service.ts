@@ -26,6 +26,7 @@ export class CarService {
         'mileage',
         'isAvailable',
         'location',
+        'imageUrl',
       ],
     });
   }
@@ -42,6 +43,7 @@ export class CarService {
         'mileage',
         'isAvailable',
         'location',
+        'imageUrl',
       ],
     });
   }
