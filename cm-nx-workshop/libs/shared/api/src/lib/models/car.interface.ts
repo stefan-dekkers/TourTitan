@@ -1,5 +1,5 @@
-import { Id } from "./id.type";
-import { ILocation } from "./location.interface";
+import { Id } from './id.type';
+import { ILocation } from './location.interface';
 
 export interface ICar{
     id:Id;
@@ -7,14 +7,13 @@ export interface ICar{
     plateNumber: string;
     capacity: number;
     mileage?: number;
-    available: boolean;
-    location: string;
-    locationObject? : ILocation;
+    isAvailable: boolean;
+    location: ILocation;
 }
 
 export type ICreateCar = Pick<
-    ICar,
-    'name' | 'plateNumber' | 'capacity'
+  ICar,
+  'name' | 'plateNumber' | 'capacity' | 'mileage' | 'isAvailable' | 'location'
 >;
 
 export type IUpdateCar = Partial<Omit<ICar, 'id'>>;
