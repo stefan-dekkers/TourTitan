@@ -34,52 +34,25 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
       });
     }
   
-    // deleteCar(): void {
-    //   // if (this.car?.id) {
-    //   //   this.carsService.delete(this.car).subscribe({
-    //   //     next: () => {
-    //   //       console.log('Car deleted successfully');
-    //   //       this.router.navigate(['/cars']); 
-    //   //     },
-    //   //     error: (error) => {
-    //   //       console.error('Error deleting car:', error);
-    //   //     },
-    //   //   });
-    //   // } else {
-    //   //   console.error('Car id is missing for deletion.');
-    //   // }
-
-    //     const modalRef = this.modalService.open(CarDeleteComponent, { centered: true, backdrop: false });
-          
-    //     modalRef.componentInstance.deleteCar.subscribe((newProgress: IProgress) => {
-
-         
-    //     });
-    // }
-
-    // deleteCar(): void {
-    //   // Check if car exists
-    //   if (this.car) {
-    //     // Open the modal and pass the car object
-    //     const modalRef: NgbModalRef = this.modalService.open(CarDeleteComponent, {
-    //       centered: true,
-    //       backdrop: false,
-    //     });
-  
-    //     // Access the component instance and set the car property
-    //     modalRef.componentInstance.car = this.car;
-  
-    //     // Subscribe to the deleteCar event if needed
-    //     // modalRef.componentInstance.deleteCar.subscribe((newProgress: IProgress) => {
-    //     //   // Handle the event if necessary
-    //     // });
-    //   } else {
-    //     console.error('Car not found.');
-    //   }
-    // }
-  
+    deleteCar(): void {
+      if (this.car?.id) {
+        this.carsService.delete(this.car).subscribe({
+          next: () => {
+            console.log('Car deleted successfully');
+            // Optionally, you can navigate to another page or perform additional actions after deletion.
+          },
+          error: (error) => {
+            console.error('Error deleting car:', error);
+          },
+        });
+      } else {
+        console.error('Car id is missing for deletion.');
+      }
+    }
   
     ngOnDestroy(): void {
       if (this.subscription) this.subscription.unsubscribe();
     }
+
+    
   }
