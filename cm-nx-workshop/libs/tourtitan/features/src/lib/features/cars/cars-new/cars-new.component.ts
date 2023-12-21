@@ -41,10 +41,12 @@ export class CarsNewComponent implements OnInit, OnDestroy {
       this.route.paramMap.subscribe(async (params) => {
         this.carId = params.get('id') ?? null;
         if (this.carId) {
-          // Existing training
+          
           this.carSubscription = this.carsService.read(this.carId).subscribe(
             (car) => {
+              
               this.newCar = car;
+              console.log(this.newCar.imageUrl);
             },
             (error) => {
               console.error('Error fetching car:', error);
