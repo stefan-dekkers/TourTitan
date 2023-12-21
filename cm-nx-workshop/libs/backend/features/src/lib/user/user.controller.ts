@@ -1,6 +1,4 @@
-import { Id } from './../../../../../shared/api/src/lib/models/id.type';
-import { JwtAuthGuard } from './../auth/jwtAuth.guard';
-
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { IUser } from '@cm-nx-workshop/shared/api';
 import { UserService } from './user.service';
 import {
@@ -10,7 +8,6 @@ import {
   ForbiddenException,
   Put,
   Req,
-  UseGuards,
 } from '@nestjs/common';
 import { Get, Param, Post, Body } from '@nestjs/common';
 import {
