@@ -22,6 +22,7 @@ export class CarsNewComponent implements OnInit, OnDestroy {
     isAvailable: false,
     location: {
       id: '',
+      city: '',
       zipCode: '',
       street: '',
       number: 0,
