@@ -19,6 +19,7 @@ export class CarsNewComponent implements OnInit, OnDestroy {
     capacity: 0,
     mileage: 0,
     id: '',
+    imageUrl: '',
     isAvailable: false,
     location: {
       id: '',
