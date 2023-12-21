@@ -12,20 +12,13 @@ import { Injectable } from '@angular/core';
  * See https://angular.io/guide/http#requesting-data-from-a-server
  */
 export const httpOptions = {
-  observe: 'body',
-  responseType: 'json',
+  observe: 'body' as const, // Cast observe naar het juiste type
+  responseType: 'json' as const, // Cast responseType naar het juiste type
 };
+
 @Injectable()
 export class CarsService {
   endpoint = 'http://localhost:3000/api/car';
-
-  private readonly httpOptions = {
-    observe: 'body',
-    responseType: 'json',
-    headers: new HttpHeaders({
-      'Content-Type': 'application/json',
-    }),
-  };
 
   constructor(private readonly http: HttpClient) {}
 
@@ -35,7 +28,7 @@ export class CarsService {
     return this.http
       .get<ApiResponse<ICar[]>>(this.endpoint, {
         ...options,
-        ...this.httpOptions,
+        ...httpOptions,
       })
       .pipe(
         map((response: any) => response.results as ICar[]),
@@ -50,7 +43,7 @@ export class CarsService {
     return this.http
       .get<ApiResponse<ICar>>(url, {
         ...options,
-        ...this.httpOptions,
+        ...httpOptions,
       })
       .pipe(
         tap(console.log),
@@ -61,24 +54,17 @@ export class CarsService {
 
   public delete(car: ICar): Observable<ICar> {
     console.log(`delete ${this.endpoint}/${car.id}`);
+    
     return this.http
       .delete<ApiResponse<ICar>>(`${this.endpoint}/${car.id}`)
       .pipe(tap(console.log), catchError(this.handleError));
   }
 
-  public create(car: ICar): Observable<ICar> {
+  public create(car: ICar,options?: any): Observable<ICar> {
     console.log(`create ${this.endpoint}`);
 
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      }),
-      observe: 'body' as const, // Set observe to 'body' for a regular POST request
-      responseType: 'json' as const,
-    };
-
     return this.http
-      .post<ApiResponse<ICar>>(this.endpoint, car, httpOptions)
+      .post<ApiResponse<ICar>>(this.endpoint, car, {...httpOptions, ...options})
       .pipe(
         tap(console.log),
         map((response: any) => response.results as ICar),
@@ -86,20 +72,12 @@ export class CarsService {
       );
   }
 
-  public update(id: string ,car: ICar): Observable<ICar|null> {
+  public update(id: string ,car: ICar, options?: any): Observable<ICar|null> {
     const url = `${this.endpoint}/${id}`;
     console.log(`update ${this.endpoint}`);
 
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      }),
-      observe: 'body' as const, // Set observe to 'body' for a regular POST request
-      responseType: 'json' as const,
-    };
-
     return this.http
-      .put<ApiResponse<ICar>>(url, car, httpOptions)
+      .put<ApiResponse<ICar>>(url, car, {...httpOptions, ...options})
       .pipe(
         tap(console.log),
         map((response: any) => response.results as ICar),

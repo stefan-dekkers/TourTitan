@@ -83,7 +83,7 @@ export class CarsNewComponent implements OnInit, OnDestroy {
       this.carsService.create(this.newCar).subscribe({
         next: (createdCar) => {
           console.log('Car added successfully:', createdCar);
-          this.router.navigate(['/cars']); // Navigate to the cars list page
+          this.router.navigate(['/cars']); 
         },
         error: (error) => {
           console.error('Error adding car:', error);
