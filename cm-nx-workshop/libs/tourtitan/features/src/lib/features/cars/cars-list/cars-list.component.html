@@ -46,21 +46,32 @@
     
   </div>
   <div class="col-lg-10 col-md-12 col-sm-12 bg-light-gray">
-    <div class="text-center m-3">
-      <a routerLink="/cars/new" routerLinkActive="active">
-        <button class="button-2 input">
-          <div class="button-text-2">Add car</div>
-        </button>
-      </a>
-    </div>
     <!-- Content van de pagina moet hier -->
+    <div class="row">
+      <div class="col-lg-4 col-md-12">
+        <div class="m-3">
+          <a routerLink="/cars/new" routerLinkActive="active">
+            <button class="button-2 input">
+              <div class="button-text-2"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
+                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+              </svg>
+              Add car</div>
+            </button>
+          </a>
+        </div>    
+      </div>
+    </div>
     <div class="row">
       <div *ngFor="let cars of cars" class="col-lg-4 col-md-12 col-sm-12 py-4 px-4">
         <a [routerLink]="['/cars', cars.id]" routerLinkActive="active">
           <div class="card shadow-lg" style="position: relative;"> <!-- Adjust the height as needed -->
               <img [src]="cars.imageUrl ? cars.imageUrl : 'https://www.bahmansport.com/media/com_store/images/empty.png'" class="rounded-3" style="width: 100%; height: 200px; object-fit: cover;">
               <h4 class="pt-3 px-3 card-title">{{cars.name}}</h4>
-              <p class="card-text pb-2 px-3"><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25"><path fill="#fffffff" fill-rule="evenodd" d="M12 2c6.063 0 10 5.145 10 14 0 2.604-1.015 4.301-2.982 5.175-.847.376-1.76.59-3 .706l-.553.043-.293.018-.62.027-.672.018-1.115.012h-1.532l-1.114-.012-.671-.018a34.594 34.594 0 0 1-.317-.012l-.597-.033-.552-.043c-1.24-.116-2.153-.33-3-.706C3.015 20.301 2 18.604 2 16 2 7.145 5.937 2 12 2Zm0 2C7.176 4 4 8.15 4 16l.002.182c.044 2.276.933 3.254 3.568 3.623l.43.053.461.044.242.019.507.03c.087.005.175.009.265.012l.555.02.587.01.621.006 1.837-.002.894-.015.282-.008.538-.023.258-.014.49-.035.461-.044.431-.053C19.134 19.426 20 18.406 20 16c0-7.85-3.176-12-8-12Zm0 11.25c1.765 0 3.528.264 5.287.792a1 1 0 0 1-.574 1.916A16.324 16.324 0 0 0 12 17.25c-1.568 0-3.138.235-4.713.708a1 1 0 0 1-.574-1.916A18.322 18.322 0 0 1 12 15.25Z"/></svg> {{cars.capacity}}</p>
+              <p class="card-text pb-2 px-3"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+                <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664z"/>
+              </svg>
+               {{cars.capacity}}</p>
               <p [ngClass]="{'bg-success': cars.isAvailable, 'bg-danger': !cars.isAvailable}" class="badge" style="position: absolute; top: 10px; right: 10px;">
                   {{cars.isAvailable ? 'Available' : 'Unavailable'}}
               </p>
@@ -69,9 +80,8 @@
             </div>
           </div>
           </a>
-      </div>
+      </div>  
   </div>
-  
   
   
   
