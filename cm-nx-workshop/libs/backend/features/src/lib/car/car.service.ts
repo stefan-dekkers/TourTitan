@@ -83,7 +83,7 @@ export class CarService {
   return this.carRepository.save(newCar);
 }
 
-async update(_id: string, carUpdate: UpdateCarDto): Promise<ICar | null> {
+ async update(_id: string, carUpdate: UpdateCarDto): Promise<ICar | null> {
   this.logger.log(`Updating car with id ${_id}`);
 
   // Vind de auto die moet worden bijgewerkt
@@ -121,10 +121,7 @@ async update(_id: string, carUpdate: UpdateCarDto): Promise<ICar | null> {
   // Voer de update uit
   await this.carRepository.update(_id, carUpdate);
   return this.findOne(_id);
-}
-
-
-
+ }
 async delete(_id: string): Promise<{ deleted: boolean; message?: string }> {
   this.logger.log(`Deleting car with id: ${_id}`);
 
@@ -152,5 +149,4 @@ async delete(_id: string): Promise<{ deleted: boolean; message?: string }> {
 
   return { deleted: true };
 }
-
 }

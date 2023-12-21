@@ -20,6 +20,7 @@
         "libs/backend/features/src/index.ts"
       ],
       "@cm-nx-workshop/shared/api": ["libs/shared/api/src/index.ts"],
+      "@cm-nx-workshop/tourtitan/auth": ["libs/tourtitan/auth/src/index.ts"],
       "@cm-nx-workshop/tourtitan/common": [
         "libs/tourtitan/common/src/index.ts"
       ],

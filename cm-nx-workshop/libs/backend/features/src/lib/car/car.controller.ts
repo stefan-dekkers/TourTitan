@@ -8,7 +8,7 @@ import {
   Put,
 } from '@nestjs/common';
 import { CarService } from './car.service';
-import { ICar, ICreateLocation, ILocation } from '@cm-nx-workshop/shared/api';
+import { ICar } from '@cm-nx-workshop/shared/api';
 import { CreateCarDto, UpdateCarDto } from '@cm-nx-workshop/backend/dto';
 
 @Controller('car')
