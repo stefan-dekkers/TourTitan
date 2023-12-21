@@ -1,6 +1,5 @@
 import {
   ICreateCar,
-  ICreateLocation,
   ILocation,
   IUpdateCar,
 } from '@cm-nx-workshop/shared/api';

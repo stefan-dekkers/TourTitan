@@ -55,21 +55,23 @@
             <div class="col-lg-3 d-none d-lg-block">
 
             </div>
-            <div class="col-lg-6 col-md-12 col-sm-12 full-vh pt-5">
+            <div class="col-lg-6 col-md-12 col-sm-12 full-vh pt-3">
                 <div class="card shadow-lg">
                     <div class="card-body">
                         <h4 class="card-title mb-4">Add a new car</h4>
+                        <h5 class="card-title mb-4">Car information</h5>
                         <form (ngSubmit)="submitForm()" #carForm="ngForm" class="row">
                           <div class="col-md-6">
                               <div class="mb-3">
-                                  <label for="name" class="form-text-2 form-label">Car Name:</label>
+                                  <label for="name" class="form-text-2 form-label">Car name:</label>
                                   <input type="text" class="input-2 form-control" id="name" name="name" [(ngModel)]="newCar.name" required>
                               </div>
                           </div>
                           <div class="col-md-6">
                               <div class="mb-3">
-                                  <label for="plateNumber" class="form-text-2 form-label">Plate Number:</label>
-                                  <input type="text" class="input-2 form-control" id="plateNumber" name="plateNumber" [(ngModel)]="newCar.plateNumber" required>
+                                  <label for="plateNumber" class="form-text-2 form-label">Plate number:</label>
+                                  <input type="text" class="input-2 form-control" id="plateNumber" name="plateNumber" [(ngModel)]="newCar.plateNumber" required                placeholder="AB-12-34">
+                                  
                               </div>
                           </div>
                       
@@ -87,13 +89,26 @@
                                   <input type="number" class="input-2 form-control" id="mileage" name="mileage" [(ngModel)]="newCar.mileage" required>
                               </div>
                           </div>
-                      
-                          <!-- Location Fields -->
+                          <div class="col-md-12">
+                            <div class="mb-3">
+                                <label for="name" class="form-text-2 form-label">Image URL:</label>
+                                <input type="text" class="input-2 form-control" id="name" name="name" [(ngModel)]="newCar.name" required>
+                            </div>
+                        </div>
+                        <h5 class="card-title mb-4 pt-3">Location</h5>
+
+                          <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="name" class="form-text-2 form-label">City:</label>
+                                <input type="text" class="input-2 form-control" id="name" name="name" [(ngModel)]="newCar.name" required>
+                            </div>
+                        </div>
                       
                           <div class="col-md-6">
                               <div class="mb-3">
-                                  <label for="zipCode" class="form-text-2 form-label">Zip Code:</label>
-                                  <input type="text" class="input-2 form-control" id="zipCode" name="zipCode" [(ngModel)]="newCar.location.zipCode" required>
+                                  <label for="zipCode" class="form-text-2 form-label">Zip code:</label>
+                                  <input type="text" class="input-2 form-control" id="zipCode" name="zipCode" [(ngModel)]="newCar.location.zipCode" required                placeholder="1234AB">
+                                  
                               </div>
                           </div>
                           <div class="col-md-6">
@@ -104,10 +119,13 @@
                           </div>
                           <div class="col-md-6">
                               <div class="mb-3">
-                                  <label for="number" class="form-text-2 form-label">Number:</label>
+                                  <label for="number" class="form-text-2 form-label">House number:</label>
                                   <input type="number" class="input-2 form-control" id="number" name="number" [(ngModel)]="newCar.location.number" required>
                               </div>
                           </div>
+                          
+  
+                          
                           <!-- End Location Fields -->
                       
                           <div class="col-12">

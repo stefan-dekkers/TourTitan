@@ -1,4 +1,3 @@
-import { ILocation } from '@cm-nx-workshop/shared/api';
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 import { LocationEntity } from '../location/location.entity';
 
