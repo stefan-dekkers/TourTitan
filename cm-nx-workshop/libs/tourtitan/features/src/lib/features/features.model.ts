@@ -24,7 +24,7 @@ import { CarDeleteComponent } from './cars/cars-detail/car-delete/car-delete.com
     AvailableRidesComponent,
     UserProfileComponent,
     CarDetailComponent,
-    CarDeleteComponent
+    CarDeleteComponent,
   ],
   providers: [UserService, CarsService],
   exports: [
