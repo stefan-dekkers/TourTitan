@@ -3,7 +3,8 @@ import { Subscription } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ICar } from '@cm-nx-workshop/shared/api';
 import { CarsService } from '../cars.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+// import { CarDeleteComponent } from './car-delete/car-delete.component';
 
 @Component({
     selector: 'cm-nx-workshop-cars',
@@ -33,40 +34,50 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
       });
     }
   
-    deleteCar(): void {
-      // if (this.car?.id) {
-      //   this.carsService.delete(this.car).subscribe({
-      //     next: () => {
-      //       console.log('Car deleted successfully');
-      //       this.router.navigate(['/cars']); 
-      //     },
-      //     error: (error) => {
-      //       console.error('Error deleting car:', error);
-      //     },
-      //   });
-      // } else {
-      //   console.error('Car id is missing for deletion.');
-      // }
+    // deleteCar(): void {
+    //   // if (this.car?.id) {
+    //   //   this.carsService.delete(this.car).subscribe({
+    //   //     next: () => {
+    //   //       console.log('Car deleted successfully');
+    //   //       this.router.navigate(['/cars']); 
+    //   //     },
+    //   //     error: (error) => {
+    //   //       console.error('Error deleting car:', error);
+    //   //     },
+    //   //   });
+    //   // } else {
+    //   //   console.error('Car id is missing for deletion.');
+    //   // }
 
-        const modalRef = this.modalService.open(ProgressCreateComponent, { centered: true, backdrop: false });
+    //     const modalRef = this.modalService.open(CarDeleteComponent, { centered: true, backdrop: false });
           
-        modalRef.componentInstance.progressCreated.subscribe((newProgress: IProgress) => {
+    //     modalRef.componentInstance.deleteCar.subscribe((newProgress: IProgress) => {
 
-          newProgress.TrainingId=enrollment.TrainingId;
-          newProgress.UserId = this.currentUserID;
-          console.log('New Progress Created:', newProgress);
-              
-          this.userService.createProgress(newProgress).subscribe(
-            (succes) => {
-              console.log('Progress sucesfully created', succes)
-              this.location.go(this.location.path());
-            },
-            (error) => {
-              console.error('Error fetching user enrollments:', error);
-            }
-          );
-        });
-    }
+         
+    //     });
+    // }
+
+    // deleteCar(): void {
+    //   // Check if car exists
+    //   if (this.car) {
+    //     // Open the modal and pass the car object
+    //     const modalRef: NgbModalRef = this.modalService.open(CarDeleteComponent, {
+    //       centered: true,
+    //       backdrop: false,
+    //     });
+  
+    //     // Access the component instance and set the car property
+    //     modalRef.componentInstance.car = this.car;
+  
+    //     // Subscribe to the deleteCar event if needed
+    //     // modalRef.componentInstance.deleteCar.subscribe((newProgress: IProgress) => {
+    //     //   // Handle the event if necessary
+    //     // });
+    //   } else {
+    //     console.error('Car not found.');
+    //   }
+    // }
+  
   
     ngOnDestroy(): void {
       if (this.subscription) this.subscription.unsubscribe();

@@ -1,11 +1,18 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+// import { Component, EventEmitter, Output } from '@angular/core';
+// import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
-@Component({
-  selector: 'cm-nx-workshop-car-delete',
-  standalone: true,
-  imports: [CommonModule],
-  templateUrl: './car-delete.component.html',
-  styleUrl: './car-delete.component.css',
-})
-export class CarDeleteComponent {}
+// @Component({
+//   selector: 'cm-nx-workshop-car-delete',
+//   templateUrl: './car-delete.component.html',
+//   styleUrl: './car-delete.component.css',
+// })
+// export class CarDeleteComponent {
+//   @Output() deleteCar = new EventEmitter();
+
+//   constructor(public activeModal: NgbActiveModal) {
+//   }
+//   deleteCar():void
+// {
+
+// }
+// }
