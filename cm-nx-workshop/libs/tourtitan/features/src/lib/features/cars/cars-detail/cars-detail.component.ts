@@ -29,7 +29,9 @@ import { CarsService } from '../cars.service';
         }
       });
     }
-  
+    
+    
+
     deleteCar(): void {
       if (this.car?.id) {
         this.carsService.delete(this.car).subscribe({
@@ -49,4 +51,6 @@ import { CarsService } from '../cars.service';
     ngOnDestroy(): void {
       if (this.subscription) this.subscription.unsubscribe();
     }
+
+    
   }
