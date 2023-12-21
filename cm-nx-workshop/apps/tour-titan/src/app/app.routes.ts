@@ -33,6 +33,11 @@ export const appRoutes: Route[] = [
     pathMatch: 'full',
   },
   {
+    path: 'cars/edit/:id',
+    component: CarsNewComponent,
+    pathMatch: 'full',
+  },
+  {
     path: 'cars/:id',
     component: CarDetailComponent,
     pathMatch: 'full',
