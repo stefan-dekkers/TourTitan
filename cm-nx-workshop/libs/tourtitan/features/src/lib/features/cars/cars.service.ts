@@ -86,6 +86,27 @@ export class CarsService {
       );
   }
 
+  public update(id: string ,car: ICar): Observable<ICar|null> {
+    const url = `${this.endpoint}/${id}`;
+    console.log(`update ${this.endpoint}`);
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+      observe: 'body' as const, // Set observe to 'body' for a regular POST request
+      responseType: 'json' as const,
+    };
+
+    return this.http
+      .put<ApiResponse<ICar>>(url, car, httpOptions)
+      .pipe(
+        tap(console.log),
+        map((response: any) => response.results as ICar),
+        catchError(this.handleError)
+      );
+  }
+
   /**
    * Handle errors.
    */

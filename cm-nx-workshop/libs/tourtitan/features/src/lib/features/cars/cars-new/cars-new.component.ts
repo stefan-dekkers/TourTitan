@@ -18,11 +18,9 @@ export class CarsNewComponent implements OnInit, OnDestroy {
     plateNumber: '',
     capacity: 0,
     mileage: 0,
-    id: '',
     imageUrl: '',
     isAvailable: false,
     location: {
-      id: '',
       city: '',
       zipCode: '',
       street: '',
@@ -66,16 +64,32 @@ export class CarsNewComponent implements OnInit, OnDestroy {
     }
 
   submitForm() {
-    console.log('Creating new car')
-    this.carsService.create(this.newCar).subscribe({
-      next: (createdCar) => {
-        console.log('Car added successfully:', createdCar);
-        // Optionally, you can navigate to another page or perform additional actions after addition.
-        this.router.navigate(['/cars']); // Navigate to the cars list page
-      },
-      error: (error) => {
-        console.error('Error adding car:', error);
-      },
-    });
+    console.log('onSubmit - create/update');
+
+    if (this.carId) {
+      console.log('Update new car')
+      this.carsService.update(this.carId,this.newCar).subscribe({
+        next: (car) => {
+          console.log('Car added updated:', car);
+          this.router.navigate([`/cars/${this.carId}`], { relativeTo: this.route });
+        },
+        error: (error) => {
+          console.error('Error adding car:', error);
+        },
+      });
+      
+    }else{
+      console.log('Creating new car')
+      this.carsService.create(this.newCar).subscribe({
+        next: (createdCar) => {
+          console.log('Car added successfully:', createdCar);
+          this.router.navigate(['/cars']); // Navigate to the cars list page
+        },
+        error: (error) => {
+          console.error('Error adding car:', error);
+        },
+      });
+    }
+   
   }
 }
