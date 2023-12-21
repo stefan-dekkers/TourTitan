@@ -1,31 +1,32 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { UserService } from '../user.service';
-import { IUser } from '@cm-nx-workshop/shared/api';
 import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
-    selector: 'cm-nx-workshop-user-login',
-    templateUrl: './user-login.component.html',
-    styleUrls: ['./user-login.component.css'],
+  selector: 'cm-nx-workshop-user-login',
+  templateUrl: './user-login.component.html',
+  styleUrls: ['./user-login.component.css'],
 })
 export class UserLoginComponent implements OnInit, OnDestroy {
-    meals: IUser[] | null = null;
-    subscription: Subscription | undefined = undefined;
+    TAG = 'UserLoginComponent';
+  subscription: Subscription | undefined = undefined;
+    email!: string;
+    password!: string;
+    errorMessage: string | null = null;
 
-    constructor(private userService: UserService) {}
+  constructor(private userService: UserService, private router: Router) {}
 
-    ngOnInit(): void {
-        this.subscription = this.userService.list().subscribe((results) => {
-            console.log(`results: ${results}`);
-            this.meals = results;
-        });
-    }
+  ngOnInit(): void {
+    
+  }
 
-    ngOnDestroy(): void {
-        if (this.subscription) this.subscription.unsubscribe();
-    }
+  ngOnDestroy(): void {
+    if (this.subscription) this.subscription.unsubscribe();
+  }
 
-    authenticate(email: string, password: string): void{
-        this.userService.authenticate(email, password);
-    }
+  authenticate(emailAddress: string, password: string) {
+    console.log('Authenticate ontvangen' + emailAddress + " " + password, this.TAG);
+    this.userService.authenticate(emailAddress, password);
+  }
 }
