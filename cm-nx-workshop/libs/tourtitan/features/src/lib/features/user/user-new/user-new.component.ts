@@ -56,7 +56,7 @@ export class UserNewComponent implements OnInit, OnDestroy {
     console.log('onSubmit - create/update');
 
     if (this.userId) {
-      console.log('Update new car');
+      console.log('Update new user');
       this.userService.update(this.userId, this.newUser).subscribe({
         next: (user) => {
           console.log('User added updated:', user);
