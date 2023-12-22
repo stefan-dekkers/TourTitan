@@ -13,6 +13,11 @@ html, body {
     overflow-x: hidden;
 }
 
+a {
+    color: inherit;
+    text-decoration: inherit;
+  }
+  
 
 :root {
     --font1: 'Nunito';
@@ -21,7 +26,7 @@ html, body {
     --color2: #101E1E;
     --color3: #0074E8;
     --color4: #ffffff;
-    --color5: #ffffff;
+    --color5: #f4f4f4;
     --color6:#c1c1c1;
     --color7:#CCE5FF;
 }
@@ -69,6 +74,13 @@ h4 {
     font-weight: 750;
 }
 
+h5{
+    color: var(--color2);
+    font-family: var(--font2);
+    font-size: 1.2rem;
+    font-weight: 650;
+}
+
 * {
     list-style: none;
     scroll-behavior: smooth;
@@ -94,7 +106,7 @@ h4 {
     min-height: 100vh !important;
 }
 
-.bg-light-blue{
+.bg-light-gray{
     background-color: var(--color5);
 }
 
@@ -136,15 +148,45 @@ hr{
     border:0;
 }
 
+.form-text-2{
+    color: var(--color2);
+    font-family: var(--font1);
+    font-size:16px;
+    font-weight:600;
+}
+
+.input-2{
+    color: var(--color2);
+    font-family: var(--font1);
+    font-weight:600;
+    font-size:14px;
+    border-radius: 25px;
+    width:100%;
+    padding:5px;
+    padding-left:10px;
+    border-color: var(--color3);
+    border:3;
+}
+
 .form-control:focus {
-    border-color: #28a745;
+    border-color: #0074E8;
     box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
 } 
+
+.form-control:focus {
+    border-color: #0074E8;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px #0074E8;
+  }
+  
 
 .button{
     color:var(--color5);
 }
 
+.button-2{
+    width:100%;
+    background-color: var(--color3);
+}
 
 .button-text{
     color: var(--color3);
@@ -153,9 +195,45 @@ hr{
     font-weight:600;
 }
 
+.button-text-2{
+    color: var(--color5);
+    font-family: var(--font1);
+    font-size:16px;
+    font-weight:600;
+}
+
+.button-3{
+    width:50%;
+    background-color: var(--color3);
+
+}
+
+.button-text-3{
+    color: var(--color5);
+    font-family: var(--font1);
+    font-size:16px;
+    font-weight:600;
+}
+
 .license-plate {
     position: absolute;
     bottom: 10px;
+    padding-top:2px;
+    width: calc(50% - 12%); /* Adjust the width as needed */
+    height: 30px; /* Adjust the height as needed */
+    background: url('./img/dutch-licenseplate.png') center center no-repeat;
+    background-size:contain;
+    display: flex;
+        align-items: center;
+    justify-content: center;
+    font-weight: 700;
+
+}
+
+
+.license-plate-2 {
+    bottom: 10px;
+    padding-top:2px;
     width: calc(50% - 20%); /* Adjust the width as needed */
     height: 30px; /* Adjust the height as needed */
     background: url('./img/dutch-licenseplate.png') center center no-repeat;
@@ -164,6 +242,18 @@ hr{
         align-items: center;
     justify-content: center;
     font-weight: 700;
-    margin-block-end:0 !important;
-    margin-block-end: 0 !important;
+    margin:0;
+}
+
+.hr-2{
+    border-radius: 25px;
+    border-top: 3px solid #0074e8;
+    background-color: #0074e8;
+    opacity:1;
+}
+
+.details-list{
+    margin-top:14px;
+    margin-bottom:14px;
+
 }

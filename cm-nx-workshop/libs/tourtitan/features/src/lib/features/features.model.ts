@@ -11,6 +11,8 @@ import { UserProfileComponent } from './user/user-profile/user-profile.component
 import { RouterModule } from '@angular/router';
 import { CarsService } from './cars/cars.service';
 import { CarDetailComponent } from './cars/cars-detail/cars-detail.component';
+import { CarsNewComponent } from './cars/cars-new/cars-new.component';
+import { CarDeleteComponent } from './cars/cars-detail/car-delete/car-delete.component';
 
 @NgModule({
   imports: [CommonModule, HttpClientModule, FormsModule, RouterModule],
@@ -18,9 +20,11 @@ import { CarDetailComponent } from './cars/cars-detail/cars-detail.component';
     UserLoginComponent,
     MyRidesComponent,
     CarsListComponent,
+    CarsNewComponent,
     AvailableRidesComponent,
     UserProfileComponent,
     CarDetailComponent,
+    CarDeleteComponent,
   ],
   providers: [UserService, CarsService],
   exports: [
@@ -28,8 +32,10 @@ import { CarDetailComponent } from './cars/cars-detail/cars-detail.component';
     MyRidesComponent,
     CarsListComponent,
     CarDetailComponent,
+    CarsNewComponent,
     AvailableRidesComponent,
     UserProfileComponent,
+    CarDeleteComponent
   ],
 })
 export class FeaturesModule {}
