@@ -12,9 +12,7 @@ export const databaseProviders = [
         username: 'root',
         password: 'root',
         database: 'TourTitans',
-        entities: [
-            UserEntity,
-        ],
+        entities: [UserEntity],
         synchronize: true,
       });
 

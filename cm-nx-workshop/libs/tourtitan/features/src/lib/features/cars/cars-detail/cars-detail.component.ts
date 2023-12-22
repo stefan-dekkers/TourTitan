@@ -5,36 +5,34 @@ import { ICar } from '@cm-nx-workshop/shared/api';
 import { CarsService } from '../cars.service';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { CarDeleteComponent } from './car-delete/car-delete.component';
-// import { CarDeleteComponent } from './car-delete/car-delete.component';
 
 @Component({
-    selector: 'cm-nx-workshop-cars',
-    templateUrl: './cars-detail.component.html',
-    styles: [],
-  })
-  export class CarDetailComponent implements OnInit, OnDestroy {
-    car: ICar | null = null;
-    subscription: Subscription | undefined = undefined;
-  
-    constructor(
-      private modalService: NgbModal,
-      private carsService: CarsService,
-      private route: ActivatedRoute,
-      private router: Router
-    ) {}
-  
-    ngOnInit(): void {
-      this.subscription = this.route.paramMap.subscribe((params) => {
-        const carId = params.get('id');
-  
-        if (carId) {
-          this.carsService.read(carId).subscribe((car) => {
-            this.car = car;
-          });
-        }
-      });
-    }
-  
+  selector: 'cm-nx-workshop-cars',
+  templateUrl: './cars-detail.component.html',
+  styles: [],
+})
+export class CarDetailComponent implements OnInit, OnDestroy {
+  car: ICar | null = null;
+  subscription: Subscription | undefined = undefined;
+
+  constructor(
+    private modalService: NgbModal,
+    private carsService: CarsService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {}
+
+  ngOnInit(): void {
+    this.subscription = this.route.paramMap.subscribe((params) => {
+      const carId = params.get('id');
+
+      if (carId) {
+        this.carsService.read(carId).subscribe((car) => {
+          this.car = car;
+        });
+      }
+    });
+  }
 
   deleteCar(): void {
     if (this.car) {
@@ -49,7 +47,7 @@ import { CarDeleteComponent } from './car-delete/car-delete.component';
           this.carsService.delete(this.car).subscribe({
             next: () => {
               console.log('Car deleted successfully');
-              this.router.navigate(['/cars']); 
+              this.router.navigate(['/cars']);
             },
             error: (error) => {
               console.error('Error deleting car:', error);
@@ -64,10 +62,7 @@ import { CarDeleteComponent } from './car-delete/car-delete.component';
     }
   }
 
-  
-    ngOnDestroy(): void {
-      if (this.subscription) this.subscription.unsubscribe();
-    }
-
-    
+  ngOnDestroy(): void {
+    if (this.subscription) this.subscription.unsubscribe();
   }
+}

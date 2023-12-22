@@ -19,11 +19,15 @@ export class UserService {
 
   constructor(private readonly http: HttpClient, private router: Router) {}
 
-  authenticate(emailAddress: string, password: string)  {
+  authenticate(emailAddress: string, password: string) {
     const credentials = { emailAddress, password };
-    console.log('Authenticate ontvangen' + emailAddress + " " + password, this.TAG);
+    console.log(
+      'Authenticate ontvangen' + emailAddress + ' ' + password,
+      this.TAG
+    );
 
-    this.http.post(this.endpoint_auth, credentials, httpOptions)
+    this.http
+      .post(this.endpoint_auth, credentials, httpOptions)
       .pipe(
         tap((response: any) => {
           console.log('Response:' + response, this.TAG);

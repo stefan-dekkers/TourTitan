@@ -35,7 +35,7 @@ import { CarDeleteComponent } from './cars/cars-detail/car-delete/car-delete.com
     CarsNewComponent,
     AvailableRidesComponent,
     UserProfileComponent,
-    CarDeleteComponent
+    CarDeleteComponent,
   ],
 })
 export class FeaturesModule {}
