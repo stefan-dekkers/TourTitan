@@ -257,3 +257,7 @@ hr{
     margin-bottom:14px;
 
 }
+
+.button-2:disabled{
+    background: rgba(0, 116, 232, 0.5);
+}

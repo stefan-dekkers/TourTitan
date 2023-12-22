@@ -76,18 +76,15 @@
             <div class="card shadow-lg">
               <div class="card-body">
                 <ng-container *ngIf="isUpdate(); else createUserText">
-                  <h4 class="card-title mb-4">Update user</h4>
+                  <h4 class="card-title mb-3">Update user</h4>
                 </ng-container>
                 <ng-template #createUserText>
-                  <h4 class="card-title mb-4">Add a new user</h4>
+                  <h4 class="card-title mb-3">Add a new user</h4>
                 </ng-template>
-                <div
-                  *ngIf="userForm.submitted && userForm.invalid"
-                  class="alert alert-danger mt-3"
-                >
-                  Please fill in all the required fields.
-                </div>
-                <h5 class="card-title mb-4">User information</h5>
+                <div *ngIf="!userForm.valid" class=" mb-3  ">
+                  <p class="text-danger">Please fill in all the required fields.</p>
+              </div>
+                <h5 class="card-title mb-3">User information</h5>
                 <form (ngSubmit)="submitForm()" #userForm="ngForm" class="row">
                   <div class="col-md-12">
                     <div class="mb-3">
@@ -101,7 +98,6 @@
                         name="name"
                         [(ngModel)]="newUser.name"
                         required
-                        #name="ngModel"
                       />
                     </div>
                   </div>
@@ -117,7 +113,6 @@
                         name="emailAddress"
                         [(ngModel)]="newUser.emailAddress"
                         required
-                        #emailAddress="ngModel"
                       />
                     </div>
                   </div>
@@ -133,7 +128,6 @@
                         name="password"
                         [(ngModel)]="newUser.password"
                         required
-                        #password="ngModel"
                       />
                     </div>
                   </div>
@@ -148,7 +142,6 @@
                         name="role"
                         [(ngModel)]="newUser.role"
                         required
-                        #role="ngModel"
                       >
                         <option value="user">User</option>
                         <option value="admin">Admin</option>
@@ -156,32 +149,15 @@
                     </div>
                   </div>
                   <div class="col-12">
-                    <button
-                      type="submit"
-                      class="mt-2 button-2 input"
-                      aria-label="Add"
-                      style="width: 100%"
-                    >
-                      <div class="button-text-2">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="16"
-                          height="16"
-                          fill="currentColor"
-                          class="bi bi-plus-circle"
-                          viewBox="0 0 16 16"
-                        >
-                          <path
-                            d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"
-                          />
-                          <path
-                            d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"
-                          />
-                        </svg>
-                        Submit
-                      </div>
+                    <button type="submit" class="mt-2 button-2 input" aria-label="Add" style="width:100%" 
+                    [disabled]="!userForm.valid"
+                    [class.pointer-events-none]="userForm.invalid">
+                        <div class="button-text-2"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+                        </svg> Submit</div>
                     </button>
-                  </div>
+                </div>
                 </form>
               </div>
             </div>
