@@ -24,7 +24,7 @@ export class LoginComponent {
   }
 
   onSubmit(): void {
-    console.log(this.loginForm.value); // Debugging
+    console.log('poging inloggen met userdata: ',this.loginForm.value); // Debugging
     if (this.loginForm.invalid) {
       this.loginForm.markAllAsTouched();
       return;
@@ -34,10 +34,11 @@ export class LoginComponent {
     this.authService.login(emailAddress, password).subscribe({
       next: (user) => {
         console.log(user); // Debugging
-        this.router.navigate(['/features/dashboard']);
+        this.router.navigate(['/my-rides']);
       },
       error: (error) => {
         // Display the error message from the service
+        console.log(this.errorMessage);
         this.errorMessage = error.message;
       }
     });
