@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { UserLoginComponent } from './user/user-login/user-login.component';
 import { HttpClientModule } from '@angular/common/http';
 import { UserService } from './user/user.service';
 import { FormsModule } from '@angular/forms';
@@ -17,7 +16,6 @@ import { CarDeleteComponent } from './cars/cars-detail/car-delete/car-delete.com
 @NgModule({
   imports: [CommonModule, HttpClientModule, FormsModule, RouterModule],
   declarations: [
-    UserLoginComponent,
     MyRidesComponent,
     CarsListComponent,
     CarsNewComponent,
@@ -28,7 +26,6 @@ import { CarDeleteComponent } from './cars/cars-detail/car-delete/car-delete.com
   ],
   providers: [UserService, CarsService],
   exports: [
-    UserLoginComponent,
     MyRidesComponent,
     CarsListComponent,
     CarDetailComponent,

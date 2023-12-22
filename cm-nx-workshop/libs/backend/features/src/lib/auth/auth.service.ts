@@ -61,7 +61,7 @@ export class AuthService {
         const access_token = await this.jwtService.signAsync(payload);
         user.token = access_token;
         // Retourneer het access token en de gebruikersinformatie, exclusief het wachtwoord
-        return { access_token };
+        return  user ;
     } else {
         throw new UnauthorizedException('Invalid credentials');
     }
