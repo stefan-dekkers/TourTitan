@@ -1,19 +1,12 @@
 import { Observable, throwError } from 'rxjs';
-import {
-  HttpClient,
-  HttpErrorResponse,
-  HttpHeaders,
-} from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { map, catchError, tap } from 'rxjs/operators';
 import { ApiResponse, ICar } from '@cm-nx-workshop/shared/api';
 import { Injectable } from '@angular/core';
 
-/**
- * See https://angular.io/guide/http#requesting-data-from-a-server
- */
 export const httpOptions = {
-  observe: 'body' as const, // Cast observe naar het juiste type
-  responseType: 'json' as const, // Cast responseType naar het juiste type
+  observe: 'body' as const,
+  responseType: 'json' as const,
 };
 
 @Injectable()
@@ -54,17 +47,20 @@ export class CarsService {
 
   public delete(car: ICar): Observable<ICar> {
     console.log(`delete ${this.endpoint}/${car.id}`);
-    
+
     return this.http
       .delete<ApiResponse<ICar>>(`${this.endpoint}/${car.id}`)
       .pipe(tap(console.log), catchError(this.handleError));
   }
 
-  public create(car: ICar,options?: any): Observable<ICar> {
+  public create(car: ICar, options?: any): Observable<ICar> {
     console.log(`create ${this.endpoint}`);
 
     return this.http
-      .post<ApiResponse<ICar>>(this.endpoint, car, {...httpOptions, ...options})
+      .post<ApiResponse<ICar>>(this.endpoint, car, {
+        ...httpOptions,
+        ...options,
+      })
       .pipe(
         tap(console.log),
         map((response: any) => response.results as ICar),
@@ -72,12 +68,12 @@ export class CarsService {
       );
   }
 
-  public update(id: string ,car: ICar, options?: any): Observable<ICar|null> {
+  public update(id: string, car: ICar, options?: any): Observable<ICar | null> {
     const url = `${this.endpoint}/${id}`;
     console.log(`update ${this.endpoint}`);
 
     return this.http
-      .put<ApiResponse<ICar>>(url, car, {...httpOptions, ...options})
+      .put<ApiResponse<ICar>>(url, car, { ...httpOptions, ...options })
       .pipe(
         tap(console.log),
         map((response: any) => response.results as ICar),

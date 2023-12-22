@@ -13,11 +13,15 @@ import { CarsService } from './cars/cars.service';
 import { CarDetailComponent } from './cars/cars-detail/cars-detail.component';
 import { CarsNewComponent } from './cars/cars-new/cars-new.component';
 import { CarDeleteComponent } from './cars/cars-detail/car-delete/car-delete.component';
+import { UserListComponent } from './user/user-list/user-list.component';
+import { UserNewComponent } from './user/user-new/user-new.component';
 
 @NgModule({
   imports: [CommonModule, HttpClientModule, FormsModule, RouterModule],
   declarations: [
     UserLoginComponent,
+    UserListComponent,
+    UserNewComponent,
     MyRidesComponent,
     CarsListComponent,
     CarsNewComponent,
@@ -29,13 +33,15 @@ import { CarDeleteComponent } from './cars/cars-detail/car-delete/car-delete.com
   providers: [UserService, CarsService],
   exports: [
     UserLoginComponent,
+    UserListComponent,
+    UserNewComponent,
     MyRidesComponent,
     CarsListComponent,
     CarDetailComponent,
     CarsNewComponent,
     AvailableRidesComponent,
     UserProfileComponent,
-    CarDeleteComponent
+    CarDeleteComponent,
   ],
 })
 export class FeaturesModule {}

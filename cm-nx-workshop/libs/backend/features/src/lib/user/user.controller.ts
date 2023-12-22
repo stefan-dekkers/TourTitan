@@ -65,7 +65,7 @@ export class UserController {
     return this.userService.findOne(id);
   }
 
-  @Post('create')
+  @Post('')
   @ApiOperation({ summary: 'Create a new user' })
   @ApiCreatedResponse({
     description: 'The user has been successfully created.',

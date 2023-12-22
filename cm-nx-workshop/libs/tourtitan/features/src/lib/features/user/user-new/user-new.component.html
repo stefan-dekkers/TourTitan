@@ -75,157 +75,84 @@
           <div class="col-lg-6 col-md-12 col-sm-12 full-vh pt-3">
             <div class="card shadow-lg">
               <div class="card-body">
-                <ng-container *ngIf="isUpdate(); else createCarText">
-                  <h4 class="card-title mb-4">Update car</h4>
+                <ng-container *ngIf="isUpdate(); else createUserText">
+                  <h4 class="card-title mb-4">Update user</h4>
                 </ng-container>
-                <ng-template #createCarText>
-                  <h4 class="card-title mb-4">Add a new car</h4>
+                <ng-template #createUserText>
+                  <h4 class="card-title mb-4">Add a new user</h4>
                 </ng-template>
                 <div
-                  *ngIf="carForm.submitted && carForm.invalid"
+                  *ngIf="userForm.submitted && userForm.invalid"
                   class="alert alert-danger mt-3"
                 >
                   Please fill in all the required fields.
                 </div>
-                <h5 class="card-title mb-4">Car information</h5>
-                <form (ngSubmit)="submitForm()" #carForm="ngForm" class="row">
-                  <div class="col-md-6">
+                <h5 class="card-title mb-4">User information</h5>
+                <form (ngSubmit)="submitForm()" #userForm="ngForm" class="row">
+                  <div class="col-md-12">
                     <div class="mb-3">
                       <label for="name" class="form-text-2 form-label"
-                        >Car name:</label
+                        >Name:</label
                       >
                       <input
                         type="text"
                         class="input-2 form-control"
                         id="name"
                         name="name"
-                        [(ngModel)]="newCar.name"
+                        [(ngModel)]="newUser.name"
                         required
                         #name="ngModel"
                       />
                     </div>
                   </div>
-                  <div class="col-md-6">
+                  <div class="col-md-12">
                     <div class="mb-3">
-                      <label for="plateNumber" class="form-text-2 form-label"
-                        >Plate number:</label
+                      <label for="emailAddress" class="form-text-2 form-label"
+                        >Email address:</label
                       >
                       <input
-                        type="text"
+                        type="email"
                         class="input-2 form-control"
-                        id="plateNumber"
-                        name="plateNumber"
-                        [(ngModel)]="newCar.plateNumber"
+                        id="emailAddress"
+                        name="emailAddress"
+                        [(ngModel)]="newUser.emailAddress"
                         required
-                      />
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="mb-3">
-                      <label for="capacity" class="form-text-2 form-label"
-                        >Capacity:</label
-                      >
-                      <input
-                        type="number"
-                        class="input-2 form-control"
-                        id="capacity"
-                        name="capacity"
-                        [(ngModel)]="newCar.capacity"
-                        required
-                      />
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="mb-3">
-                      <label for="mileage" class="form-text-2 form-label"
-                        >Mileage:</label
-                      >
-                      <input
-                        type="number"
-                        class="input-2 form-control"
-                        id="mileage"
-                        name="mileage"
-                        [(ngModel)]="newCar.mileage"
-                        required
+                        #emailAddress="ngModel"
                       />
                     </div>
                   </div>
                   <div class="col-md-12">
                     <div class="mb-3">
-                      <label for="imageUrl" class="form-text-2 form-label"
-                        >Image URL:</label
+                      <label for="password" class="form-text-2 form-label"
+                        >Password:</label
                       >
                       <input
-                        type="text"
+                        type="password"
                         class="input-2 form-control"
-                        id="imageUrl"
-                        name="imageUrl"
-                        [(ngModel)]="newCar.imageUrl"
+                        id="password"
+                        name="password"
+                        [(ngModel)]="newUser.password"
                         required
+                        #password="ngModel"
                       />
                     </div>
                   </div>
-                  <h5 class="card-title mb-4 pt-3">Location</h5>
-
-                  <div class="col-md-6">
+                  <div class="col-md-12">
                     <div class="mb-3">
-                      <label for="city" class="form-text-2 form-label"
-                        >City:</label
+                      <label for="role" class="form-text-2 form-label"
+                        >Role:</label
                       >
-                      <input
-                        type="text"
-                        class="input-2 form-control"
-                        id="city"
-                        name="city"
-                        [(ngModel)]="newCar.location.city"
+                      <select
+                        class="input-2 form-select"
+                        id="role"
+                        name="role"
+                        [(ngModel)]="newUser.role"
                         required
-                      />
-                    </div>
-                  </div>
-
-                  <div class="col-md-6">
-                    <div class="mb-3">
-                      <label for="zipCode" class="form-text-2 form-label"
-                        >Zip code:</label
+                        #role="ngModel"
                       >
-                      <input
-                        type="text"
-                        class="input-2 form-control"
-                        id="zipCode"
-                        name="zipCode"
-                        [(ngModel)]="newCar.location.zipCode"
-                        required
-                      />
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="mb-3">
-                      <label for="street" class="form-text-2 form-label"
-                        >Street:</label
-                      >
-                      <input
-                        type="text"
-                        class="input-2 form-control"
-                        id="street"
-                        name="street"
-                        [(ngModel)]="newCar.location.street"
-                        required
-                      />
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="mb-3">
-                      <label for="number" class="form-text-2 form-label"
-                        >House number:</label
-                      >
-                      <input
-                        type="number"
-                        class="input-2 form-control"
-                        id="number"
-                        name="number"
-                        [(ngModel)]="newCar.location.number"
-                        required
-                      />
+                        <option value="user">User</option>
+                        <option value="admin">Admin</option>
+                      </select>
                     </div>
                   </div>
                   <div class="col-12">
