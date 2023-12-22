@@ -1,5 +1,5 @@
+import { LoginComponent } from './../../../../libs/tourtitan/auth/src/lib/login/login.component';
 import { Route } from '@angular/router';
-import { UserLoginComponent } from 'libs/tourtitan/features/src/lib/features/user/user-login/user-login.component';
 import { MyRidesComponent } from 'libs/tourtitan/features/src/lib/features/my-rides/my-rides.component';
 import { CarsListComponent } from 'libs/tourtitan/features/src/lib/features/cars/cars-list/cars-list.component';
 import { CarDetailComponent } from 'libs/tourtitan/features/src/lib/features/cars/cars-detail/cars-detail.component';
@@ -9,12 +9,12 @@ import { CarsNewComponent } from 'libs/tourtitan/features/src/lib/features/cars/
 export const appRoutes: Route[] = [
   {
     path: 'login',
-    component: UserLoginComponent,
+    component: LoginComponent,
     pathMatch: 'full',
   },
   {
     path: '',
-    component: UserLoginComponent,
+    component: LoginComponent,
     pathMatch: 'full',
   },
   {

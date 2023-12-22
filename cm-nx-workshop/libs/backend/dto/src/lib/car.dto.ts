@@ -9,7 +9,7 @@ import {
   IsString,
   IsOptional,
   IsNumber,
-  IsObject,
+  ValidateNested,
 } from 'class-validator';
 
 export class CreateCarDto implements ICreateCar {
@@ -48,7 +48,7 @@ export class CreateCarDto implements ICreateCar {
     description: 'The location of the car',
   })
   @IsNotEmpty()
-  @IsObject()
+  @ValidateNested()
   location!: ILocation;
 }
 

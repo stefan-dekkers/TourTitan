@@ -11,6 +11,7 @@ import { UserEntity } from './user/user.entity';
 import { CarEntity } from './car/car.entity';
 import { LocationEntity } from './location/location.entity';
 
+
 @Module({
   imports: [
     JwtModule.register({
