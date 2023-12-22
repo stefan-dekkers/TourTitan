@@ -8,6 +8,7 @@ import { AvailableRidesComponent } from 'libs/tourtitan/features/src/lib/feature
 import { CarsNewComponent } from 'libs/tourtitan/features/src/lib/features/cars/cars-new/cars-new.component';
 import { UserListComponent } from 'libs/tourtitan/features/src/lib/features/user/user-list/user-list.component';
 import { UserNewComponent } from 'libs/tourtitan/features/src/lib/features/user/user-new/user-new.component';
+import { UserDetailComponent } from 'libs/tourtitan/features/src/lib/features/user/user-detail/user-detail.component';
 export const appRoutes: Route[] = [
   {
     path: 'login',
@@ -52,6 +53,16 @@ export const appRoutes: Route[] = [
   {
     path: 'user/new',
     component: UserNewComponent,
+    pathMatch: 'full',
+  },
+  {
+    path: 'user/edit/:id',
+    component: UserDetailComponent,
+    pathMatch: 'full',
+  },
+  {
+    path: 'user/:id',
+    component: UserDetailComponent,
     pathMatch: 'full',
   },
   {
