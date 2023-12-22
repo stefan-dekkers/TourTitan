@@ -9,7 +9,7 @@ import { Id } from 'libs/shared/api/src/lib/models/id.type';
 @Component({
   selector: 'cm-nx-workshop-cars-new',
   templateUrl: './cars-new.component.html',
-  styles: [],
+  styleUrls: ['./cars-new.component.css'], 
 })
 export class CarsNewComponent implements OnInit, OnDestroy {
   carId: Id|null= null;
