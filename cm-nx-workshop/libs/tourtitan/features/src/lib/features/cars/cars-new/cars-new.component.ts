@@ -92,4 +92,11 @@ export class CarsNewComponent implements OnInit, OnDestroy {
     }
    
   }
+
+  isUpdate(): boolean{
+    if(this.carId){
+      return true;
+    }
+    return false;
+  }
 }
