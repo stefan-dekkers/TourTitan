@@ -1,7 +1,7 @@
 import { Observable, throwError } from 'rxjs';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { map, catchError, tap } from 'rxjs/operators';
-import { ApiResponse, ICar, IUser } from '@cm-nx-workshop/shared/api';
+import { ApiResponse, IUser } from '@cm-nx-workshop/shared/api';
 import { Injectable } from '@angular/core';
 
 export const httpOptions = {
@@ -19,7 +19,7 @@ export class UserService {
     console.log(`list ${this.endpoint}`);
 
     return this.http
-      .get<ApiResponse<ICar[]>>(this.endpoint, {
+      .get<ApiResponse<IUser[]>>(this.endpoint, {
         ...options,
         ...httpOptions,
       })
@@ -77,7 +77,7 @@ export class UserService {
     console.log(`update ${this.endpoint}`);
 
     return this.http
-      .put<ApiResponse<ICar>>(url, user, { ...httpOptions, ...options })
+      .put<ApiResponse<IUser>>(url, user, { ...httpOptions, ...options })
       .pipe(
         tap(console.log),
         map((response: any) => response.results as IUser),
@@ -85,9 +85,7 @@ export class UserService {
       );
   }
 
-  /**
-   * Handle errors.
-   */
+
   private handleError(error: HttpErrorResponse): Observable<any> {
     console.error('Error in UserService:', error);
 
