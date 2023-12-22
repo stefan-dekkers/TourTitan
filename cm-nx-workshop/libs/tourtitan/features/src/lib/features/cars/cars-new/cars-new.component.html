@@ -81,9 +81,6 @@
                                   required
                                   #name="ngModel"
                                   >
-                                  <!-- <div *ngIf="name.invalid&&submitForm()" class="invalid-feedback">
-                                    <div>Name can not be empty</div>
-                                </div> -->
                               </div>
                           </div>
                           <div class="col-md-6">
@@ -95,9 +92,6 @@
                                   required
                                   #plateNumber="ngModel"
                                   >  
-                                  <!-- <div *ngIf="plateNumber.invalid" class="invalid-feedback">
-                                    <div>Platenumber can not be empty</div>
-                                </div>  -->
                               </div>
                           </div>
                           <div class="col-md-6">
@@ -109,9 +103,6 @@
                                    required
                                    #capacity="ngModel"
                                   >  
-                                  <!-- <div *ngIf="capacity.invalid" class="invalid-feedback">
-                                    <div>Capacity can not be empty</div>
-                                </div>  -->
                               </div>
                           </div>
                           <div class="col-md-6">
@@ -123,9 +114,6 @@
                                   required
                                   #mileage="ngModel"
                                   >  
-                                  <!-- <div *ngIf="mileage.invalid" class="invalid-feedback">
-                                    <div>Mileage can not be empty</div>
-                                </div>  -->
                               </div>
                           </div>
                           <div class="col-md-12">
@@ -136,10 +124,7 @@
                                 [(ngModel)]="newCar.imageUrl" 
                                 required
                                 #imageUrl="ngModel"
-                                >  
-                                <!-- <div *ngIf="imageUrl.invalid" class="invalid-feedback">
-                                  <div>Image can not be empty</div>
-                                </div>  -->
+                            >
                             </div>
                         </div>                        
                         <h5 class="card-title mb-4 pt-3">Location</h5>
@@ -153,9 +138,6 @@
                                 required
                                 #city="ngModel"
                                 >  
-                                <!-- <div *ngIf="city.invalid" class="invalid-feedback">
-                                  <div>City can not be empty</div>
-                              </div>  -->
                             </div>
                         </div>
                       
@@ -168,9 +150,6 @@
                                   required
                                   #zipCode="ngModel"
                                   >  
-                                  <!-- <div *ngIf="zipCode.invalid" class="invalid-feedback">
-                                    <div>Zipcode can not be empty</div>
-                                </div>  -->
                               </div>
                           </div>
                           <div class="col-md-6">
@@ -182,9 +161,6 @@
                                   required
                                   #street="ngModel"
                                  >  
-                                  <!-- <div *ngIf="street.invalid" class="invalid-feedback">
-                                    <div>Street can not be empty</div>
-                                </div>  -->
                               </div>
                           </div>
                           <div class="col-md-6">
@@ -196,17 +172,12 @@
                                   required
                                   #number="ngModel"
                                   >  
-                                  <!-- <div *ngIf="number.invalid" class="invalid-feedback">
-                                    <div>Number can not be empty</div>
-                                </div>  -->
                               </div>
                           </div>
                           <div class="col-12">
                               <button type="submit" class="mt-2 button-2 input" aria-label="Add" style="width:100%" 
                               [disabled]="!carForm.valid"
-                              [class.pointer-events-none]="carForm.invalid"
-                              [class.opacity-30]="carForm.invalid"
-                              [class.background-danger]="carForm.invalid">
+                              [class.pointer-events-none]="carForm.invalid">
                                   <div class="button-text-2"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
                                       <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
                                       <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
