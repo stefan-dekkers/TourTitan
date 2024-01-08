@@ -13,6 +13,7 @@ import { CarsService } from './cars/cars.service';
 import { CarDetailComponent } from './cars/cars-detail/cars-detail.component';
 import { CarsNewComponent } from './cars/cars-new/cars-new.component';
 import { CarDeleteComponent } from './cars/cars-detail/car-delete/car-delete.component';
+import { SidebarComponent } from './sidebar/sidebar.component';
 
 @NgModule({
   imports: [CommonModule, HttpClientModule, FormsModule, RouterModule],
@@ -25,6 +26,7 @@ import { CarDeleteComponent } from './cars/cars-detail/car-delete/car-delete.com
     UserProfileComponent,
     CarDetailComponent,
     CarDeleteComponent,
+    SidebarComponent
   ],
   providers: [UserService, CarsService],
   exports: [
@@ -35,7 +37,8 @@ import { CarDeleteComponent } from './cars/cars-detail/car-delete/car-delete.com
     CarsNewComponent,
     AvailableRidesComponent,
     UserProfileComponent,
-    CarDeleteComponent
+    CarDeleteComponent,
+    SidebarComponent
   ],
 })
 export class FeaturesModule {}
