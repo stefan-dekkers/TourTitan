@@ -8,7 +8,7 @@ export interface IUser {
   id?: Id;
   name: string;
   emailAddress: string;
-  password: string;
+  password?: string;
   role: UserRole;
   token?: string | undefined;
 }

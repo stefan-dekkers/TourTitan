@@ -15,7 +15,6 @@ export class UserNewComponent implements OnInit, OnDestroy {
   newUser: IUser = {
     name: '',
     emailAddress: '',
-    password: '',
     role: UserRole.User,
   };
 
