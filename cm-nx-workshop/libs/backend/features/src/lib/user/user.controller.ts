@@ -116,18 +116,18 @@ export class UserController {
   @ApiOkResponse({ description: 'Successfully deleted user' })
   @ApiBadRequestResponse({ description: 'Invalid user ID' })
   deleteUser(@Param('id') id: string, @Req() req: any): any {
-    const requester = req.user;
-    const isAdmin = requester.role === 'admin';
-    console.log('Requester object:', requester);
-    console.log(
-      `Deleting user: Param ID: ${id}, Requester ID: ${requester.sub}, Is Admin: ${isAdmin}`
-    );
-    // Controleer of de gebruiker admin is of de eigenaar van het account
-    if (!isAdmin && requester.sub !== id) {
-      throw new ForbiddenException(
-        'Je bent niet gemachtigd om deze actie uit te voeren.'
-      );
-    }
+    // const requester = req.user;
+    // const isAdmin = requester.role === 'admin';
+    // console.log('Requester object:', requester);
+    // console.log(
+    //   `Deleting user: Param ID: ${id}, Requester ID: ${requester.sub}, Is Admin: ${isAdmin}`
+    // );
+    // // Controleer of de gebruiker admin is of de eigenaar van het account
+    // if (!isAdmin && requester.sub !== id) {
+    //   throw new ForbiddenException(
+    //     'Je bent niet gemachtigd om deze actie uit te voeren.'
+    //   );
+    // }
     return this.userService.delete(id);
   }
 }
