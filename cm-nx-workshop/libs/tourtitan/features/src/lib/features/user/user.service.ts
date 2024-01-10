@@ -3,6 +3,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { map, catchError, tap } from 'rxjs/operators';
 import { ApiResponse, IUser } from '@cm-nx-workshop/shared/api';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 
 export const httpOptions = {
   observe: 'body' as const,
@@ -12,12 +13,13 @@ export const httpOptions = {
 @Injectable()
 export class UserService {
   endpoint = 'http://localhost:3000/api/user';
+  endpoint_auth ='http://localhost:3000/api/login'
 
   constructor(private readonly http: HttpClient, private router: Router) {}
 
   authenticate(emailAddress: string, password: string)  {
     const credentials = { emailAddress, password };
-    console.log('Authenticate ontvangen' + emailAddress + " " + password, this.TAG);
+    console.log('Authenticate ontvangen' + emailAddress + " " + password);
 
     this.http.post(this.endpoint_auth, credentials, httpOptions)
       .pipe(

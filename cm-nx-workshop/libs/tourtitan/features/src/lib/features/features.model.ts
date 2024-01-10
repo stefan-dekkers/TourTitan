@@ -44,7 +44,7 @@ import { UserDetailComponent } from './user/user-detail/user-detail.component';
     AvailableRidesComponent,
     UserProfileComponent,
     CarDeleteComponent,
-    SidebarComponent
+    SidebarComponent,
     CarDeleteComponent,
   ],
 })
