@@ -43,4 +43,11 @@ export class CarsListComponent implements OnInit, OnDestroy {
     }
     return plateNumber; // Return original if not in the expected format
   }
+
+  isAdmin(): boolean{
+    if(this.authService.isAdmin()){
+      return true
+    }
+    return false
+  }
 }

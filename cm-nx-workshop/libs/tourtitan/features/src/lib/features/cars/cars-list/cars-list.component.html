@@ -9,7 +9,7 @@
       <!-- Content van de pagina moet hier -->
       <div class="row">
         <div class="col-lg-4 col-md-12">
-          <div class="m-3">
+          <div *ngIf="isAdmin()" class="m-3">
             <a routerLink="/cars/new" routerLinkActive="active">
               <button class="button-2 input">
                 <div class="button-text-2">
