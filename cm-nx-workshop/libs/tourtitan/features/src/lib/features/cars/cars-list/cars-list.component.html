@@ -25,7 +25,7 @@
     <div class="row">
       <div *ngFor="let cars of cars" class="col-lg-4 col-md-12 col-sm-12 py-4 px-4">
         <a [routerLink]="['/cars', cars.id]" routerLinkActive="active">
-          <div class="card shadow-lg" style="position: relative;"> <!-- Adjust the height as needed -->
+          <div class="card shadow-lg" style="position: relative;"> 
               <img [src]="cars.imageUrl ? cars.imageUrl : 'https://www.bahmansport.com/media/com_store/images/empty.png'" class="rounded-3" style="width: 100%; height: 200px; object-fit: cover;">
               <h4 class="pt-3 px-3 card-title">{{cars.name}}</h4>
               <p class="card-text pb-2 px-3"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
