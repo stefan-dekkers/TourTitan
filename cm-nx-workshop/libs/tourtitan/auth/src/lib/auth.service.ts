@@ -128,11 +128,19 @@ export class AuthService {
           window.location.reload();
         });
     }
-    isAdmin$(): Observable<boolean> {
-        return this.currentUserSubject.asObservable().pipe(
-          map(user => user?.role === 'admin'),
-        );
+    isAdmin(): boolean {
+      const userString = sessionStorage.getItem(this.storageKey);
+      if (userString) {
+        const user = JSON.parse(userString);
+        // Check if the user has the 'admin' role
+        if (user?.role === 'admin') {
+          return true
+        }
       }
+    
+      return false;
+    }
+    
     
       // Get the current user's role
       getCurrentUserRole(): string {

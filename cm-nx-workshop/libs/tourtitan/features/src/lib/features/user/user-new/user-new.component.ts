@@ -4,6 +4,7 @@ import { IUser, UserRole } from '@cm-nx-workshop/shared/api';
 import { Subscription } from 'rxjs';
 import { Id } from 'libs/shared/api/src/lib/models/id.type';
 import { UserService } from '../user.service';
+import { AuthService } from 'libs/tourtitan/auth/src/lib/auth.service';
 
 @Component({
   selector: 'cm-nx-workshop-user-new',
@@ -24,26 +25,34 @@ export class UserNewComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private userService: UserService,
-    private router: Router
+    private router: Router,
+    private authService: AuthService,
   ) {}
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe(async (params) => {
-      this.userId = params.get('id') ?? null;
-      if (this.userId) {
-        this.userSubscription = this.userService.read(this.userId).subscribe(
-          (user) => {
-            this.newUser = user;
-            console.log(this.newUser.emailAddress);
-          },
-          (error) => {
-            console.error('Error fetching user:', error);
-          }
-        );
-      } else {
-        // New car
-      }
-    });
+    if (this.authService.isAdmin()) {
+      this.route.paramMap.subscribe(async (params) => {
+        this.userId = params.get('id') ?? null;
+        if (this.userId) {
+          this.userSubscription = this.userService.read(this.userId).subscribe(
+            (user) => {
+              this.newUser = user;
+              console.log(this.newUser.emailAddress);
+            },
+            (error) => {
+              console.error('Error fetching user:', error);
+            }
+          );
+        } else {
+          // New car
+        }
+      });
+    }
+    else{
+      this.router.navigate([`/cars`], {
+        relativeTo: this.route,
+      });
+    }
   }
 
   ngOnDestroy(): void {
