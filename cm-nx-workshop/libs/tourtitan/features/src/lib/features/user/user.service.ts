@@ -15,7 +15,7 @@ export class UserService {
   endpoint = 'http://localhost:3000/api/user';
   endpoint_auth ='http://localhost:3000/api/login'
 
-  constructor(private readonly http: HttpClient, private router: Router) {}
+  constructor(private readonly http: HttpClient) {}
 
   authenticate(emailAddress: string, password: string)  {
     const credentials = { emailAddress, password };

@@ -18,6 +18,7 @@ export class AuthService {
     private readonly headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
+    errorMessage = '';
     constructor(
         private http: HttpClient, 
         private router: Router,
