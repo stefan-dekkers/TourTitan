@@ -12,12 +12,16 @@ import { CarsService } from './cars/cars.service';
 import { CarDetailComponent } from './cars/cars-detail/cars-detail.component';
 import { CarsNewComponent } from './cars/cars-new/cars-new.component';
 import { CarDeleteComponent } from './cars/cars-detail/car-delete/car-delete.component';
-import { UserLoginComponent } from './user/user-login/user-login.component';
+import { UserListComponent } from './user/user-list/user-list.component';
+import { UserNewComponent } from './user/user-new/user-new.component';
+import { UserDetailComponent } from './user/user-detail/user-detail.component';
 
 @NgModule({
   imports: [CommonModule, HttpClientModule, FormsModule, RouterModule],
   declarations: [
-    UserLoginComponent,
+    UserListComponent,
+    UserDetailComponent,
+    UserNewComponent,
     MyRidesComponent,
     CarsListComponent,
     CarsNewComponent,
@@ -28,7 +32,9 @@ import { UserLoginComponent } from './user/user-login/user-login.component';
   ],
   providers: [UserService, CarsService],
   exports: [
-    UserLoginComponent,
+    UserListComponent,
+    UserDetailComponent,
+    UserNewComponent,
     MyRidesComponent,
     CarsListComponent,
     CarDetailComponent,

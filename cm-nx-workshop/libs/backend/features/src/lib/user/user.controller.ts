@@ -58,14 +58,14 @@ export class UserController {
       throw new BadRequestException('Invalid user ID');
     }
 
-    if (requester.role !== 'admin' && requester.sub !== id) {
-      throw new BadRequestException('Unauthorized access');
-    }
+    // if (requester.role !== 'admin' && requester.sub !== id) {
+    //   throw new BadRequestException('Unauthorized access');
+    // }
 
     return this.userService.findOne(id);
   }
 
-  @Post('create')
+  @Post('')
   @ApiOperation({ summary: 'Create a new user' })
   @ApiCreatedResponse({
     description: 'The user has been successfully created.',
@@ -93,18 +93,18 @@ export class UserController {
     @Body() data: UpdateUserDto,
     @Req() req: any
   ): Promise<IUser | null> {
-    const requester = req.user;
-    const isAdmin = requester.role === 'admin';
-    console.log('Requester object:', requester);
-    console.log(
-      `Updating user: Param ID: ${id}, Requester ID: ${requester.sub}, Is Admin: ${isAdmin}`
-    );
-    // Controleer of de gebruiker admin is of de eigenaar van het account
-    if (!isAdmin && requester.sub !== id) {
-      throw new ForbiddenException(
-        'Je bent niet gemachtigd om deze actie uit te voeren.'
-      );
-    }
+    // const requester = req.user;
+    // const isAdmin = requester.role === 'admin';
+    // console.log('Requester object:', requester);
+    // console.log(
+    //   `Updating user: Param ID: ${id}, Requester ID: ${requester.sub}, Is Admin: ${isAdmin}`
+    // );
+    // // Controleer of de gebruiker admin is of de eigenaar van het account
+    // if (!isAdmin && requester.sub !== id) {
+    //   throw new ForbiddenException(
+    //     'Je bent niet gemachtigd om deze actie uit te voeren.'
+    //   );
+    // }
     return this.userService.update(id, data);
   }
 
@@ -116,18 +116,18 @@ export class UserController {
   @ApiOkResponse({ description: 'Successfully deleted user' })
   @ApiBadRequestResponse({ description: 'Invalid user ID' })
   deleteUser(@Param('id') id: string, @Req() req: any): any {
-    const requester = req.user;
-    const isAdmin = requester.role === 'admin';
-    console.log('Requester object:', requester);
-    console.log(
-      `Deleting user: Param ID: ${id}, Requester ID: ${requester.sub}, Is Admin: ${isAdmin}`
-    );
-    // Controleer of de gebruiker admin is of de eigenaar van het account
-    if (!isAdmin && requester.sub !== id) {
-      throw new ForbiddenException(
-        'Je bent niet gemachtigd om deze actie uit te voeren.'
-      );
-    }
+    // const requester = req.user;
+    // const isAdmin = requester.role === 'admin';
+    // console.log('Requester object:', requester);
+    // console.log(
+    //   `Deleting user: Param ID: ${id}, Requester ID: ${requester.sub}, Is Admin: ${isAdmin}`
+    // );
+    // // Controleer of de gebruiker admin is of de eigenaar van het account
+    // if (!isAdmin && requester.sub !== id) {
+    //   throw new ForbiddenException(
+    //     'Je bent niet gemachtigd om deze actie uit te voeren.'
+    //   );
+    // }
     return this.userService.delete(id);
   }
 }

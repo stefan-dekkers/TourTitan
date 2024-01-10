@@ -1,19 +1,12 @@
 import { Observable, throwError } from 'rxjs';
-import {
-  HttpClient,
-  HttpErrorResponse,
-  HttpHeaders,
-} from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { map, catchError, tap } from 'rxjs/operators';
 import { ApiResponse, ICar } from '@cm-nx-workshop/shared/api';
 import { Injectable } from '@angular/core';
 
-/**
- * See https://angular.io/guide/http#requesting-data-from-a-server
- */
 export const httpOptions = {
-  observe: 'body' as const, // Cast observe naar het juiste type
-  responseType: 'json' as const, // Cast responseType naar het juiste type
+  observe: 'body' as const,
+  responseType: 'json' as const,
 };
 
 @Injectable()

@@ -25,12 +25,8 @@ export class UserLoginComponent implements OnInit, OnDestroy {
     if (this.subscription) this.subscription.unsubscribe();
   }
 
-  authenticate(emailAddress: string, password: string) {
-    console.log(
-      'Authenticate ontvangen' + emailAddress + ' ' + password,
-      this.TAG
-    );
-    this.userService.authenticate(emailAddress, password);
-    this.router.navigate(['/cars'], {relativeTo:this.route})
-  }
+  // authenticate(emailAddress: string, password: string) {
+  //   console.log('Authenticate ontvangen' + emailAddress + " " + password, this.TAG);
+  //   this.userService.authenticate(emailAddress, password);
+  // }
 }

@@ -66,9 +66,8 @@
       </ul>
     </div>
   </div>
-  <div class="col-lg-10 col-md-12 col-sm-12 bg-light-gray">
-    <!-- Content van de pagina moet hier -->
 
+  <div class="col-lg-10 col-md-12 col-sm-12 bg-light-gray">
     <section class="py-1">
       <div class="container">
         <div class="row">
@@ -77,22 +76,19 @@
             <div class="card shadow-lg">
               <div class="card-body">
                 <ng-container *ngIf="isUpdate(); else createCarText">
-                  <h4 class="card-title mb-3">Update car</h4>
+                  <h4 class="card-title mb-4">Update car</h4>
                 </ng-container>
                 <ng-template #createCarText>
-                  <h4 class="card-title mb-3">Add a new car</h4>
+                  <h4 class="card-title mb-4">Add a new car</h4>
                 </ng-template>
-                <div *ngIf="!carForm.valid" class="mb-3">
-                  <p class="text-danger">
-                    Please fill in all the required fields.
-                  </p>
-                </div>
-                <h5 class="card-title mb-3">Car information</h5>
-                <form
-                  (ngSubmit)="carForm.form.valid && submitForm()"
-                  #carForm="ngForm"
-                  class="row"
+                <div
+                  *ngIf="carForm.submitted && carForm.invalid"
+                  class="alert alert-danger mt-3"
                 >
+                  Please fill in all the required fields.
+                </div>
+                <h5 class="card-title mb-4">Car information</h5>
+                <form (ngSubmit)="submitForm()" #carForm="ngForm" class="row">
                   <div class="col-md-6">
                     <div class="mb-3">
                       <label for="name" class="form-text-2 form-label"
@@ -121,7 +117,6 @@
                         name="plateNumber"
                         [(ngModel)]="newCar.plateNumber"
                         required
-                        #plateNumber="ngModel"
                       />
                     </div>
                   </div>
@@ -137,7 +132,6 @@
                         name="capacity"
                         [(ngModel)]="newCar.capacity"
                         required
-                        #capacity="ngModel"
                       />
                     </div>
                   </div>
@@ -153,7 +147,6 @@
                         name="mileage"
                         [(ngModel)]="newCar.mileage"
                         required
-                        #mileage="ngModel"
                       />
                     </div>
                   </div>
@@ -169,7 +162,6 @@
                         name="imageUrl"
                         [(ngModel)]="newCar.imageUrl"
                         required
-                        #imageUrl="ngModel"
                       />
                     </div>
                   </div>
@@ -187,7 +179,6 @@
                         name="city"
                         [(ngModel)]="newCar.location.city"
                         required
-                        #city="ngModel"
                       />
                     </div>
                   </div>
@@ -204,7 +195,6 @@
                         name="zipCode"
                         [(ngModel)]="newCar.location.zipCode"
                         required
-                        #zipCode="ngModel"
                       />
                     </div>
                   </div>
@@ -220,7 +210,6 @@
                         name="street"
                         [(ngModel)]="newCar.location.street"
                         required
-                        #street="ngModel"
                       />
                     </div>
                   </div>
@@ -236,7 +225,6 @@
                         name="number"
                         [(ngModel)]="newCar.location.number"
                         required
-                        #number="ngModel"
                       />
                     </div>
                   </div>
@@ -246,8 +234,6 @@
                       class="mt-2 button-2 input"
                       aria-label="Add"
                       style="width: 100%"
-                      [disabled]="!carForm.valid"
-                      [class.pointer-events-none]="carForm.invalid"
                     >
                       <div class="button-text-2">
                         <svg
