@@ -6,7 +6,7 @@ import { AuthService } from 'libs/tourtitan/auth/src/lib/auth.service';
 @Component({
   selector: 'cm-nx-workshop-login',
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css',
+  styleUrls: ['./login.component.css'],
 })
 export class LoginComponent {
   loginForm: FormGroup;
