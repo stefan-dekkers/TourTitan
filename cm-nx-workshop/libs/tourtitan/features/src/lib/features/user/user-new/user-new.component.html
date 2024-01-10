@@ -75,7 +75,7 @@
           <div class="col-lg-6 col-md-12 col-sm-12 full-vh pt-3">
             <div class="card shadow-lg">
               <div class="card-body">
-                <ng-container *ngIf="isUpdate(); else createUserText">
+                <ng-container *ngIf="isCreate() === false; else createUserText">
                   <h4 class="card-title mb-3">Update user</h4>
                 </ng-container>
                 <ng-template #createUserText>
@@ -133,6 +133,19 @@
                       </select>
                     </div>
                   </div>
+                  <div *ngIf="isCreate()" class="col-md-12">
+                    <div class="mb-3">
+                      <label for="password" class="form-text-2 form-label">Password:</label>
+                      <input
+                        type="password"
+                        class="input-2 form-control"
+                        id="password"
+                        name="password"
+                        [(ngModel)]="newUser.password"
+                        required
+                      />
+                    </div>
+                  </div>                  
                   <div class="col-12">
                     <button type="submit" class="mt-2 button-2 input" aria-label="Add" style="width:100%" 
                     [disabled]="!userForm.valid"

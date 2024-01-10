@@ -16,6 +16,7 @@ export class UserNewComponent implements OnInit, OnDestroy {
     name: '',
     emailAddress: '',
     role: UserRole.User,
+    password: ''
   };
 
   private userSubscription: Subscription | undefined;
@@ -81,10 +82,10 @@ export class UserNewComponent implements OnInit, OnDestroy {
     }
   }
 
-  isUpdate(): boolean {
+  isCreate(): boolean {
     if (this.userId) {
-      return true;
+      return false;
     }
-    return false;
+    return true;
   }
 }
