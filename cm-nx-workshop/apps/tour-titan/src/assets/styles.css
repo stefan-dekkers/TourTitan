@@ -258,6 +258,18 @@ hr{
 
 }
 
-.button-2:disabled{
-    background: rgba(0, 116, 232, 0.5);
+/* Add these styles to your existing CSS */
+.nav-pills .nav-link.active,
+.nav-pills .nav-link.active:hover {
+  background-color: var(--color3) !important; /* Set the active pill background color to blue and handle hover state when the pill is active */
+  color: white !important; /* Set the text color to white when the pill is active */
+}
+
+.nav-pills .nav-link.active svg {
+  fill: white; /* Set the color of the SVG icon to white when the pill is active */
+}
+
+.nav-pills .nav-link.active .link-dark {
+  color: white !important; /* Set the text color to white when the pill is active */
+  text-decoration: none !important; /* Remove any text decoration */
 }
