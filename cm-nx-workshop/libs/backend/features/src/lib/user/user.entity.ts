@@ -15,9 +15,9 @@ export class UserEntity {
 
   @Column()
   password!: string;
-  
- @Column({
-    type: 'varchar', 
+
+  @Column({
+    type: 'varchar',
     enum: UserRole,
   })
   role!: UserRole;
@@ -25,4 +25,3 @@ export class UserEntity {
   // @OneToMany(() => RideEntity, ride => ride.driver)
   // drivenRides!: IRide[];
 }
-
