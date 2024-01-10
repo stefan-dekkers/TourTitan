@@ -12,10 +12,12 @@ import { CarsService } from './cars/cars.service';
 import { CarDetailComponent } from './cars/cars-detail/cars-detail.component';
 import { CarsNewComponent } from './cars/cars-new/cars-new.component';
 import { CarDeleteComponent } from './cars/cars-detail/car-delete/car-delete.component';
+import { UserLoginComponent } from './user/user-login/user-login.component';
 
 @NgModule({
   imports: [CommonModule, HttpClientModule, FormsModule, RouterModule],
   declarations: [
+    UserLoginComponent,
     MyRidesComponent,
     CarsListComponent,
     CarsNewComponent,
@@ -26,6 +28,7 @@ import { CarDeleteComponent } from './cars/cars-detail/car-delete/car-delete.com
   ],
   providers: [UserService, CarsService],
   exports: [
+    UserLoginComponent,
     MyRidesComponent,
     CarsListComponent,
     CarDetailComponent,

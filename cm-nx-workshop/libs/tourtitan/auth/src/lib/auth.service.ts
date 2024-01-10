@@ -3,7 +3,7 @@
 import { isPlatformBrowser } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable, catchError, map, of, throwError } from "rxjs";
-import { IUser } from '../../../../shared/api/src/lib/models/user.interface';
+import { IUser, UserRole } from '../../../../shared/api/src/lib/models/user.interface';
 import { Router } from '@angular/router';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 
@@ -44,7 +44,7 @@ export class AuthService {
       }
       login(emailAddress: string, password: string): Observable<IUser | null> {
         return this.http
-          .post<{ results: { access_token: { user: IUser, token: string } } }>(
+          .post<{ results: { emailAddress:string, id:string,name:string,role:UserRole,token:string } }>(
             `${this.endpoint}/login`,
             { emailAddress, password },
             { headers: this.headers }
@@ -52,11 +52,17 @@ export class AuthService {
           .pipe(
             map(response => {
               console.log('Login response:', response);
-              const userWithToken = response.results.access_token;
-              const user = userWithToken.user;
-              const token = user.token;
-              console.log('token: ' + token);
-              user.token = token;
+              const userWithToken = response.results;
+              console.log(userWithToken)
+
+              const user: IUser = {
+                emailAddress: userWithToken.emailAddress,
+                id: userWithToken.id,
+                name: userWithToken.name,
+                role: userWithToken.role,
+                token: userWithToken.token,
+                password: 'Secret'
+              };
               this.saveUserToStorage(user);
               this.currentUserSubject.next(user);
               return user;

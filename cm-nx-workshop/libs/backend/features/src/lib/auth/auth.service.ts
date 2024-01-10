@@ -56,6 +56,10 @@ export class AuthService {
     Logger.log('Attempting to log in user', this.TAG, emailAddress);
 
     // Verifieer de gebruiker door het e-mailadres en wachtwoord te valideren
+    Logger.log(
+      `Attempting to log in user with email: ${emailAddress}`,
+      this.TAG
+    );
     const user = await this.validateUser(emailAddress, pass);
     console.log('Returned user:', user);
     if (user) {
@@ -65,14 +69,12 @@ export class AuthService {
         sub: user.id,
         role: user.role,
       };
-      Logger.log(
-        `Attempting to log in user with ID: ${user.id} and email: ${emailAddress}`,
-        this.TAG
-      );
+      
 
         // Teken het JWT token asynchroon
         const access_token = await this.jwtService.signAsync(payload);
         user.token = access_token;
+        Logger.log(`Sucessfully logged user ${user.id} in`)
         // Retourneer het access token en de gebruikersinformatie, exclusief het wachtwoord
         return  user ;
     } else {

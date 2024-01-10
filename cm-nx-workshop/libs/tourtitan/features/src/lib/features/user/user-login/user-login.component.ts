@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { UserService } from '../user.service';
 import { Subscription } from 'rxjs';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'cm-nx-workshop-user-login',
@@ -15,7 +15,9 @@ export class UserLoginComponent implements OnInit, OnDestroy {
   password!: string;
   errorMessage: string | null = null;
 
-  constructor(private userService: UserService, private router: Router) {}
+  constructor(private userService: UserService,
+    private route: ActivatedRoute,
+     private router: Router) {}
 
   ngOnInit(): void {}
 
@@ -29,5 +31,6 @@ export class UserLoginComponent implements OnInit, OnDestroy {
       this.TAG
     );
     this.userService.authenticate(emailAddress, password);
+    this.router.navigate(['/cars'], {relativeTo:this.route})
   }
 }

@@ -34,11 +34,12 @@ export class LoginComponent {
     this.authService.login(emailAddress, password).subscribe({
       next: (user) => {
         console.log(user); // Debugging
-        this.router.navigate(['/my-rides']);
+        this.router.navigate(['/cars']);
       },
       error: (error) => {
         // Display the error message from the service
-        console.log(this.errorMessage);
+        //console.log(this.errorMessage);
+        console.log(error)
         this.errorMessage = error.message;
       }
     });
