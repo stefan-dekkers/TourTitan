@@ -16,6 +16,8 @@ export class UserNewComponent implements OnInit, OnDestroy {
     name: '',
     emailAddress: '',
     role: UserRole.User,
+    id: '',
+    password: ''
   };
 
   private userSubscription: Subscription | undefined;
