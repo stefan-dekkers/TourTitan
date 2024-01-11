@@ -107,25 +107,23 @@ export class AuthService {
         // If not in a browser environment, gracefully handle the absence of sessionStorage
         return null;
       }
-    
       // Save user to storage
       protected saveUserToStorage(user: IUser): void {
         sessionStorage.setItem(this.storageKey, JSON.stringify(user));
       }
-    
       // Log out the current user
-      logout(): void {
+       logout(): void {
         sessionStorage.removeItem(this.storageKey);
         this.currentUserSubject.next(null);
         this.router.navigate(['/']).then(() => {
           window.location.reload();
         });
-    }
-    isAdmin$(): Observable<boolean> {
+       }
+       isAdmin$(): Observable<boolean> {
         return this.currentUserSubject.asObservable().pipe(
           map(user => user?.role === 'admin'),
         );
-      }
+       }
     
       // Get the current user's role
       getCurrentUserRole(): string {

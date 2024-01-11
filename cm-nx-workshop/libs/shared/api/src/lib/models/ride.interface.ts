@@ -1,3 +1,4 @@
+import { ICar } from "./car.interface";
 import { Id } from "./id.type";
 import { ILocation } from "./location.interface";
 import { IUser } from "./user.interface";
@@ -9,23 +10,22 @@ export enum Status {
 
 export interface IRide {
     id: Id;
-    name: string;
-    driverId: string; 
-    passengers: IUser[]; 
-    vehicleId: string; 
+    driver: IUser; 
+    passengers?: IUser[]; 
+    vehicle: ICar; 
     isPublic: boolean;
     status: Status; 
-    departureLocationId: string ; 
+    departureLocation: ILocation ; 
     arrivalLocation: ILocation;
     departureTime: Date;
-    arrivalTime: Date;
-    distance: number;
+    arrivalTime?: Date;
+    distance?: number;
   }
   
   export type ICreateRide = Pick<
     IRide,
-    'name' | 'driverId' | 'passengers' | 'vehicleId' | 'isPublic' | 
-    'status' | 'departureLocationId' | 'arrivalLocation' | 'departureTime' 
+     'driver' | 'passengers' | 'vehicle' | 'isPublic' | 
+    'status' | 'departureLocation' | 'arrivalLocation' | 'departureTime' 
   >;
   // update the driver and car and departurelocation 
   export type IUpdateRide = Partial<Omit<IRide, 'id'>>;
