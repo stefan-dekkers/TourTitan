@@ -4,6 +4,7 @@ import { JwtService } from '@nestjs/jwt';
 import { IUser } from '@cm-nx-workshop/shared/api';
 import { UserService } from '../user/user.service';
 import { CreateUserDto } from '@cm-nx-workshop/backend/dto';
+import { log } from 'console';
 
 @Injectable()
 export class AuthService {
@@ -55,28 +56,26 @@ export class AuthService {
   async login(emailAddress: string, pass: string) {
     Logger.log('Attempting to log in user', this.TAG, emailAddress);
 
-    // Verifieer de gebruiker door het e-mailadres en wachtwoord te valideren
-    Logger.log(
-      `Attempting to log in user with email: ${emailAddress}`,
-      this.TAG
-    );
+    // Verify user by validating the email address and password
     const user = await this.validateUser(emailAddress, pass);
     console.log('Returned user:', user);
     if (user) {
-      // Maak een payload voor het JWT token met de nodige gebruikersinformatie
+      // Make a payload for the JWT token with the necessary user information
       const payload = {
         username: user.emailAddress,
         sub: user.id,
         role: user.role,
       };
-      
+      Logger.log(
+        `Attempting to log in user with ID: ${user.id} and email: ${emailAddress}`,
+        this.TAG
+      );
 
-        // Teken het JWT token asynchroon
-        const access_token = await this.jwtService.signAsync(payload);
-        user.token = access_token;
-        Logger.log(`Sucessfully logged user ${user.id} in`)
-        // Retourneer het access token en de gebruikersinformatie, exclusief het wachtwoord
-        return  user ;
+      // Draw the JWT token asynchronously
+      const access_token = await this.jwtService.signAsync(payload);
+      user.token = access_token;
+      // Return the access token and the user information, excluding the password
+      return { access_token };
     } else {
       throw new UnauthorizedException('Invalid credentials');
     }

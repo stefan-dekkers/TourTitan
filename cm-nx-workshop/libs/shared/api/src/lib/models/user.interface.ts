@@ -5,10 +5,10 @@ export enum UserRole {
   User = 'user',
 }
 export interface IUser {
-  id?: Id;
+  id: Id;
   name: string;
   emailAddress: string;
-  password?: string;
+  password: string;
   role: UserRole;
   token?: string | undefined;
 }

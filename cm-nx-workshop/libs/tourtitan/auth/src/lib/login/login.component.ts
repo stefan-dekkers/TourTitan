@@ -19,7 +19,7 @@ export class LoginComponent {
   ) {
     this.loginForm = this.formBuilder.group({
       emailAddress: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required]]
+      password: ['', [Validators.required]],
     });
   }
 
@@ -41,8 +41,7 @@ export class LoginComponent {
         //console.log(this.errorMessage);
         console.log(error)
         this.errorMessage = error.message;
-      }
+      },
     });
   }
 }
-
