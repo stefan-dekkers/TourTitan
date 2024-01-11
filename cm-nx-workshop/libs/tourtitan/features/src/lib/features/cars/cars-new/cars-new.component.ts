@@ -5,14 +5,13 @@ import { ICar } from '@cm-nx-workshop/shared/api';
 import { Subscription } from 'rxjs';
 import { Id } from 'libs/shared/api/src/lib/models/id.type';
 
-
 @Component({
   selector: 'cm-nx-workshop-cars-new',
   templateUrl: './cars-new.component.html',
   styles: [],
 })
 export class CarsNewComponent implements OnInit, OnDestroy {
-  carId: Id|null= null;
+  carId: Id | null = null;
   newCar: ICar = {
     name: '',
     plateNumber: '',
@@ -33,37 +32,37 @@ export class CarsNewComponent implements OnInit, OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
-    private carsService: CarsService, 
-    private router: Router) {}
+    private carsService: CarsService,
+    private router: Router
+  ) {}
 
-    ngOnInit(): void {
-      this.route.paramMap.subscribe(async (params) => {
-        this.carId = params.get('id') ?? null;
-        if (this.carId) {
-          // Existing training
-          this.carSubscription = this.carsService.read(this.carId).subscribe(
-            (car) => {
-              this.newCar = car;
-            },
-            (error) => {
-              console.error('Error fetching car:', error);
-            }
-          );
-        } else {
-          // New car
-          
-        }
-      });
-    }
-
-    ngOnDestroy(): void {
-      if (this.carSubscription) {
-        this.carSubscription.unsubscribe();
+  ngOnInit(): void {
+    this.route.paramMap.subscribe(async (params) => {
+      this.carId = params.get('id') ?? null;
+      if (this.carId) {
+        // Existing training
+        this.carSubscription = this.carsService.read(this.carId).subscribe(
+          (car) => {
+            this.newCar = car;
+          },
+          (error) => {
+            console.error('Error fetching car:', error);
+          }
+        );
+      } else {
+        // New car
       }
+    });
+  }
+
+  ngOnDestroy(): void {
+    if (this.carSubscription) {
+      this.carSubscription.unsubscribe();
     }
+  }
 
   submitForm() {
-    console.log('Creating new car')
+    console.log('Creating new car');
     this.carsService.create(this.newCar).subscribe({
       next: (createdCar) => {
         console.log('Car added successfully:', createdCar);

@@ -1,8 +1,15 @@
-import { Status } from "@cm-nx-workshop/shared/api";
-import { Column, Entity, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import { UserEntity } from "../user/user.entity";
-import { CarEntity } from "../car/car.entity";
-import { LocationEntity } from "../location/location.entity";
+import { Status } from '@cm-nx-workshop/shared/api';
+import {
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { UserEntity } from '../user/user.entity';
+import { CarEntity } from '../car/car.entity';
+import { LocationEntity } from '../location/location.entity';
 
 @Entity()
 export class RideEntity {
@@ -17,7 +24,7 @@ export class RideEntity {
   @JoinTable()
   passengers!: UserEntity[];
 
-  @ManyToOne(() => CarEntity,(car) => car)
+  @ManyToOne(() => CarEntity, (car) => car)
   vehicle!: CarEntity;
 
   @Column()
@@ -25,7 +32,7 @@ export class RideEntity {
 
   @Column({
     type: 'varchar',
-    enum: Status
+    enum: Status,
   })
   status!: Status;
 
@@ -38,9 +45,9 @@ export class RideEntity {
   @Column('datetime')
   departureTime!: Date;
 
-  @Column({type:'datetime', nullable:true})
+  @Column({ type: 'datetime', nullable: true })
   arrivalTime!: Date;
 
-  @Column({type:'int', nullable:true})
+  @Column({ type: 'int', nullable: true })
   distance!: number;
 }

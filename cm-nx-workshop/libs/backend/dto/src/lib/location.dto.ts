@@ -7,6 +7,7 @@ export class CreateLocationDto implements ICreateLocation {
   @IsNotEmpty()
   @IsString()
   city!: string;
+
   @ApiProperty({
     example: '4352RD',
     description: 'The zipcode of the location',
@@ -14,6 +15,7 @@ export class CreateLocationDto implements ICreateLocation {
   @IsNotEmpty()
   @IsString()
   zipCode!: string;
+
   @ApiProperty({
     example: 'Bredaweg',
     description: 'The street of the location',
@@ -21,6 +23,7 @@ export class CreateLocationDto implements ICreateLocation {
   @IsNotEmpty()
   @IsString()
   street!: string;
+
   @ApiProperty({
     example: '135',
     description: 'The house number of the location',
