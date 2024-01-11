@@ -21,8 +21,9 @@
         ],
         "styles": [
           "./node_modules/bootstrap/dist/css/bootstrap.min.css",
-          "apps/tour-titan/src/assets/styles.css"],        
-          "scripts": [],
+          "apps/tour-titan/src/assets/styles.css"
+        ],
+        "scripts": [],
         "server": "apps/tour-titan/src/main.server.ts",
         "prerender": true,
         "ssr": {
