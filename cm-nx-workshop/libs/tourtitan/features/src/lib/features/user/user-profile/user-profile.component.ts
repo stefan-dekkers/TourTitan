@@ -39,5 +39,9 @@ export class UserProfileComponent  implements OnInit, OnDestroy{
       if (this.subscription) this.subscription.unsubscribe();
     }
 
+    logout(): void{
+      this.authService.logout();
+    }
+
 }
 

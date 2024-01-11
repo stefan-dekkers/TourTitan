@@ -20,11 +20,11 @@ export class AuthService {
     // Use .lean() to get a plain object and then await the result
     const user = await this.userService.findOneByEmail(emailAddress);
     if (!user) {
-      throw new UnauthorizedException('Email niet gevonden');
+      throw new UnauthorizedException('E-mail adress not found');
     }
     if (pass !== user.password) {
       Logger.log('Validating user password', this.TAG, pass, user.password);
-      throw new UnauthorizedException('Wachtwoord incorrect');
+      throw new UnauthorizedException('Incorrect password');
     }
     // Since you're using .lean(), the password won't be included, but if it is, omit it here
     const { password, ...result } = user;

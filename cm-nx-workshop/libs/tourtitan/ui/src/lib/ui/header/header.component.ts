@@ -19,10 +19,10 @@ export class HeaderComponent implements OnInit {
     this.imagePath = 'assets/img/tt-logo-128.png';
   }
   isLoggedIn(): boolean{
-    if (this.authService.getCurrentUser !== null) {
-      return true
+    if (this.authService.getCurrentUser() === null) {
+      return false
     }
-    return false;
+    return true;
   }
   
 }
