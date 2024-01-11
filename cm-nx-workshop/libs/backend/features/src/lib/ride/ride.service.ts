@@ -52,25 +52,24 @@ export class RideService {
 
     return ride;
   }
-  validateRide(ride: CreateRideDto): boolean {
+  validateRideForCurrentOrNextDay(ride: CreateRideDto): boolean {
     const currentDateTime = new Date();
     const departureDateTime = new Date(ride.departureTime);
 
-    const tomorrow = new Date(currentDateTime);
-    tomorrow.setDate(currentDateTime.getDate() + 1);
+    const endOfTomorrow = new Date(currentDateTime);
+    endOfTomorrow.setDate(currentDateTime.getDate() + 1);
+    endOfTomorrow.setHours(24, 59, 59, 999);
 
     this.logger.debug(
-      `Validating ride: Departure DateTime - ${departureDateTime.toISOString()}, Current DateTime - ${currentDateTime.toISOString()}, Tomorrow - ${tomorrow.toISOString()}`
+      `Validating ride: Departure DateTime - ${departureDateTime.toISOString()}, Current DateTime - ${currentDateTime.toISOString()}, End of Tomorrow - ${endOfTomorrow.toISOString()}`
     );
 
     const isValid =
-      (departureDateTime > currentDateTime &&
-        departureDateTime.toDateString() === currentDateTime.toDateString()) ||
-      departureDateTime.toDateString() === tomorrow.toDateString();
+      departureDateTime > currentDateTime && departureDateTime <= endOfTomorrow;
 
     if (!isValid) {
       this.logger.warn(
-        `Ride validation failed: Departure datetime ${departureDateTime.toISOString()} is not allowed. It must be later than the current time if today or any time if tomorrow.`
+        `Ride validation failed: Departure datetime ${departureDateTime.toISOString()} is not allowed. It must be later than the current time and cannot be later than the end of tomorrow.`
       );
     }
 
@@ -108,15 +107,19 @@ export class RideService {
   async create(ride: CreateRideDto): Promise<IRide | null> {
     this.logger.log(`Creating new ride: ${JSON.stringify(ride)}`);
 
-    if (!this.validateRide(ride)) {
+    if (!this.validateRideForCurrentOrNextDay(ride)) {
       const currentDateTime = new Date();
       const departureDateTime = new Date(ride.departureTime);
 
-      const tomorrow = new Date(currentDateTime);
-      tomorrow.setDate(currentDateTime.getDate() + 1);
+      const endOfTomorrow = new Date(currentDateTime);
+      endOfTomorrow.setDate(currentDateTime.getDate() + 1);
+      endOfTomorrow.setHours(24, 59, 59, 999);
 
+      this.logger.warn(
+        `Invalid ride creation attempt. Current DateTime: ${currentDateTime.toISOString()}, Requested Departure DateTime: ${departureDateTime.toISOString()}`
+      );
       throw new ConflictException(
-        `Invalid departureTime: ${departureDateTime.toISOString()} is not within the allowed range (Today: ${currentDateTime.toISOString()}, Tomorrow: ${tomorrow.toISOString()})`
+        `Invalid departureTime: ${departureDateTime.toISOString()} is not within the allowed range (Today: ${currentDateTime.toISOString()}, Tomorrow: ${endOfTomorrow.toISOString()})`
       );
     }
 
@@ -129,7 +132,12 @@ export class RideService {
     }
 
     ride.arrivalLocation = await this.createRideLocation(ride);
+    const currentDateTime = new Date();
+    const departureDateTime = new Date(ride.departureTime);
 
+    this.logger.log(
+      `Ride creation successful. Current DateTime: ${currentDateTime.toISOString()}, Departure DateTime: ${departureDateTime.toISOString()}`
+    );
     const newRide = await this.rideRepository.save(
       this.rideRepository.create(ride)
     );
@@ -191,15 +199,17 @@ export class RideService {
       arrivalTime instanceof Date ? arrivalTime : new Date(arrivalTime);
 
     const currentDateTime = new Date();
+    console.log(`Starting current date: ${currentDateTime}`);
+    console.log(`Starting arrival date: ${arrivalDateTime}`);
     if (arrivalDateTime > currentDateTime) {
       throw new ConflictException('Arrival time cannot be in the future');
     }
 
-    if (arrivalDateTime <= ride.departureTime) {
-      throw new ConflictException(
-        'Arrival time must be later than the departure time'
-      );
-    }
+    // if (arrivalDateTime <= ride.departureTime) {
+    //   throw new ConflictException(
+    //     'Arrival time must be later than the departure time'
+    //   );
+    // }
 
     const vehicle = await this.carRepository.findOne({
       where: { id: ride.vehicle.id },
@@ -304,6 +314,24 @@ export class RideService {
     }
     ride.passengers.splice(passengerIndex, 1);
     await this.rideRepository.save(ride);
+    return ride;
+  }
+  async updateStatus(rideId: string): Promise<IRide> {
+    const ride = await this.rideRepository.findOne({ where: { id: rideId } });
+
+    if (!ride) {
+      throw new Error(`Ride with ID ${rideId} not found`);
+    }
+
+    if (ride.status === Status.FINISHED) {
+      return ride;
+    }
+
+    if (ride.status === Status.PENDING) {
+      ride.status = Status.DRIVING;
+      await this.rideRepository.save(ride);
+    }
+
     return ride;
   }
 }

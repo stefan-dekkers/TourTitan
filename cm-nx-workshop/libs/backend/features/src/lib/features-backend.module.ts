@@ -13,6 +13,7 @@ import { LocationEntity } from './location/location.entity';
 import { RideController } from './ride/ride.controller';
 import { RideService } from './ride/ride.service';
 import { RideEntity } from './ride/ride.entity';
+import { TasksService } from './tasks.service';
 
 @Module({
   imports: [
@@ -28,7 +29,7 @@ import { RideEntity } from './ride/ride.entity';
     ]),
   ],
   controllers: [AuthController, UserController, CarController, RideController],
-  providers: [UserService, AuthService, CarService, RideService],
+  providers: [UserService, AuthService, CarService, RideService, TasksService],
   exports: [UserService, AuthService, CarService, RideService],
 })
 export class FeaturesBackendModule {}
