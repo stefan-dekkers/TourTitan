@@ -1,0 +1,77 @@
+<div class="row">
+  <div class="col-lg-2 col-md-12 col-sm-12">
+    <cm-nx-workshop-sidebar-component></cm-nx-workshop-sidebar-component>
+  </div>
+  <div class="col-lg-10 col-md-9 col-sm-9">
+    <section class="py-1">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-3 d-none d-lg-block"></div>
+          <div class="col-lg-6 col-md-12 col-sm-12 full-vh pt-3">
+            <div class="card shadow-lg">
+              <div class="card-body">
+                <ng-container *ngIf="isUpdate(); else createRideText">
+                  <h4 class="card-title mb-4">Update ride</h4>
+                </ng-container>
+                <ng-template #createRideText>
+                  <h4 class="card-title mb-4">Add a new ride</h4>
+                </ng-template>
+                <div *ngIf="rideForm.submitted && rideForm.invalid" class="alert alert-danger mt-3">
+                  Please fill in all the required fields.
+                </div>
+                <h5 class="card-title mb-4">Arrival location information:</h5>
+                <form (ngSubmit)="submitForm()" #rideForm="ngForm" class="row">
+                  <div class="col-md-6">
+                    <div class="mb-3">
+                      <label for="arrivalLocation" class="form-text-2 form-label">Choose existing location:</label>
+                      <div class="position-relative">
+                        <select
+                          class="input-2 form-control"
+                          id="arrivalLocation"
+                          name="arrivalLocation"
+                          [(ngModel)]="newRide.arrivalLocation"
+                          required
+                          (input)="filterLocations()"
+                        >
+                          <option *ngFor="let location of filteredLocations">
+                            {{ location.city }}, {{ location.zipCode }}, {{ location.street }}, {{ location.number }}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="mb-3">
+                      <label for="plateNumber" class="form-text-2 form-label">Add a new location:</label>
+                      <button type="submit" class="button-2 input" aria-label="Add" style="width: 100%">
+                        <div class="button-text-2">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+                          </svg>
+                          Submit
+                        </div>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <button type="submit" class="mt-2 button-2 input" aria-label="Add" style="width: 100%">
+                      <div class="button-text-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
+                          <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                          <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+                        </svg>
+                        Submit
+                      </div>
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 d-none d-lg-block"></div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>

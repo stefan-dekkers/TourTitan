@@ -3,9 +3,8 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { UserService } from './user/user.service';
 import { FormsModule } from '@angular/forms';
-import { MyRidesComponent } from './my-rides/my-rides.component';
+import { MyRidesListComponent } from './rides/my-rides/my-rides-list/my-rides-list.component';
 import { CarsListComponent } from './cars/cars-list/cars-list.component';
-import { AvailableRidesComponent } from './available-rides/available-rides.component';
 import { UserProfileComponent } from './user/user-profile/user-profile.component';
 import { RouterModule } from '@angular/router';
 import { CarsService } from './cars/cars.service';
@@ -16,6 +15,10 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { UserListComponent } from './user/user-list/user-list.component';
 import { UserNewComponent } from './user/user-new/user-new.component';
 import { UserDetailComponent } from './user/user-detail/user-detail.component';
+import { NewRideComponent } from './rides/new-ride/new-ride.component';
+import { AvailableRidesComponent } from './rides/available-rides/available-ride.component';
+import { RidesService } from './rides/rides.service';
+
 
 @NgModule({
   imports: [CommonModule, HttpClientModule, FormsModule, RouterModule],
@@ -23,29 +26,31 @@ import { UserDetailComponent } from './user/user-detail/user-detail.component';
     UserListComponent,
     UserDetailComponent,
     UserNewComponent,
-    MyRidesComponent,
+    MyRidesListComponent,
     CarsListComponent,
     CarsNewComponent,
-    AvailableRidesComponent,
     UserProfileComponent,
     CarDetailComponent,
     CarDeleteComponent,
-    SidebarComponent
+    SidebarComponent,
+    NewRideComponent,
+    AvailableRidesComponent,
   ],
-  providers: [UserService, CarsService],
+  providers: [UserService, CarsService, RidesService],
   exports: [
     UserListComponent,
     UserDetailComponent,
     UserNewComponent,
-    MyRidesComponent,
+    MyRidesListComponent,
     CarsListComponent,
     CarDetailComponent,
     CarsNewComponent,
-    AvailableRidesComponent,
     UserProfileComponent,
     CarDeleteComponent,
     SidebarComponent,
     CarDeleteComponent,
+    NewRideComponent,
+    AvailableRidesComponent,
   ],
 })
 export class FeaturesModule {}
