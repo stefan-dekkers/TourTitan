@@ -178,9 +178,9 @@ export class RideService {
     if (!ride) {
       throw new NotFoundException(`Ride with ID ${rideId} not found`);
     }
-    // if (ride.status === Status.FINISHED) {
-    //   throw new ConflictException('This ride has already been finished');
-    // }
+    if (ride.status === Status.FINISHED) {
+      throw new ConflictException('This ride has already been finished');
+    }
     if (ride.driver.id !== driverId) {
       throw new UnauthorizedException(
         'Only the assigned driver can finish the ride'
