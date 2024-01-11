@@ -185,7 +185,6 @@ export class RideService {
       );
     }
 
-    // Convert arrivalTime to Date object if it's not already one
     const arrivalDateTime =
       arrivalTime instanceof Date ? arrivalTime : new Date(arrivalTime);
 
@@ -234,14 +233,14 @@ export class RideService {
     if (!ride) {
       throw new NotFoundException(`Ride with ID ${rideId} not found`);
     }
-    if (!ride.isPublic) {
-      throw new UnauthorizedException(
-        'This ride is not public and cannot be joined'
-      );
-    }
     if (ride.driver.id === userId) {
       throw new ConflictException(
         `The driver of the ride cannot join as a passenger`
+      );
+    }
+    if (!ride.isPublic) {
+      throw new UnauthorizedException(
+        'This ride is not public and cannot be joined'
       );
     }
     if (ride.passengers.some((passenger) => passenger.id === userId)) {
@@ -273,6 +272,7 @@ export class RideService {
     await this.rideRepository.save(ride);
     return ride;
   }
+
   async unjoinRide(rideId: string, userId: string): Promise<IRide> {
     const ride = await this.rideRepository.findOne({
       where: { id: rideId },
@@ -291,7 +291,6 @@ export class RideService {
         `User with ID ${userId} is not a passenger of this ride`
       );
     }
-
     ride.passengers.splice(passengerIndex, 1);
     await this.rideRepository.save(ride);
     return ride;

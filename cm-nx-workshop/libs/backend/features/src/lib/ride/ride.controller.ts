@@ -52,7 +52,7 @@ export class RideController {
       throw new Error(`Could not find ride with id ${id}`);
     }
     console.log(`driver with name ${finishedRide.driver.name}`);
-    // admin mag een ride beeindigen
+    // Admin can finish a ride
     if (driverId !== finishedRide.driver.id) {
       throw new UnauthorizedException(
         'You are not authorized to finish this ride'

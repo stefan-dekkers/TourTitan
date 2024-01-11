@@ -26,7 +26,7 @@ a {
     --color2: #101E1E;
     --color3: #0074E8;
     --color4: #ffffff;
-    --color5: #EDEDED;
+    --color5: #f4f4f4;
     --color6:#c1c1c1;
     --color7:#CCE5FF;
 }
@@ -202,8 +202,18 @@ hr{
     font-weight:600;
 }
 
+.button-3{
+    width:50%;
+    background-color: var(--color3);
 
+}
 
+.button-text-3{
+    color: var(--color5);
+    font-family: var(--font1);
+    font-size:16px;
+    font-weight:600;
+}
 
 .license-plate {
     position: absolute;
@@ -217,5 +227,33 @@ hr{
         align-items: center;
     justify-content: center;
     font-weight: 700;
+
+}
+
+
+.license-plate-2 {
+    bottom: 10px;
+    padding-top:2px;
+    width: calc(50% - 20%); /* Adjust the width as needed */
+    height: 30px; /* Adjust the height as needed */
+    background: url('./img/dutch-licenseplate.png') center center no-repeat;
+    background-size:contain;
+    display: flex;
+        align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    margin:0;
+}
+
+.hr-2{
+    border-radius: 25px;
+    border-top: 3px solid #0074e8;
+    background-color: #0074e8;
+    opacity:1;
+}
+
+.details-list{
+    margin-top:14px;
+    margin-bottom:14px;
 
 }

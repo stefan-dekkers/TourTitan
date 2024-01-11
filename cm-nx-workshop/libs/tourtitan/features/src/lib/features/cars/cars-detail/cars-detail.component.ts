@@ -1,8 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ICar } from '@cm-nx-workshop/shared/api';
 import { CarsService } from '../cars.service';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { CarDeleteComponent } from './car-delete/car-delete.component';
+// import { CarDeleteComponent } from './car-delete/car-delete.component';
 
 @Component({
     selector: 'cm-nx-workshop-cars',
@@ -14,8 +17,10 @@ import { CarsService } from '../cars.service';
     subscription: Subscription | undefined = undefined;
   
     constructor(
+      private modalService: NgbModal,
       private carsService: CarsService,
-      private route: ActivatedRoute
+      private route: ActivatedRoute,
+      private router: Router
     ) {}
   
     ngOnInit(): void {
@@ -30,23 +35,39 @@ import { CarsService } from '../cars.service';
       });
     }
   
-    deleteCar(): void {
-      if (this.car?.id) {
-        this.carsService.delete(this.car).subscribe({
-          next: () => {
-            console.log('Car deleted successfully');
-            // Optionally, you can navigate to another page or perform additional actions after deletion.
-          },
-          error: (error) => {
-            console.error('Error deleting car:', error);
-          },
-        });
-      } else {
-        console.error('Car id is missing for deletion.');
-      }
+
+  deleteCar(): void {
+    if (this.car) {
+      const modalRef: NgbModalRef = this.modalService.open(CarDeleteComponent, {
+        centered: true,
+        backdrop: false,
+      });
+      modalRef.componentInstance.car = this.car;
+
+      modalRef.componentInstance.confirmDelete.subscribe(() => {
+        if (this.car?.id) {
+          this.carsService.delete(this.car).subscribe({
+            next: () => {
+              console.log('Car deleted successfully');
+              this.router.navigate(['/cars']); 
+            },
+            error: (error) => {
+              console.error('Error deleting car:', error);
+            },
+          });
+        } else {
+          console.error('Car id is missing for deletion.');
+        }
+      });
+    } else {
+      console.error('Car not found.');
     }
+  }
+
   
     ngOnDestroy(): void {
       if (this.subscription) this.subscription.unsubscribe();
     }
+
+    
   }

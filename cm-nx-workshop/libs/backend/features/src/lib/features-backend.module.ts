@@ -14,17 +14,21 @@ import { RideController } from './ride/ride.controller';
 import { RideService } from './ride/ride.service';
 import { RideEntity } from './ride/ride.entity';
 
-
 @Module({
   imports: [
     JwtModule.register({
       secret: 'secret',
       signOptions: { expiresIn: '60m' },
     }),
-    TypeOrmModule.forFeature([UserEntity, CarEntity, LocationEntity,RideEntity]),
+    TypeOrmModule.forFeature([
+      UserEntity,
+      CarEntity,
+      LocationEntity,
+      RideEntity,
+    ]),
   ],
-  controllers: [AuthController, UserController, CarController,RideController],
-  providers: [UserService, AuthService, CarService,RideService],
-  exports: [UserService, AuthService, CarService,RideService],
+  controllers: [AuthController, UserController, CarController, RideController],
+  providers: [UserService, AuthService, CarService, RideService],
+  exports: [UserService, AuthService, CarService, RideService],
 })
 export class FeaturesBackendModule {}

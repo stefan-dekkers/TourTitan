@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService } from 'libs/tourtitan/auth/src/lib/auth.service';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'cm-nx-workshop-login',
@@ -19,7 +19,7 @@ export class LoginComponent {
   ) {
     this.loginForm = this.formBuilder.group({
       emailAddress: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required]]
+      password: ['', [Validators.required]],
     });
   }
 
@@ -39,8 +39,7 @@ export class LoginComponent {
       error: (error) => {
         // Display the error message from the service
         this.errorMessage = error.message;
-      }
+      },
     });
   }
 }
-

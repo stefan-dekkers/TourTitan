@@ -2,7 +2,7 @@ import { Id } from './id.type';
 import { ILocation } from './location.interface';
 
 export interface ICar {
-  id: Id;
+  id?: Id;
   name: string;
   plateNumber: string;
   capacity: number;

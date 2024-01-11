@@ -1,7 +1,6 @@
 import { IRide, UserRole } from '@cm-nx-workshop/shared/api';
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 import { RideEntity } from '../ride/ride.entity';
-// import { RideEntity } from '../ride/ride.entity';
 
 @Entity()
 export class UserEntity {
