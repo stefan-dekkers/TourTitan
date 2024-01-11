@@ -1,6 +1,6 @@
-import { IRide, UserRole } from '@cm-nx-workshop/shared/api';
+import { UserRole } from '@cm-nx-workshop/shared/api';
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
-// import { RideEntity } from '../ride/ride.entity';
+import { RideEntity } from '../ride/ride.entity';
 
 @Entity()
 export class UserEntity {
@@ -15,14 +15,13 @@ export class UserEntity {
 
   @Column()
   password!: string;
-  
- @Column({
-    type: 'varchar', 
+
+  @Column({
+    type: 'varchar',
     enum: UserRole,
   })
   role!: UserRole;
-  
-  // @OneToMany(() => RideEntity, ride => ride.driver)
-  // drivenRides!: IRide[];
-}
 
+  @OneToMany(() => RideEntity, (ride) => ride.driver)
+  drivenRides!: string[];
+}

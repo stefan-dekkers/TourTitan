@@ -6,6 +6,7 @@ import { CarDetailComponent } from 'libs/tourtitan/features/src/lib/features/car
 import { UserProfileComponent } from 'libs/tourtitan/features/src/lib/features/user/user-profile/user-profile.component';
 import { AvailableRidesComponent } from 'libs/tourtitan/features/src/lib/features/available-rides/available-rides.component';
 import { CarsNewComponent } from 'libs/tourtitan/features/src/lib/features/cars/cars-new/cars-new.component';
+
 export const appRoutes: Route[] = [
   {
     path: 'login',
