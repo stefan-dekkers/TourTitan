@@ -1,11 +1,6 @@
-import { LoginComponent } from './../../../../libs/tourtitan/auth/src/lib/login/login.component';
 import { Route } from '@angular/router';
-import { MyRidesComponent } from 'libs/tourtitan/features/src/lib/features/my-rides/my-rides.component';
-import { CarsListComponent } from 'libs/tourtitan/features/src/lib/features/cars/cars-list/cars-list.component';
-import { CarDetailComponent } from 'libs/tourtitan/features/src/lib/features/cars/cars-detail/cars-detail.component';
-import { UserProfileComponent } from 'libs/tourtitan/features/src/lib/features/user/user-profile/user-profile.component';
-import { AvailableRidesComponent } from 'libs/tourtitan/features/src/lib/features/available-rides/available-rides.component';
-import { CarsNewComponent } from 'libs/tourtitan/features/src/lib/features/cars/cars-new/cars-new.component';
+import { LoginComponent } from '@cm-nx-workshop/tourtitan/auth';
+
 
 export const appRoutes: Route[] = [
   {

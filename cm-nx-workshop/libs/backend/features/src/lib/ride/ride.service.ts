@@ -178,7 +178,9 @@ export class RideService {
     if (!ride) {
       throw new NotFoundException(`Ride with ID ${rideId} not found`);
     }
-
+    // if (ride.status === Status.FINISHED) {
+    //   throw new ConflictException('This ride has already been finished');
+    // }
     if (ride.driver.id !== driverId) {
       throw new UnauthorizedException(
         'Only the assigned driver can finish the ride'
@@ -188,7 +190,12 @@ export class RideService {
     const arrivalDateTime =
       arrivalTime instanceof Date ? arrivalTime : new Date(arrivalTime);
 
-    if (arrivalDateTime < ride.departureTime) {
+    const currentDateTime = new Date();
+    if (arrivalDateTime > currentDateTime) {
+      throw new ConflictException('Arrival time cannot be in the future');
+    }
+
+    if (arrivalDateTime <= ride.departureTime) {
       throw new ConflictException(
         'Arrival time must be later than the departure time'
       );
@@ -204,20 +211,24 @@ export class RideService {
       );
     }
 
-    if (newMileage < vehicle.mileage) {
+    if (newMileage <= vehicle.mileage) {
       throw new ConflictException(
         'New mileage must be greater than the current vehicle mileage'
       );
     }
 
     // Update vehicle details
+    const vehicleMileage = vehicle.mileage;
     vehicle.mileage = newMileage;
     vehicle.location = ride.arrivalLocation;
     vehicle.isAvailable = true;
     await this.carRepository.save(vehicle);
 
     // Update ride details
-    ride.distance = newMileage - vehicle.mileage;
+    ride.distance = newMileage - vehicleMileage;
+    console.log(
+      `newMileage: ${newMileage}  carMileageOld: ${vehicleMileage}  newCarMileage: ${vehicle.mileage} rideDistance: ${ride.distance}`
+    );
     ride.status = Status.FINISHED;
     ride.arrivalTime = arrivalDateTime;
     await this.rideRepository.save(ride);
