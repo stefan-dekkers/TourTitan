@@ -139,6 +139,7 @@ export class AuthService {
         const userString = sessionStorage.getItem(this.storageKey);
         if (userString) {
           const user = JSON.parse(userString);
+          console.log('aaaaaaaaaaaaaaaaaa'+user)
           // Check if the user has the 'admin' role
           if (user?.role === 'admin') {
             return true
