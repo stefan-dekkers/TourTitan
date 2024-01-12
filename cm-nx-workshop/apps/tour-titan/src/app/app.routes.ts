@@ -12,6 +12,7 @@ import { NewRideComponent } from 'libs/tourtitan/features/src/lib/features/rides
 import { LoginComponent } from '@cm-nx-workshop/tourtitan/auth';
 
 
+import { RideDetailComponent } from 'libs/tourtitan/features/src/lib/features/rides/ride-details/ride-details.component';
 export const appRoutes: Route[] = [
   {
     path: 'login',
@@ -85,6 +86,14 @@ export const appRoutes: Route[] = [
   },{
     path: 'available-rides/new',
     component: NewRideComponent,
+    pathMatch: 'full'
+  },{
+    path: 'available-rides/:id',
+    component: RideDetailComponent,
+    pathMatch: 'full'
+  },{
+    path: 'my-rides/:id',
+    component: RideDetailComponent,
     pathMatch: 'full'
   }
 

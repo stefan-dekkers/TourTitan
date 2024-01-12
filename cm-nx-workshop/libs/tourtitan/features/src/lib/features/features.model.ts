@@ -18,7 +18,7 @@ import { UserDetailComponent } from './user/user-detail/user-detail.component';
 import { NewRideComponent } from './rides/new-ride/new-ride.component';
 import { AvailableRidesComponent } from './rides/available-rides/available-ride.component';
 import { RidesService } from './rides/rides.service';
-
+import { RideDetailComponent } from './rides/ride-details/ride-details.component';
 
 @NgModule({
   imports: [CommonModule, HttpClientModule, FormsModule, RouterModule],
@@ -35,6 +35,7 @@ import { RidesService } from './rides/rides.service';
     SidebarComponent,
     NewRideComponent,
     AvailableRidesComponent,
+    RideDetailComponent
   ],
   providers: [UserService, CarsService, RidesService],
   exports: [
@@ -53,6 +54,7 @@ import { RidesService } from './rides/rides.service';
     AvailableRidesComponent,
     UserProfileComponent,
     CarDeleteComponent,
+    RideDetailComponent
   ],
 })
 export class FeaturesModule {}
