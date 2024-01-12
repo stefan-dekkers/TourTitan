@@ -24,7 +24,7 @@ export class LoginComponent {
   }
 
   onSubmit(): void {
-    console.log('poging inloggen met userdata: ',this.loginForm.value); // Debugging
+    // console.log('poging inloggen met userdata: ',this.loginForm.value); // Debugging
     if (this.loginForm.invalid) {
       this.loginForm.markAllAsTouched();
       return;

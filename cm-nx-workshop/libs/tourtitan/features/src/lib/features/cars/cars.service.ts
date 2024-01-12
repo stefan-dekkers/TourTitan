@@ -16,7 +16,7 @@ export class CarsService {
   constructor(private readonly http: HttpClient) {}
 
   public list(options?: any): Observable<ICar[] | null> {
-    console.log(`list ${this.endpoint}`);
+    // console.log(`list ${this.endpoint}`);
 
     return this.http
       .get<ApiResponse<ICar[]>>(this.endpoint, {
@@ -25,36 +25,36 @@ export class CarsService {
       })
       .pipe(
         map((response: any) => response.results as ICar[]),
-        tap(console.log),
+        tap(),
         catchError(this.handleError)
       );
   }
 
   public read(id: string | null, options?: any): Observable<ICar> {
     const url = `${this.endpoint}/${id}`;
-    console.log(`get ${url}`);
+    // console.log(`get ${url}`);
     return this.http
       .get<ApiResponse<ICar>>(url, {
         ...options,
         ...httpOptions,
       })
       .pipe(
-        tap(console.log),
+        tap(),
         map((response: any) => response.results as ICar),
         catchError(this.handleError)
       );
   }
 
   public delete(car: ICar): Observable<ICar> {
-    console.log(`delete ${this.endpoint}/${car.id}`);
+    // console.log(`delete ${this.endpoint}/${car.id}`);
 
     return this.http
       .delete<ApiResponse<ICar>>(`${this.endpoint}/${car.id}`)
-      .pipe(tap(console.log), catchError(this.handleError));
+      .pipe(tap(), catchError(this.handleError));
   }
 
   public create(car: ICar, options?: any): Observable<ICar> {
-    console.log(`create ${this.endpoint}`);
+    // console.log(`create ${this.endpoint}`);
 
     return this.http
       .post<ApiResponse<ICar>>(this.endpoint, car, {
@@ -62,7 +62,7 @@ export class CarsService {
         ...options,
       })
       .pipe(
-        tap(console.log),
+        tap(),
         map((response: any) => response.results as ICar),
         catchError(this.handleError)
       );
@@ -70,12 +70,12 @@ export class CarsService {
 
   public update(id: string, car: ICar, options?: any): Observable<ICar | null> {
     const url = `${this.endpoint}/${id}`;
-    console.log(`update ${this.endpoint}`);
+    // console.log(`update ${this.endpoint}`);
 
     return this.http
       .put<ApiResponse<ICar>>(url, car, { ...httpOptions, ...options })
       .pipe(
-        tap(console.log),
+        tap(),
         map((response: any) => response.results as ICar),
         catchError(this.handleError)
       );

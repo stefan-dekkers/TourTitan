@@ -45,7 +45,7 @@ export class CarsNewComponent implements OnInit, OnDestroy {
           this.carSubscription = this.carsService.read(this.carId).subscribe(
             (car) => {
               this.newCar = car;
-              console.log(this.newCar.imageUrl);
+              // console.log(this.newCar.imageUrl);
             },
             (error) => {
               console.error('Error fetching car:', error);
@@ -69,13 +69,13 @@ export class CarsNewComponent implements OnInit, OnDestroy {
   }
 
   submitForm() {
-    console.log('onSubmit - create/update');
+    // console.log('onSubmit - create/update');
 
     if (this.carId) {
-      console.log('Update new car');
+      // console.log('Update new car');
       this.carsService.update(this.carId, this.newCar).subscribe({
         next: (car) => {
-          console.log('Car added updated:', car);
+          // console.log('Car added updated:', car);
           this.router.navigate([`/cars/${this.carId}`], {
             relativeTo: this.route,
           });
@@ -85,7 +85,7 @@ export class CarsNewComponent implements OnInit, OnDestroy {
         },
       });
     } else {
-      console.log('Creating new car');
+      // console.log('Creating new car');
       this.carsService.create(this.newCar).subscribe({
         next: (createdCar) => {
           console.log('Car added successfully:', createdCar);

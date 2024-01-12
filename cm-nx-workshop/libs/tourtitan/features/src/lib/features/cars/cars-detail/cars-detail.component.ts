@@ -54,7 +54,7 @@ export class CarDetailComponent implements OnInit, OnDestroy {
         if (this.car?.id) {
           this.carsService.delete(this.car).subscribe({
             next: () => {
-              console.log('Car deleted successfully');
+              // console.log('Car deleted successfully');
               this.router.navigate(['/cars']);
             },
             error: (error) => {
