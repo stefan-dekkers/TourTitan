@@ -75,5 +75,10 @@ export class CarDetailComponent implements OnInit, OnDestroy {
       if (this.subscription) this.subscription.unsubscribe();
     }
 
-    
+    isAdmin(): boolean{
+      if (this.authService.isAdmin()) {
+        return true;
+      }
+      return false;
+    }
   }

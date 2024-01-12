@@ -3,6 +3,8 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { map, catchError, tap } from 'rxjs/operators';
 import { ApiResponse, ICar } from '@cm-nx-workshop/shared/api';
 import { Injectable } from '@angular/core';
+import { CreateCarDto, UpdateCarDto } from '@cm-nx-workshop/backend/dto';
+
 
 export const httpOptions = {
   observe: 'body' as const,
@@ -53,14 +55,11 @@ export class CarsService {
       .pipe(tap(console.log), catchError(this.handleError));
   }
 
-  public create(car: ICar, options?: any): Observable<ICar> {
+  public create(car: ICar,options?: any): Observable<ICar> {
     console.log(`create ${this.endpoint}`);
 
     return this.http
-      .post<ApiResponse<ICar>>(this.endpoint, car, {
-        ...httpOptions,
-        ...options,
-      })
+      .post<ApiResponse<ICar>>(this.endpoint, car, {...httpOptions, ...options})
       .pipe(
         tap(console.log),
         map((response: any) => response.results as ICar),

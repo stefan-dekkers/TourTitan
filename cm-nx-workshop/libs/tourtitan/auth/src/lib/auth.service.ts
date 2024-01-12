@@ -167,7 +167,7 @@ export class AuthService {
         return this.currentUserSubject.asObservable();
       }
       getCurrentUser(): IUser | null {
-        console.log('currentUser', this.currentUserSubject);
+        // console.log('currentUser', this.currentUserSubject);
         return this.currentUserSubject.value;
       }
       canEdit(userId: string): boolean {

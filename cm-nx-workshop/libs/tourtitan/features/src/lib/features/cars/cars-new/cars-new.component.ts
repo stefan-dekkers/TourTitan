@@ -5,6 +5,8 @@ import { ICar } from '@cm-nx-workshop/shared/api';
 import { Subscription } from 'rxjs';
 import { Id } from 'libs/shared/api/src/lib/models/id.type';
 import { AuthService } from 'libs/tourtitan/auth/src/lib/auth.service';
+import { CreateCarDto, UpdateCarDto } from '@cm-nx-workshop/backend/dto';
+
 
 @Component({
   selector: 'cm-nx-workshop-cars-new',
@@ -13,15 +15,14 @@ import { AuthService } from 'libs/tourtitan/auth/src/lib/auth.service';
 })
 export class CarsNewComponent implements OnInit, OnDestroy {
   carId: Id | null = null;
-  newCar: ICar = {
+  newCar: CreateCarDto = {
     name: '',
     plateNumber: '',
     capacity: 0,
     mileage: 0,
-    id: '',
-    isAvailable: false,
+    imageUrl: '',
+    isAvailable: true,
     location: {
-      id: '',
       city: '',
       zipCode: '',
       street: '',
@@ -45,7 +46,15 @@ export class CarsNewComponent implements OnInit, OnDestroy {
         if (this.carId) {
           this.carSubscription = this.carsService.read(this.carId).subscribe(
             (car) => {
-              this.newCar = car;
+              this.newCar = {
+                name: car.name,
+                plateNumber: car.plateNumber,
+                capacity: car.capacity,
+                mileage: car.mileage,
+                isAvailable: car.isAvailable,
+                imageUrl: car.imageUrl || '', 
+                location: car.location,
+              };
               console.log(this.newCar.imageUrl);
             },
             (error) => {

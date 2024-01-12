@@ -26,13 +26,13 @@ export class CarController {
   }
 
   @Post('')
-  async create(@Body() data: CreateCarDto): Promise<ICar> {
+  async create(@Body() data: ICar): Promise<ICar> {
     return this.carService.create(data);
   }
 
   @Put(':id')
   async update(
-    @Body() data: UpdateCarDto,
+    @Body() data: ICar,
     @Param('id') id: string
   ): Promise<ICar | null> {
     return this.carService.update(id, data);

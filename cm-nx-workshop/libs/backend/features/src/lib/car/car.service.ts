@@ -55,7 +55,7 @@ export class CarService {
     });
   }
 
-  async create(car: CreateCarDto): Promise<ICar> {
+  async create(car: ICar): Promise<ICar> {
     this.logger.log(`Creating car with plate number ${car.plateNumber}`);
     const existingCar = await this.carRepository.findOne({
       where: { plateNumber: car.plateNumber },
@@ -90,7 +90,7 @@ export class CarService {
     return this.carRepository.save(newCar);
   }
 
-  async update(_id: string, carUpdate: UpdateCarDto): Promise<ICar | null> {
+  async update(_id: string, carUpdate: ICar): Promise<ICar | null> {
     this.logger.log(`Updating car with id ${_id}`);
 
     // Vind de auto die moet worden bijgewerkt
