@@ -18,7 +18,7 @@ export interface IRide {
   departureLocation: ILocation;
   arrivalLocation: ILocation;
   departureTime: Date;
-  arrivalTime?: Date;
+  arrivalTime: Date;
   distance?: number;
 }
 

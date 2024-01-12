@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService } from 'libs/tourtitan/auth/src/lib/auth.service';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'cm-nx-workshop-login',
@@ -24,7 +24,7 @@ export class LoginComponent {
   }
 
   onSubmit(): void {
-    console.log('poging inloggen met userdata: ',this.loginForm.value); // Debugging
+    // console.log('poging inloggen met userdata: ',this.loginForm.value); // Debugging
     if (this.loginForm.invalid) {
       this.loginForm.markAllAsTouched();
       return;

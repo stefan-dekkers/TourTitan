@@ -14,6 +14,7 @@ import { AuthService } from 'libs/tourtitan/auth/src/lib/auth.service';
 export class UserNewComponent implements OnInit, OnDestroy {
   userId: Id | null = null;
   newUser: IUser = {
+    
     name: '',
     emailAddress: '',
     role: UserRole.User,
@@ -37,7 +38,7 @@ export class UserNewComponent implements OnInit, OnDestroy {
           this.userSubscription = this.userService.read(this.userId).subscribe(
             (user) => {
               this.newUser = user;
-              console.log(this.newUser.emailAddress);
+              // console.log(this.newUser.emailAddress);
             },
             (error) => {
               console.error('Error fetching user:', error);
@@ -62,13 +63,13 @@ export class UserNewComponent implements OnInit, OnDestroy {
   }
 
   submitForm() {
-    console.log('onSubmit - create/update');
+    // console.log('onSubmit - create/update');
 
     if (this.userId) {
-      console.log('Update new user');
+      // console.log('Update new user');
       this.userService.update(this.userId, this.newUser).subscribe({
         next: (user) => {
-          console.log('User added updated:', user);
+          // console.log('User added updated:', user);
           this.router.navigate([`/user/${this.userId}`], {
             relativeTo: this.route,
           });
@@ -78,10 +79,10 @@ export class UserNewComponent implements OnInit, OnDestroy {
         },
       });
     } else {
-      console.log('Creating new user');
+      // console.log('Creating new user');
       this.userService.create(this.newUser).subscribe({
         next: (createdUser) => {
-          console.log('User added successfully:', createdUser);
+          // console.log('User added successfully:', createdUser);
           this.router.navigate(['/user']);
         },
         error: (error) => {
