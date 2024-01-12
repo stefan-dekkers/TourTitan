@@ -19,7 +19,7 @@ export class UserService {
 
   authenticate(emailAddress: string, password: string)  {
     const credentials = { emailAddress, password };
-    console.log('Authenticate ontvangen' + emailAddress + " " + password);
+    // console.log('Authenticate ontvangen' + emailAddress + " " + password);
 
     this.http.post(this.endpoint_auth, credentials, httpOptions)
       .pipe(
@@ -31,7 +31,7 @@ export class UserService {
 
   
   public list(options?: any): Observable<IUser[] | null> {
-    console.log(`list ${this.endpoint}`);
+    // console.log(`list ${this.endpoint}`);
 
     return this.http
       .get<ApiResponse<IUser[]>>(this.endpoint, {
@@ -47,7 +47,7 @@ export class UserService {
 
   public read(id: string | null, options?: any): Observable<IUser> {
     const url = `${this.endpoint}/${id}`;
-    console.log(`get ${url}`);
+    // console.log(`get ${url}`);
     return this.http
       .get<ApiResponse<IUser>>(url, {
         ...options,
@@ -61,7 +61,7 @@ export class UserService {
   }
 
   public delete(user: IUser): Observable<IUser> {
-    console.log(`delete ${this.endpoint}/${user.id}`);
+    // console.log(`delete ${this.endpoint}/${user.id}`);
 
     return this.http
       .delete<ApiResponse<IUser>>(`${this.endpoint}/${user.id}`)
@@ -69,7 +69,7 @@ export class UserService {
   }
 
   public create(user: IUser, options?: any): Observable<IUser> {
-    console.log(`create ${this.endpoint}`);
+    // console.log(`create ${this.endpoint}`);
 
     return this.http
       .post<ApiResponse<IUser>>(this.endpoint, user, {
@@ -89,7 +89,7 @@ export class UserService {
     options?: any
   ): Observable<IUser | null> {
     const url = `${this.endpoint}/${id}`;
-    console.log(`update ${this.endpoint}`);
+    // console.log(`update ${this.endpoint}`);
 
     return this.http
       .put<ApiResponse<IUser>>(url, user, { ...httpOptions, ...options })

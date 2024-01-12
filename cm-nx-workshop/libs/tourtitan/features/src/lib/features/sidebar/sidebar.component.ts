@@ -14,9 +14,12 @@ export class SidebarComponent {
   ) {}
 
   isAdmin(): boolean{
-    if (this.authService.isAdmin()) {
-      return true
+    // console.log(this.authService.getCurrentUser())
+    if (this.authService.isAdmin() !== true) {
+      // console.log(false)
+      return false
     }
-    return false
+    // console.log(true)
+    return true
   }
 }

@@ -14,6 +14,7 @@ import { IUser, UserRole } from '../../../../shared/api/src/lib/models/user.inte
 import { Router } from '@angular/router';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 
+
 @Injectable({
   providedIn: 'root',
 })
@@ -35,11 +36,11 @@ export class AuthService {
       private initializeUser(): void {
         if (isPlatformBrowser(this.platformId)) {
           const user = this.getUserFromStorage();
-          console.log('InitializeUser - User from storage:', user);
+          // console.log('InitializeUser - User from storage:', user);
       
           if (user) {
             this.validateToken(user).subscribe((validatedUser) => {
-              console.log('InitializeUser - Token validation response:', validatedUser);
+              // console.log('InitializeUser - Token validation response:', validatedUser);
               if (validatedUser) {
                 this.currentUserSubject.next(validatedUser);
               } else {
@@ -58,9 +59,9 @@ export class AuthService {
           )
           .pipe(
             map(response => {
-              console.log('Login response:', response);
+              // console.log('Login response:', response);
               const userWithToken = response.results;
-              console.log(userWithToken)
+              // console.log(userWithToken)
 
               const user: IUser = {
                 emailAddress: userWithToken.emailAddress,
@@ -72,6 +73,7 @@ export class AuthService {
               };
               this.saveUserToStorage(user);
               this.currentUserSubject.next(user);
+              console.log(user);
               return user;
             }),
             catchError(error => {
@@ -85,7 +87,7 @@ export class AuthService {
           );
       }
       validateToken(userData: IUser): Observable<IUser | null> {
-        console.log('validateToken binnen VlaidateToken', userData.token);
+        // console.log('validateToken binnen VlaidateToken', userData.token);
         const url = `${this.endpoint}/profile`;
     
         const httpOptions = {
@@ -95,18 +97,18 @@ export class AuthService {
           }),
         };
       
-        console.log('Starting token validation for user:', userData);
+        // console.log('Starting token validation for user:', userData);
       
         return this.http.get<IUser>(url, httpOptions).pipe(
           map((response) => {
-            console.log('Token validation successful, user data:', userData);
-            console.log('Token validation successful, response data:', response);
+            // console.log('Token validation successful, user data:', userData);
+            // console.log('Token validation successful, response data:', response);
             return userData;
           }),
           catchError((error: any) => {
             console.error('Token validation failed:', error.message);
             this.logout();
-            console.log('User has been logged out due to token validation failure.');
+            // console.log('User has been logged out due to token validation failure.');
             return of(null);
           })
         );
@@ -114,7 +116,7 @@ export class AuthService {
       public getUserFromStorage(): IUser | null {
         if (isPlatformBrowser(this.platformId)) {
           const storedUser = sessionStorage.getItem(this.storageKey);
-          console.log('storedUser:', JSON.parse(storedUser!));
+          // console.log('storedUser:', JSON.parse(storedUser!));
           return storedUser ? JSON.parse(storedUser) : null;
         }
         // If not in a browser environment, gracefully handle the absence of sessionStorage
@@ -138,6 +140,7 @@ export class AuthService {
         const userString = sessionStorage.getItem(this.storageKey);
         if (userString) {
           const user = JSON.parse(userString);
+          // console.log('aaaaaaaaaaaaaaaaaa'+user)
           // Check if the user has the 'admin' role
           if (user?.role === 'admin') {
             return true

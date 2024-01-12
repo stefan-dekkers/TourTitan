@@ -1,14 +1,18 @@
-import { LoginComponent } from './../../../../libs/tourtitan/auth/src/lib/login/login.component';
 import { Route } from '@angular/router';
-import { MyRidesComponent } from 'libs/tourtitan/features/src/lib/features/my-rides/my-rides.component';
 import { CarsListComponent } from 'libs/tourtitan/features/src/lib/features/cars/cars-list/cars-list.component';
 import { CarDetailComponent } from 'libs/tourtitan/features/src/lib/features/cars/cars-detail/cars-detail.component';
 import { UserProfileComponent } from 'libs/tourtitan/features/src/lib/features/user/user-profile/user-profile.component';
-import { AvailableRidesComponent } from 'libs/tourtitan/features/src/lib/features/available-rides/available-rides.component';
 import { CarsNewComponent } from 'libs/tourtitan/features/src/lib/features/cars/cars-new/cars-new.component';
 import { UserListComponent } from 'libs/tourtitan/features/src/lib/features/user/user-list/user-list.component';
 import { UserNewComponent } from 'libs/tourtitan/features/src/lib/features/user/user-new/user-new.component';
 import { UserDetailComponent } from 'libs/tourtitan/features/src/lib/features/user/user-detail/user-detail.component';
+import { MyRidesListComponent } from 'libs/tourtitan/features/src/lib/features/rides/my-rides/my-rides-list/my-rides-list.component';
+import { AvailableRidesComponent } from 'libs/tourtitan/features/src/lib/features/rides/available-rides/available-ride.component';
+import { NewRideComponent } from 'libs/tourtitan/features/src/lib/features/rides/new-ride/new-ride.component';
+import { LoginComponent } from '@cm-nx-workshop/tourtitan/auth';
+
+
+import { RideDetailComponent } from 'libs/tourtitan/features/src/lib/features/rides/ride-details/ride-details.component';
 export const appRoutes: Route[] = [
   {
     path: 'login',
@@ -22,7 +26,7 @@ export const appRoutes: Route[] = [
   },
   {
     path: 'my-rides',
-    component: MyRidesComponent,
+    component: MyRidesListComponent,
     pathMatch: 'full',
   },
   {
@@ -75,4 +79,22 @@ export const appRoutes: Route[] = [
     component: AvailableRidesComponent,
     pathMatch: 'full',
   },
+  {
+    path: 'my-rides/new',
+    component: NewRideComponent,
+    pathMatch: 'full'
+  },{
+    path: 'available-rides/new',
+    component: NewRideComponent,
+    pathMatch: 'full'
+  },{
+    path: 'available-rides/:id',
+    component: RideDetailComponent,
+    pathMatch: 'full'
+  },{
+    path: 'my-rides/:id',
+    component: RideDetailComponent,
+    pathMatch: 'full'
+  }
+
 ];

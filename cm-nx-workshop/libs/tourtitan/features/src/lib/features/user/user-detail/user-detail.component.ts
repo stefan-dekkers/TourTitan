@@ -58,7 +58,7 @@ export class UserDetailComponent implements OnInit, OnDestroy {
         if (this.user?.id) {
           this.userService.delete(this.user).subscribe({
             next: () => {
-              console.log('User deleted successfully');
+              // console.log('User deleted successfully');
               this.router.navigate(['/user']);
             },
             error: (error) => {
