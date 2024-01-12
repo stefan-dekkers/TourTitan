@@ -75,10 +75,15 @@ export class RideController {
   ): Promise<IRide> {
     return this.rideService.unjoinRide(rideId, userId);
   }
+
   @Delete(':id')
   async delete(
     @Param('id') id: string
   ): Promise<{ deleted: boolean; message?: string }> {
     return this.rideService.delete(id);
+  }
+  @Get('user/:id')
+  async getRideByUserId(@Param('id') userId: string): Promise<IRide[]> {
+    return await this.rideService.getRidesByUserId(userId);
   }
 }

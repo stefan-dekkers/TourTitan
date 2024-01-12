@@ -104,7 +104,6 @@ export class RideService {
 
     return location;
   }
-
   async create(ride: CreateRideDto): Promise<IRide | null> {
     this.logger.log(`Creating new ride: ${JSON.stringify(ride)}`);
 
@@ -141,7 +140,6 @@ export class RideService {
 
     return this.findOne(newRide.id);
   }
-
   async update(id: string, updateRideDto: UpdateRideDto): Promise<IRide> {
     this.logger.log(`Updating ride with id ${id}`);
     const ride = await this.findOne(id);
@@ -153,7 +151,6 @@ export class RideService {
     this.rideRepository.update(id, updateRideDto);
     return this.rideRepository.save(updateRideDto);
   }
-
   async delete(id: string): Promise<{ deleted: boolean; message?: string }> {
     this.logger.log(`Deleting ride with id: ${id}`);
     const result = await this.rideRepository.delete(id);
@@ -283,7 +280,6 @@ export class RideService {
     await this.rideRepository.save(ride);
     return ride;
   }
-
   async unjoinRide(rideId: string, userId: string): Promise<IRide> {
     const ride = await this.rideRepository.findOne({
       where: { id: rideId },
@@ -305,5 +301,35 @@ export class RideService {
     ride.passengers.splice(passengerIndex, 1);
     await this.rideRepository.save(ride);
     return ride;
+  }
+  async getRidesByUserId(userId: string): Promise<IRide[]> {
+    this.logger.log(`Finding all rides for user with ID ${userId}`);
+
+    const driverRides = await this.rideRepository.find({
+      where: { driver: { id: userId } },
+      relations: [
+        'driver',
+        'passengers',
+        'vehicle',
+        'departureLocation',
+        'arrivalLocation',
+      ],
+    });
+
+    const passengerRides = await this.rideRepository
+      .createQueryBuilder('ride')
+      .leftJoinAndSelect('ride.passengers', 'passenger')
+      .leftJoinAndSelect('ride.driver', 'driver')
+      .leftJoinAndSelect('ride.vehicle', 'vehicle')
+      .leftJoinAndSelect('ride.departureLocation', 'departureLocation')
+      .leftJoinAndSelect('ride.arrivalLocation', 'arrivalLocation')
+      .where('passenger.id = :userId', { userId })
+      .getMany();
+
+    const combinedRides = [...driverRides, ...passengerRides].filter(
+      (ride, index, self) => index === self.findIndex((r) => r.id === ride.id)
+    );
+
+    return combinedRides;
   }
 }
