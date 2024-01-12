@@ -19,12 +19,8 @@ export class AuthService {
     Logger.log('Validating user', this.TAG, emailAddress, pass);
     // Use .lean() to get a plain object and then await the result
     const user = await this.userService.findOneByEmail(emailAddress);
-    if (!user) {
-      throw new UnauthorizedException('Invalid password/e-mailaddress');
-    }
-    if (pass !== user.password) {
-      Logger.log('Validating user password', this.TAG, pass, user.password);
-      throw new UnauthorizedException('Invalid password/e-mailadress');
+    if (!user || pass !== user.password) {
+      throw new UnauthorizedException('Invalid credentials');
     }
     // Since you're using .lean(), the password won't be included, but if it is, omit it here
     const { password, ...result } = user;
