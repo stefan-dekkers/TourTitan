@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ICar } from '@cm-nx-workshop/shared/api';
 import { Subscription } from 'rxjs';
 import { Id } from 'libs/shared/api/src/lib/models/id.type';
+import { AuthService } from 'libs/tourtitan/auth/src/lib/auth.service';
 
 @Component({
   selector: 'cm-nx-workshop-cars-new',
@@ -32,26 +33,33 @@ export class CarsNewComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private carsService: CarsService,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe(async (params) => {
-      this.carId = params.get('id') ?? null;
-      if (this.carId) {
-        this.carSubscription = this.carsService.read(this.carId).subscribe(
-          (car) => {
-            this.newCar = car;
-            console.log(this.newCar.imageUrl);
-          },
-          (error) => {
-            console.error('Error fetching car:', error);
-          }
-        );
-      } else {
-        // New car
-      }
-    });
+    if (this.authService.getCurrentUser() != null) {
+      this.route.paramMap.subscribe(async (params) => {
+        this.carId = params.get('id') ?? null;
+        if (this.carId) {
+          this.carSubscription = this.carsService.read(this.carId).subscribe(
+            (car) => {
+              this.newCar = car;
+              console.log(this.newCar.imageUrl);
+            },
+            (error) => {
+              console.error('Error fetching car:', error);
+            }
+          );
+        } else {
+          // New car
+        }
+      });
+    }
+    else{
+      this.router.navigate([`/`]);
+    }
+    
   }
 
   ngOnDestroy(): void {

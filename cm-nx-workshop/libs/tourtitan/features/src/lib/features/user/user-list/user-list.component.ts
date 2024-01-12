@@ -2,6 +2,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { UserService } from '../user.service';
 import { IUser } from '@cm-nx-workshop/shared/api';
+import {AuthService} from '../../../../../../auth/src/lib/auth.service'
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'cm-nx-workshop-user',
@@ -14,13 +16,24 @@ export class UserListComponent implements OnInit, OnDestroy {
   searchTerm: string = '';
   subscription: Subscription | undefined = undefined;
 
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService,
+     private authService: AuthService,
+     private route: ActivatedRoute,
+     private router: Router) {}
 
   ngOnInit(): void {
-    this.subscription = this.userService.list().subscribe((results) => {
-      this.users = results;
-      this.filteredUsers = results;
-    });
+
+    if (this.authService.isAdmin()) {
+      this.subscription = this.userService.list().subscribe((results) => {
+        this.users = results;
+        this.filteredUsers = results;
+      });
+    }else{
+      this.router.navigate([`/cars`], {
+        relativeTo: this.route,
+      });
+    }
+    
   }
 
   ngOnDestroy(): void {

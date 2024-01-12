@@ -78,7 +78,7 @@
           >
             {{ car?.isAvailable ? 'Available' : 'Unavailable' }}
           </p>
-          <div class="row">
+          <div *ngIf="isAdmin()" class="row">
             <div class="col-lg-6 col-md-6 col-sm-6">
               <a
                 routerLink="/cars/edit/{{ car?.id }}"

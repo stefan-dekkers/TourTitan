@@ -5,6 +5,7 @@ import { ICar, IUser } from '@cm-nx-workshop/shared/api';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../user.service';
 import { UserDeleteComponent } from './user-delete/user-delete.component';
+import { AuthService } from 'libs/tourtitan/auth/src/lib/auth.service';
 
 @Component({
   selector: 'cm-nx-workshop-user',
@@ -19,19 +20,27 @@ export class UserDetailComponent implements OnInit, OnDestroy {
     private modalService: NgbModal,
     private userService: UserService,
     private route: ActivatedRoute,
+    private authService: AuthService,
     private router: Router
   ) {}
 
   ngOnInit(): void {
-    this.subscription = this.route.paramMap.subscribe((params) => {
-      const userId = params.get('id');
-
-      if (userId) {
-        this.userService.read(userId).subscribe((user) => {
-          this.user = user;
-        });
-      }
-    });
+    if (this.authService.isAdmin()) {
+      this.subscription = this.route.paramMap.subscribe((params) => {
+        const userId = params.get('id');
+  
+        if (userId) {
+          this.userService.read(userId).subscribe((user) => {
+            this.user = user;
+          });
+        }
+      });
+    }
+    else{
+      this.router.navigate([`/cars`], {
+        relativeTo: this.route,
+      });
+    }
   }
 
   deleteUser(): void {
