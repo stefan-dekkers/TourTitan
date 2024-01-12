@@ -52,6 +52,7 @@ export class RideService {
 
     return ride;
   }
+
   validateRideForCurrentOrNextDay(ride: CreateRideDto): boolean {
     const currentDateTime = new Date();
     const departureDateTime = new Date(ride.departureTime);
@@ -126,6 +127,7 @@ export class RideService {
     // Check if the vehicle exists and is available
     const vehicle = await this.carRepository.findOne({
       where: { id: ride.vehicle.id },
+      relations: ['location'],
     });
     if (!vehicle || !vehicle.isAvailable) {
       throw new ConflictException('Vehicle is not available for ride creation');
@@ -138,6 +140,9 @@ export class RideService {
     this.logger.log(
       `Ride creation successful. Current DateTime: ${currentDateTime.toISOString()}, Departure DateTime: ${departureDateTime.toISOString()}`
     );
+
+    ride.departureLocation = vehicle.location;
+
     const newRide = await this.rideRepository.save(
       this.rideRepository.create(ride)
     );
@@ -170,6 +175,7 @@ export class RideService {
     }
     return { deleted: true };
   }
+
   async finishRide(
     rideId: string,
     driverId: string,
@@ -205,11 +211,11 @@ export class RideService {
       throw new ConflictException('Arrival time cannot be in the future');
     }
 
-    // if (arrivalDateTime <= ride.departureTime) {
-    //   throw new ConflictException(
-    //     'Arrival time must be later than the departure time'
-    //   );
-    // }
+    if (arrivalDateTime <= ride.departureTime) {
+      throw new ConflictException(
+        'Arrival time must be later than the departure time'
+      );
+    }
 
     const vehicle = await this.carRepository.findOne({
       where: { id: ride.vehicle.id },
@@ -245,6 +251,7 @@ export class RideService {
 
     return ride;
   }
+
   async joinRide(rideId: string, userId: string): Promise<IRide> {
     const ride = await this.rideRepository.findOne({
       where: { id: rideId },
@@ -316,6 +323,7 @@ export class RideService {
     await this.rideRepository.save(ride);
     return ride;
   }
+
   async updateStatus(rideId: string): Promise<IRide> {
     const ride = await this.rideRepository.findOne({ where: { id: rideId } });
 
