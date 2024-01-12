@@ -20,11 +20,11 @@ export class AuthService {
     // Use .lean() to get a plain object and then await the result
     const user = await this.userService.findOneByEmail(emailAddress);
     if (!user) {
-      throw new UnauthorizedException('E-mail adress not found');
+      throw new UnauthorizedException('Invalid password/e-mailaddress');
     }
     if (pass !== user.password) {
       Logger.log('Validating user password', this.TAG, pass, user.password);
-      throw new UnauthorizedException('Incorrect password');
+      throw new UnauthorizedException('Invalid password/e-mailadress');
     }
     // Since you're using .lean(), the password won't be included, but if it is, omit it here
     const { password, ...result } = user;
@@ -69,14 +69,13 @@ export class AuthService {
         sub: user.id,
         role: user.role,
       };
-      
 
-        // Teken het JWT token asynchroon
-        const access_token = await this.jwtService.signAsync(payload);
-        user.token = access_token;
-        Logger.log(`Sucessfully logged user ${user.id} in`)
-        // Retourneer het access token en de gebruikersinformatie, exclusief het wachtwoord
-        return  user ;
+      // Teken het JWT token asynchroon
+      const access_token = await this.jwtService.signAsync(payload);
+      user.token = access_token;
+      Logger.log(`Sucessfully logged user ${user.id} in`);
+      // Retourneer het access token en de gebruikersinformatie, exclusief het wachtwoord
+      return user;
     } else {
       throw new UnauthorizedException('Invalid credentials');
     }
