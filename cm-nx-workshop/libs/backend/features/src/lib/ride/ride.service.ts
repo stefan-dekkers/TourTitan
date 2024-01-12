@@ -9,7 +9,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Equal, Repository } from 'typeorm';
 import { RideEntity } from './ride.entity';
 import { ILocation, IRide, Status } from '@cm-nx-workshop/shared/api';
 import { CarEntity } from '../car/car.entity';
@@ -35,6 +35,36 @@ export class RideService {
   async findAll(): Promise<IRide[]> {
     this.logger.log('Finding all rides');
     return this.rideRepository.find({
+      relations: ['driver', 'vehicle', 'departureLocation', 'arrivalLocation'],
+    });
+  }
+
+  async findAllPending(): Promise<IRide[]> {
+    this.logger.log('Finding all pending rides');
+    return this.rideRepository.find({
+      where: {
+        status: Equal(Status.PENDING),
+      },
+      relations: ['driver', 'vehicle', 'departureLocation', 'arrivalLocation'],
+    });
+  }
+
+  async findAllDriving(): Promise<IRide[]> {
+    this.logger.log('Finding all driving rides');
+    return this.rideRepository.find({
+      where: {
+        status: Equal(Status.DRIVING),
+      },
+      relations: ['driver', 'vehicle', 'departureLocation', 'arrivalLocation'],
+    });
+  }
+
+  async findAllFinished(): Promise<IRide[]> {
+    this.logger.log('Finding all finished rides');
+    return this.rideRepository.find({
+      where: {
+        status: Equal(Status.FINISHED),
+      },
       relations: ['driver', 'vehicle', 'departureLocation', 'arrivalLocation'],
     });
   }
@@ -128,6 +158,7 @@ export class RideService {
       where: { id: ride.vehicle.id },
       relations: ['location'],
     });
+
     if (!vehicle || !vehicle.isAvailable) {
       throw new ConflictException('Vehicle is not available for ride creation');
     }
@@ -167,9 +198,11 @@ export class RideService {
   async delete(id: string): Promise<{ deleted: boolean; message?: string }> {
     this.logger.log(`Deleting ride with id: ${id}`);
     const result = await this.rideRepository.delete(id);
+
     if (result.affected === 0) {
       return { deleted: false, message: 'No ride found with that ID' };
     }
+
     return { deleted: true };
   }
 
@@ -189,9 +222,11 @@ export class RideService {
     if (!ride) {
       throw new NotFoundException(`Ride with ID ${rideId} not found`);
     }
+
     if (ride.status === Status.FINISHED) {
       throw new ConflictException('This ride has already been finished');
     }
+
     if (ride.driver.id !== driverId) {
       throw new UnauthorizedException(
         'Only the assigned driver can finish the ride'
@@ -200,13 +235,17 @@ export class RideService {
 
     const arrivalDateTime =
       arrivalTime instanceof Date ? arrivalTime : new Date(arrivalTime);
-
+    arrivalDateTime.setHours(arrivalDateTime.getHours() - 1);
     const currentDateTime = new Date();
-    console.log(`Starting current date: ${currentDateTime}`);
-    console.log(`Starting arrival date: ${arrivalDateTime}`);
+    // console.log(`finishRide -> currentDateTime: ${currentDateTime}`);
+    // console.log(`finishRide -> arrivalDateTime: ${arrivalDateTime}`);
+
     if (arrivalDateTime > currentDateTime) {
       throw new ConflictException('Arrival time cannot be in the future');
     }
+
+    ride.departureTime.setHours(ride.departureTime.getHours() - 1);
+    // console.log(`finishRide -> ride.departureTime: ${ride.departureTime}`);
 
     if (arrivalDateTime <= ride.departureTime) {
       throw new ConflictException(
@@ -258,27 +297,28 @@ export class RideService {
     if (!ride) {
       throw new NotFoundException(`Ride with ID ${rideId} not found`);
     }
+
     if (ride.driver.id === userId) {
       throw new ConflictException(
         `The driver of the ride cannot join as a passenger`
       );
     }
+
     if (!ride.isPublic) {
       throw new UnauthorizedException(
         'This ride is not public and cannot be joined'
       );
     }
+
     if (ride.passengers.some((passenger) => passenger.id === userId)) {
       throw new ConflictException(
         `User with ID ${userId} is already a passenger of this ride`
       );
     }
 
-    const currentDateTime = new Date();
-    const departureDateTime = new Date(ride.departureTime);
-    if (currentDateTime >= departureDateTime) {
+    if (ride.status !== Status.PENDING) {
       throw new ConflictException(
-        `Cannot join the ride as the departure time has already passed`
+        `Cannot join the ride because the departure time has already passed`
       );
     }
 
@@ -297,6 +337,7 @@ export class RideService {
     await this.rideRepository.save(ride);
     return ride;
   }
+
   async unjoinRide(rideId: string, userId: string): Promise<IRide> {
     const ride = await this.rideRepository.findOne({
       where: { id: rideId },
@@ -310,11 +351,13 @@ export class RideService {
     const passengerIndex = ride.passengers.findIndex(
       (passenger) => passenger.id === userId
     );
+
     if (passengerIndex === -1) {
       throw new NotFoundException(
         `User with ID ${userId} is not a passenger of this ride`
       );
     }
+
     ride.passengers.splice(passengerIndex, 1);
     await this.rideRepository.save(ride);
     return ride;
