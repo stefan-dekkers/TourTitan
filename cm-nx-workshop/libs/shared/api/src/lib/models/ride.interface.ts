@@ -29,7 +29,6 @@ export type ICreateRide = Pick<
   | 'vehicle'
   | 'isPublic'
   | 'status'
-  | 'departureLocation'
   | 'arrivalLocation'
   | 'departureTime'
 >;
