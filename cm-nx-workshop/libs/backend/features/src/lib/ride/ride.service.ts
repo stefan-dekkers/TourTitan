@@ -268,6 +268,9 @@ export class RideService {
         'This ride is not public and cannot be joined'
       );
     }
+    if (ride.status === Status.DRIVING) {
+      throw new ConflictException('This ride is already on its way');
+    }
     if (ride.passengers.some((passenger) => passenger.id === userId)) {
       throw new ConflictException(
         `User with ID ${userId} is already a passenger of this ride`
@@ -306,7 +309,9 @@ export class RideService {
     if (!ride) {
       throw new NotFoundException(`Ride with ID ${rideId} not found`);
     }
-
+    if (ride.status === Status.DRIVING) {
+      throw new ConflictException('This ride is already on its way');
+    }
     const passengerIndex = ride.passengers.findIndex(
       (passenger) => passenger.id === userId
     );
