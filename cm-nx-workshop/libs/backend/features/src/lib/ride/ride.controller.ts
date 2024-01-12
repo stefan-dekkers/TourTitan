@@ -60,7 +60,21 @@ export class RideController {
     }
     return this.rideService.finishRide(id, driverId, newMileage, arrivalTime);
   }
+  @Post(':id/join')
+  async joinRide(
+    @Param('id') rideId: string,
+    @Body('userId') userId: string
+  ): Promise<IRide> {
+    return this.rideService.joinRide(rideId, userId);
+  }
 
+  @Delete(':id/unjoin')
+  async unjoinRide(
+    @Param('id') rideId: string,
+    @Body('userId') userId: string
+  ): Promise<IRide> {
+    return this.rideService.unjoinRide(rideId, userId);
+  }
   @Delete(':id')
   async delete(
     @Param('id') id: string

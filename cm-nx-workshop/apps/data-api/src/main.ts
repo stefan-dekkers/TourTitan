@@ -1,4 +1,4 @@
-import { BadRequestException, Logger, ValidationPipe } from '@nestjs/common';
+import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app/app.module';
@@ -11,25 +11,21 @@ async function bootstrap() {
   const corsOptions: CorsOptions = {};
   app.enableCors(corsOptions);
   app.useGlobalInterceptors(new ApiResponseInterceptor());
-  app.useGlobalPipes(
-    new ValidationPipe({
-      whitelist: true,
-      forbidNonWhitelisted: true,
-      transform: true,
-      exceptionFactory: (errors) => {
-        const errorMessages = errors.map((error) => {
-          const constraints = error.constraints
-            ? Object.values(error.constraints).join('. ')
-            : 'Onbekende validatiefout';
-          return {
-            property: error.property,
-            constraints: constraints,
-          };
-        });
-        return new BadRequestException(errorMessages);
-      },
-    })
-  );
+  // app.useGlobalPipes(new ValidationPipe({
+  //   whitelist: true,
+  //   forbidNonWhitelisted: true,
+  //   transform: true,
+  //   exceptionFactory: (errors) => {
+  //     const errorMessages = errors.map(error => {
+  //       const constraints = error.constraints ? Object.values(error.constraints).join('. ') : 'Onbekende validatiefout';
+  //       return {
+  //         property: error.property,
+  //         constraints: constraints
+  //       };
+  //     });
+  //     return new BadRequestException(errorMessages);
+  //   }
+  // }));
   const config = new DocumentBuilder()
     .setTitle('TourTitans Backend API')
     .setDescription('The TourTitan API description')

@@ -51,6 +51,8 @@ import { RidesService } from './rides/rides.service';
     CarDeleteComponent,
     NewRideComponent,
     AvailableRidesComponent,
+    UserProfileComponent,
+    CarDeleteComponent,
   ],
 })
 export class FeaturesModule {}

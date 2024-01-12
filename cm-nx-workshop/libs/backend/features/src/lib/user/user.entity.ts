@@ -1,4 +1,4 @@
-import { UserRole } from '@cm-nx-workshop/shared/api';
+import { IRide, UserRole } from '@cm-nx-workshop/shared/api';
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 import { RideEntity } from '../ride/ride.entity';
 
@@ -13,7 +13,7 @@ export class UserEntity {
   @Column()
   emailAddress!: string;
 
-  @Column()
+  @Column({ select: false })
   password!: string;
 
   @Column({
@@ -23,5 +23,5 @@ export class UserEntity {
   role!: UserRole;
 
   @OneToMany(() => RideEntity, (ride) => ride.driver)
-  drivenRides!: string[];
+  drivenRides!: IRide[];
 }

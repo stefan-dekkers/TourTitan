@@ -15,6 +15,7 @@ import { ILocation, IRide, Status } from '@cm-nx-workshop/shared/api';
 import { CarEntity } from '../car/car.entity';
 import { LocationEntity } from '../location/location.entity';
 import { CreateRideDto, UpdateRideDto } from '@cm-nx-workshop/backend/dto';
+import { UserEntity } from '../user/user.entity';
 
 @Injectable()
 export class RideService {
@@ -26,7 +27,9 @@ export class RideService {
     @InjectRepository(CarEntity)
     private readonly carRepository: Repository<CarEntity>,
     @InjectRepository(LocationEntity)
-    private readonly locationRepository: Repository<LocationEntity>
+    private readonly locationRepository: Repository<LocationEntity>,
+    @InjectRepository(UserEntity)
+    private readonly userRepository: Repository<UserEntity>
   ) {}
 
   async findAll(): Promise<IRide[]> {
@@ -175,41 +178,131 @@ export class RideService {
     if (!ride) {
       throw new NotFoundException(`Ride with ID ${rideId} not found`);
     }
-
-    if (ride.driver.id !== driverId) {
-      throw new UnauthorizedException('Only the driver can finish the ride');
+    if (ride.status === Status.FINISHED) {
+      throw new ConflictException('This ride has already been finished');
     }
-    console.log(
-      `arrivalTime: ${new Date(arrivalTime)} --> Ride arrivalTime ${
-        ride.arrivalTime
-      }`
-    );
-    if (new Date(arrivalTime) < ride.departureTime) {
-      throw new ConflictException(
-        'arrivalTime needs to be later than departureTime'
+    if (ride.driver.id !== driverId) {
+      throw new UnauthorizedException(
+        'Only the assigned driver can finish the ride'
       );
     }
-    let mileage = 0;
+
+    const arrivalDateTime =
+      arrivalTime instanceof Date ? arrivalTime : new Date(arrivalTime);
+
+    const currentDateTime = new Date();
+    if (arrivalDateTime > currentDateTime) {
+      throw new ConflictException('Arrival time cannot be in the future');
+    }
+
+    if (arrivalDateTime <= ride.departureTime) {
+      throw new ConflictException(
+        'Arrival time must be later than the departure time'
+      );
+    }
+
     const vehicle = await this.carRepository.findOne({
       where: { id: ride.vehicle.id },
     });
-    if (vehicle) {
-      if (newMileage < vehicle.mileage) {
-        throw new ConflictException(
-          'newMileage needs to be greater than vehicle mileage'
-        );
-      }
-      mileage = vehicle.mileage;
-      vehicle.mileage = newMileage;
-      vehicle.location = ride.arrivalLocation;
-      vehicle.isAvailable = true;
-      await this.carRepository.save(vehicle);
-    } else {
-      throw new NotFoundException(`Vehicle with ID ${ride.vehicle} not found`);
+
+    if (!vehicle) {
+      throw new NotFoundException(
+        `Vehicle with ID ${ride.vehicle.id} not found`
+      );
     }
-    ride.distance = newMileage - mileage;
+
+    if (newMileage <= vehicle.mileage) {
+      throw new ConflictException(
+        'New mileage must be greater than the current vehicle mileage'
+      );
+    }
+
+    // Update vehicle details
+    const vehicleMileage = vehicle.mileage;
+    vehicle.mileage = newMileage;
+    vehicle.location = ride.arrivalLocation;
+    vehicle.isAvailable = true;
+    await this.carRepository.save(vehicle);
+
+    // Update ride details
+    ride.distance = newMileage - vehicleMileage;
+    console.log(
+      `newMileage: ${newMileage}  carMileageOld: ${vehicleMileage}  newCarMileage: ${vehicle.mileage} rideDistance: ${ride.distance}`
+    );
     ride.status = Status.FINISHED;
-    ride.arrivalTime = arrivalTime;
+    ride.arrivalTime = arrivalDateTime;
+    await this.rideRepository.save(ride);
+
+    return ride;
+  }
+  async joinRide(rideId: string, userId: string): Promise<IRide> {
+    const ride = await this.rideRepository.findOne({
+      where: { id: rideId },
+      relations: ['passengers', 'vehicle', 'driver'],
+    });
+
+    if (!ride) {
+      throw new NotFoundException(`Ride with ID ${rideId} not found`);
+    }
+    if (ride.driver.id === userId) {
+      throw new ConflictException(
+        `The driver of the ride cannot join as a passenger`
+      );
+    }
+    if (!ride.isPublic) {
+      throw new UnauthorizedException(
+        'This ride is not public and cannot be joined'
+      );
+    }
+    if (ride.passengers.some((passenger) => passenger.id === userId)) {
+      throw new ConflictException(
+        `User with ID ${userId} is already a passenger of this ride`
+      );
+    }
+
+    const currentDateTime = new Date();
+    const departureDateTime = new Date(ride.departureTime);
+    if (currentDateTime >= departureDateTime) {
+      throw new ConflictException(
+        `Cannot join the ride as the departure time has already passed`
+      );
+    }
+
+    if (ride.passengers.length >= ride.vehicle.capacity) {
+      throw new ConflictException(
+        `Ride has reached its capacity and cannot accept more passengers`
+      );
+    }
+
+    const user = await this.userRepository.findOne({ where: { id: userId } });
+    if (!user) {
+      throw new NotFoundException(`User with ID ${userId} not found`);
+    }
+
+    ride.passengers.push(user);
+    await this.rideRepository.save(ride);
+    return ride;
+  }
+
+  async unjoinRide(rideId: string, userId: string): Promise<IRide> {
+    const ride = await this.rideRepository.findOne({
+      where: { id: rideId },
+      relations: ['passengers'],
+    });
+
+    if (!ride) {
+      throw new NotFoundException(`Ride with ID ${rideId} not found`);
+    }
+
+    const passengerIndex = ride.passengers.findIndex(
+      (passenger) => passenger.id === userId
+    );
+    if (passengerIndex === -1) {
+      throw new NotFoundException(
+        `User with ID ${userId} is not a passenger of this ride`
+      );
+    }
+    ride.passengers.splice(passengerIndex, 1);
     await this.rideRepository.save(ride);
     return ride;
   }

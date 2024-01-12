@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService } from 'libs/tourtitan/auth/src/lib/auth.service';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'cm-nx-workshop-login',
