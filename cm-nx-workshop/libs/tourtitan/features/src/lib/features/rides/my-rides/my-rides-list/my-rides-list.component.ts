@@ -20,15 +20,20 @@ export class MyRidesListComponent implements OnInit, OnDestroy {
   constructor(private ridesService: RidesService) {}
 
   ngOnInit(): void {
-    this.subscription = this.ridesService.list().subscribe((results) => {
+    //Hier moet de userId komen van de ingelogde user
+    this.subscription = this.ridesService.list_user('2617D607-C09E-EE11-85F8-005056A6A0FB').subscribe((results) => {
       this.ride = results;
       this.filteredRides = results;
     });
   }
 
+  
+
   ngOnDestroy(): void {
     if (this.subscription) this.subscription.unsubscribe();
   }
+
+  
 
   filterRides(): void {
     this.filteredRides = this.ride?.filter(ride =>

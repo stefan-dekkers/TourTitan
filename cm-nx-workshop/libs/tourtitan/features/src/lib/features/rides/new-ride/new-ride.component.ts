@@ -5,6 +5,7 @@ import { ILocation, IRide, IUser, Status, UserRole } from '@cm-nx-workshop/share
 import { ICar } from '@cm-nx-workshop/shared/api';
 import { Subscription } from 'rxjs';
 import { Id } from 'libs/shared/api/src/lib/models/id.type';
+import { CarsService } from '../../cars/cars.service';
 @Component({
   selector: 'cm-nx-workshop-new-ride',
   templateUrl: './new-ride.component.html',
@@ -71,10 +72,14 @@ export class NewRideComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private ridesService: RidesService,
-    private router: Router
+    private router: Router,
+    private carsService: CarsService
   ) {}
 
+  carsList: ICar[] = [] ; 
+
   ngOnInit(): void {
+    this.loadCars();
     this.route.paramMap.subscribe(async (params) => {
       this.rideId = params.get('id') ?? null;
       if (this.rideId) {
@@ -93,6 +98,20 @@ export class NewRideComponent implements OnInit, OnDestroy {
     });
 
   }
+
+  loadCars(): void {
+    this.carsService.list().subscribe(
+      (cars: ICar[] | null) => {
+        // Handle the loaded cars here
+        this.carsList = cars || []; // Use the provided array or default to an empty array if null
+      },
+      (error) => {
+        console.error('Error loading cars:', error);
+      }
+    );
+  }
+  
+
 
   ngOnDestroy(): void {
     if (this.rideSubscription) {
@@ -128,7 +147,11 @@ export class NewRideComponent implements OnInit, OnDestroy {
         },
       });
     }
+
+    
+  
   }
+
 
   isUpdate(): boolean {
     if (this.rideId) {

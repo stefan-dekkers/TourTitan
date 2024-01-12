@@ -10,7 +10,7 @@ import {
   of,
   throwError,
 } from 'rxjs';
-import { IUser } from '../../../../shared/api/src/lib/models/user.interface';
+import { IUser, UserRole } from '../../../../shared/api/src/lib/models/user.interface';
 import { Router } from '@angular/router';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 

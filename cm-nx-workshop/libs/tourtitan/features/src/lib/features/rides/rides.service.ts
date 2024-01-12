@@ -3,7 +3,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { map, catchError, tap } from 'rxjs/operators';
 import { ApiResponse, IRide } from '@cm-nx-workshop/shared/api';
 import { Injectable } from '@angular/core';
-
+import { CarsService } from '../cars/cars.service';
 export const httpOptions = {
   observe: 'body' as const,
   responseType: 'json' as const,
@@ -12,6 +12,7 @@ export const httpOptions = {
 @Injectable()
 export class RidesService {
   endpoint = 'http://localhost:3000/api/ride';
+  endpoint_user ='http://localhost:3000/api/ride?driverId=' 
 
   constructor(private readonly http: HttpClient) {}
 
@@ -20,6 +21,21 @@ export class RidesService {
 
     return this.http
       .get<ApiResponse<IRide[]>>(this.endpoint, {
+        ...options,
+        ...httpOptions,
+      })
+      .pipe(
+        map((response: any) => response.results as IRide[]),
+        tap(console.log),
+        catchError(this.handleError)
+      );
+  }
+
+  public list_user(user_id: string | null, options?: any): Observable<IRide[] | null> {
+    console.log(`list ${this.endpoint_user}`);
+    const url = `${this.endpoint_user}/${user_id}`;
+    return this.http
+      .get<ApiResponse<IRide[]>>(url, {
         ...options,
         ...httpOptions,
       })
@@ -44,6 +60,7 @@ export class RidesService {
         catchError(this.handleError)
       );
   }
+
   public update(id: string, ride: IRide, options?: any): Observable<IRide | null> {
     const url = `${this.endpoint}/${id}`;
     console.log(`update ${this.endpoint}`);

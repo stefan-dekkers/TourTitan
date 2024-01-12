@@ -14,6 +14,7 @@ import { AuthService } from 'libs/tourtitan/auth/src/lib/auth.service';
 export class UserNewComponent implements OnInit, OnDestroy {
   userId: Id | null = null;
   newUser: IUser = {
+    
     name: '',
     emailAddress: '',
     role: UserRole.User,
