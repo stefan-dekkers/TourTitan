@@ -76,7 +76,7 @@ export class AuthService {
             }),
             catchError(error => {
               // Handle errors
-              let errorMessage = 'Inloggen mislukt. Controleer uw inloggegevens.';
+              let errorMessage = 'Login failed. Check your information.';
               if (error.error && error.error.message) {
                 errorMessage = error.error.message;
               }
@@ -133,19 +133,19 @@ export class AuthService {
         this.router.navigate(['/']).then(() => {
           window.location.reload();
         });
-    }
-    isAdmin(): boolean {
-      const userString = sessionStorage.getItem(this.storageKey);
-      if (userString) {
-        const user = JSON.parse(userString);
-        // Check if the user has the 'admin' role
-        if (user?.role === 'admin') {
-          return true
-        }
       }
-    
-      return false;
-    }
+      isAdmin(): boolean {
+        const userString = sessionStorage.getItem(this.storageKey);
+        if (userString) {
+          const user = JSON.parse(userString);
+          // Check if the user has the 'admin' role
+          if (user?.role === 'admin') {
+            return true
+          }
+        }
+      
+        return false;
+      }
     
     
       // Get the current user's role

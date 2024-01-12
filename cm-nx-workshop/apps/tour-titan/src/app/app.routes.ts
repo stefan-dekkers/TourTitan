@@ -67,7 +67,7 @@ export const appRoutes: Route[] = [
     pathMatch: 'full',
   },
   {
-    path: 'user-profile',
+    path: 'profile',
     component: UserProfileComponent,
     pathMatch: 'full',
   },

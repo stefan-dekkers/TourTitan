@@ -33,13 +33,11 @@ export class LoginComponent {
     const { emailAddress, password } = this.loginForm.value;
     this.authService.login(emailAddress, password).subscribe({
       next: (user) => {
-        console.log(user); // Debugging
-        this.router.navigate(['/cars']);
+        this.router.navigate(['/profile']);
       },
       error: (error) => {
         // Display the error message from the service
         //console.log(this.errorMessage);
-        console.log(error)
         this.errorMessage = error.message;
       },
     });
