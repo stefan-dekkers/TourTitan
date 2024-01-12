@@ -6,7 +6,7 @@ import { AuthService } from 'libs/tourtitan/auth/src/lib/auth.service';
 @Component({
   selector: 'cm-nx-workshop-login',
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css',
+  styleUrls: ['./login.component.css'],
 })
 export class LoginComponent {
   loginForm: FormGroup;
@@ -24,7 +24,7 @@ export class LoginComponent {
   }
 
   onSubmit(): void {
-    console.log(this.loginForm.value); // Debugging
+    console.log('poging inloggen met userdata: ',this.loginForm.value); // Debugging
     if (this.loginForm.invalid) {
       this.loginForm.markAllAsTouched();
       return;
@@ -33,11 +33,11 @@ export class LoginComponent {
     const { emailAddress, password } = this.loginForm.value;
     this.authService.login(emailAddress, password).subscribe({
       next: (user) => {
-        console.log(user); // Debugging
-        this.router.navigate(['/features/dashboard']);
+        this.router.navigate(['/profile']);
       },
       error: (error) => {
         // Display the error message from the service
+        //console.log(this.errorMessage);
         this.errorMessage = error.message;
       },
     });

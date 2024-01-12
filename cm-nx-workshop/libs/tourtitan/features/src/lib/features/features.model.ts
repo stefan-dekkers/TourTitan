@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { UserLoginComponent } from './user/user-login/user-login.component';
 import { HttpClientModule } from '@angular/common/http';
 import { UserService } from './user/user.service';
 import { FormsModule } from '@angular/forms';
@@ -14,11 +13,16 @@ import { CarDetailComponent } from './cars/cars-detail/cars-detail.component';
 import { CarsNewComponent } from './cars/cars-new/cars-new.component';
 import { CarDeleteComponent } from './cars/cars-detail/car-delete/car-delete.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
+import { UserListComponent } from './user/user-list/user-list.component';
+import { UserNewComponent } from './user/user-new/user-new.component';
+import { UserDetailComponent } from './user/user-detail/user-detail.component';
 
 @NgModule({
   imports: [CommonModule, HttpClientModule, FormsModule, RouterModule],
   declarations: [
-    UserLoginComponent,
+    UserListComponent,
+    UserDetailComponent,
+    UserNewComponent,
     MyRidesComponent,
     CarsListComponent,
     CarsNewComponent,
@@ -30,7 +34,9 @@ import { SidebarComponent } from './sidebar/sidebar.component';
   ],
   providers: [UserService, CarsService],
   exports: [
-    UserLoginComponent,
+    UserListComponent,
+    UserDetailComponent,
+    UserNewComponent,
     MyRidesComponent,
     CarsListComponent,
     CarDetailComponent,
@@ -38,7 +44,8 @@ import { SidebarComponent } from './sidebar/sidebar.component';
     AvailableRidesComponent,
     UserProfileComponent,
     CarDeleteComponent,
-    SidebarComponent
+    SidebarComponent,
+    CarDeleteComponent,
   ],
 })
 export class FeaturesModule {}

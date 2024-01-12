@@ -6,7 +6,9 @@ import { CarDetailComponent } from 'libs/tourtitan/features/src/lib/features/car
 import { UserProfileComponent } from 'libs/tourtitan/features/src/lib/features/user/user-profile/user-profile.component';
 import { AvailableRidesComponent } from 'libs/tourtitan/features/src/lib/features/available-rides/available-rides.component';
 import { CarsNewComponent } from 'libs/tourtitan/features/src/lib/features/cars/cars-new/cars-new.component';
-
+import { UserListComponent } from 'libs/tourtitan/features/src/lib/features/user/user-list/user-list.component';
+import { UserNewComponent } from 'libs/tourtitan/features/src/lib/features/user/user-new/user-new.component';
+import { UserDetailComponent } from 'libs/tourtitan/features/src/lib/features/user/user-detail/user-detail.component';
 export const appRoutes: Route[] = [
   {
     path: 'login',
@@ -43,9 +45,28 @@ export const appRoutes: Route[] = [
     component: CarDetailComponent,
     pathMatch: 'full',
   },
-
   {
-    path: 'user-profile',
+    path: 'user',
+    component: UserListComponent,
+    pathMatch: 'full',
+  },
+  {
+    path: 'user/new',
+    component: UserNewComponent,
+    pathMatch: 'full',
+  },
+  {
+    path: 'user/edit/:id',
+    component: UserNewComponent,
+    pathMatch: 'full',
+  },
+  {
+    path: 'user/:id',
+    component: UserDetailComponent,
+    pathMatch: 'full',
+  },
+  {
+    path: 'profile',
     component: UserProfileComponent,
     pathMatch: 'full',
   },

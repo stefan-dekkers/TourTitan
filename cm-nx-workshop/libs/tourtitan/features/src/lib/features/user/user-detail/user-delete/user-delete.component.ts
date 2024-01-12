@@ -3,10 +3,10 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'cm-nx-workshop-car-delete',
-  templateUrl: './car-delete.component.html',
-  styleUrls: ['./car-delete.component.css'],
+  templateUrl: './user-delete.component.html',
+  styleUrls: [],
 })
-export class CarDeleteComponent {
+export class UserDeleteComponent {
   @Output() confirmDelete: EventEmitter<void> = new EventEmitter<void>();
 
   constructor(public activeModal: NgbActiveModal) {}

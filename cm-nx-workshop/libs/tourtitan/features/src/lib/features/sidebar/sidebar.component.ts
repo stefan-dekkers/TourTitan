@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { AuthService } from 'libs/tourtitan/auth/src/lib/auth.service';
 
 
 @Component({
@@ -7,4 +8,15 @@ import { CommonModule } from '@angular/common';
   templateUrl: './sidebar.component.html',
   styles: [],
 })
-export class SidebarComponent {}
+export class SidebarComponent {
+  constructor(
+    private authService: AuthService,
+  ) {}
+
+  isAdmin(): boolean{
+    if (this.authService.isAdmin()) {
+      return true
+    }
+    return false
+  }
+}

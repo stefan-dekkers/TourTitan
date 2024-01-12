@@ -7,8 +7,9 @@ import {
 } from 'class-validator';
 import { IUpdateUser, IUser, UserRole } from '@cm-nx-workshop/shared/api';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { Id } from 'libs/shared/api/src/lib/models/id.type';
 export class CreateUserDto implements IUser {
-  id!: string;
+  id!: Id;
 
   @ApiProperty({ example: 'John Doe', description: 'The name of the user' })
   @IsNotEmpty()
