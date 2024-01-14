@@ -16,7 +16,7 @@ export class MyRidesListComponent implements OnInit, OnDestroy {
   filteredRides: IRide[] | null = null;
   searchTerm: string = '';
   subscription: Subscription | undefined = undefined;
-
+  status: string = ''
   constructor(private ridesService: RidesService) {}
 
   ngOnInit(): void {
@@ -37,11 +37,44 @@ export class MyRidesListComponent implements OnInit, OnDestroy {
 
   filterRides(): void {
     this.filteredRides = this.ride?.filter(ride =>
-      ride.arrivalLocation.street.toLowerCase().includes(this.searchTerm.toLowerCase())
+      ride.arrivalLocation.street.toLowerCase().includes(this.searchTerm.toLowerCase()) &&
+      ride.status.toLowerCase() === this.status.toLowerCase()
     ) || [];
   }
 
-  formatDate(inputDate: Date): string {
+
+  formatDateTime(inputDate: Date | undefined): string {
+    if (inputDate === undefined) {
+      return ''; // or provide a default value or handle accordingly
+    }
+  
+    const date = new Date(inputDate);
+    
+    // Ensure the input date is valid
+    if (isNaN(date.getTime())) {
+      throw new Error('Invalid date format');
+    }
+  
+    // Get date components
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+    const year = date.getFullYear();
+  
+    // Get time components
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+  
+    // Construct the formatted date string
+    const formattedDate = `${hours}:${minutes}`;
+  
+    return formattedDate;
+  }
+
+  formatDateFull(inputDate: Date | undefined): string {
+    if (inputDate === undefined) {
+      return ''; // or provide a default value or handle accordingly
+    }
+
     const date = new Date(inputDate);
   
     // Ensure the input date is valid
@@ -63,6 +96,40 @@ export class MyRidesListComponent implements OnInit, OnDestroy {
   
     return formattedDate;
   }
+
+  formatDateDay(inputDate: Date): string {
+    const date = new Date(inputDate);
   
+    // Ensure the input date is valid
+    if (isNaN(date.getTime())) {
+      throw new Error('Invalid date format');
+    }
+  
+    // Get date components
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+    const year = date.getFullYear();
+  
+    // Get time components
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+  
+    // Construct the formatted date string
+    const formattedDate = `${day}-${month}-${year}`;
+  
+    return formattedDate;
+  }
+
+  
+  formatLicensePlate(plateNumber: string): string {
+    // Format license plate to resemble Dutch format (e.g., XX-99-99)
+    if (plateNumber && plateNumber.length === 6) {
+      return `${plateNumber.substring(0, 2)}-${plateNumber.substring(
+        2,
+        4
+      )}-${plateNumber.substring(4, 6)}`;
+    }
+    return plateNumber; // Return original if not in the expected format
+  }
   
 }
