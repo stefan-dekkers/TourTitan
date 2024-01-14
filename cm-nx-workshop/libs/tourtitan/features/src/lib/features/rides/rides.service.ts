@@ -91,9 +91,10 @@ export class RidesService {
 
   public create(ride: IRide, options?: any): Observable<IRide> {
     console.log(`create ${this.endpoint}`);
+    const url = this.endpoint +'/create'
 
     return this.http
-      .post<ApiResponse<IRide>>(this.endpoint, ride, {
+      .post<ApiResponse<IRide>>(url, ride, {
         ...httpOptions,
         ...options,
       })

@@ -106,16 +106,16 @@
                       <label for="car" class="form-text-2 form-label">Car:</label>
                       <select class="input-2 form-control" id="car" name="car" [(ngModel)]="ride.vehicle.id" required>
                         <option value="" disabled selected>Choose a car</option>
-                        <option *ngFor="let car of carsList" [value]="car.id">{{ car.name }}</option>
+                        <option *ngFor="let car of carsList" [value]="car.id">{{ car.name }} - {{car.location.city}}, {{car.location.street}} {{car.location.number}}</option>
                       </select>
                     </div>
                   </div>
                   
                   <div class="col-md-6 radio-2 mb-4">
-                    <label for="car" class="form-text-2 form-label">Public/private:</label>
-                    <select class="input-2 form-control" id="car" name="car" [(ngModel)]="ride.vehicle.id" required>
-                      <option  [value]='false'>Private</option>
-                      <option  [value]='true' selected>Public</option>
+                    <label for="isPublic" class="form-text-2 form-label">Want to carpool?:</label>
+                    <select class="input-2 form-control" id="isPublic" name="isPublic" [(ngModel)]="ride.isPublic" required>
+                      <option  [value]='false'>No thanks</option>
+                      <option  [value]='true' selected>Yes please</option>
 
                     </select>
 

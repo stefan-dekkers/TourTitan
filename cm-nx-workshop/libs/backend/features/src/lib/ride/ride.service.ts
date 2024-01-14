@@ -17,6 +17,7 @@ import { LocationEntity } from '../location/location.entity';
 import { CreateRideDto, UpdateRideDto } from '@cm-nx-workshop/backend/dto';
 import { UserEntity } from '../user/user.entity';
 
+
 @Injectable()
 export class RideService {
   private readonly logger: Logger = new Logger(RideService.name);
@@ -29,7 +30,8 @@ export class RideService {
     @InjectRepository(LocationEntity)
     private readonly locationRepository: Repository<LocationEntity>,
     @InjectRepository(UserEntity)
-    private readonly userRepository: Repository<UserEntity>
+    private readonly userRepository: Repository<UserEntity>,
+    // private readonly storageKey = 'currentUser'
   ) {}
 
   async findAll(): Promise<IRide[]> {
@@ -128,7 +130,11 @@ export class RideService {
       throw new ConflictException('Vehicle is not available for ride creation');
     }
 
+    
+    ride.vehicle = vehicle
+    ride.departureLocation = vehicle.location
     ride.arrivalLocation = await this.createRideLocation(ride);
+    console.log(ride)
 
     const newRide = await this.rideRepository.save(
       this.rideRepository.create(ride)

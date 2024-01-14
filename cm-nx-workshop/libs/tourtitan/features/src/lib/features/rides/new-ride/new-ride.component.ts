@@ -6,6 +6,8 @@ import { ICar } from '@cm-nx-workshop/shared/api';
 import { Subscription } from 'rxjs';
 import { Id } from 'libs/shared/api/src/lib/models/id.type';
 import { CarsService } from '../../cars/cars.service';
+import { AuthService } from 'libs/tourtitan/auth/src/lib/auth.service';
+
 @Component({
   selector: 'cm-nx-workshop-new-ride',
   templateUrl: './new-ride.component.html',
@@ -57,29 +59,36 @@ export class NewRideComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private ridesService: RidesService,
     private router: Router,
-    private carsService: CarsService
+    private carsService: CarsService,
+    private authService: AuthService
   ) {}
 
   carsList: ICar[] = [] ; 
 
   ngOnInit(): void {
-    this.loadCars();
-    this.route.paramMap.subscribe(async (params) => {
-      this.rideId = params.get('id') ?? null;
-      if (this.rideId) {
-        this.rideSubscription = this.ridesService.read(this.rideId).subscribe(
-          (ride) => {
-            this.ride = ride;
-            console.log(this.ride.toString());
-          },
-          (error) => {
-            console.error('Error fetching car:', error);
-          }
-        );
-      } else {
-        // New car
-      }
-    });
+    if (this.authService.getCurrentUser() != null) {
+      this.ride.driver = this.authService.getCurrentUser()!;
+      this.loadCars();
+      this.route.paramMap.subscribe(async (params) => {
+        this.rideId = params.get('id') ?? null;
+        if (this.rideId) {
+          this.rideSubscription = this.ridesService.read(this.rideId).subscribe(
+            (ride) => {
+              this.ride = ride;
+              // console.log(this.ride.toString());
+            },
+            (error) => {
+              console.error('Error fetching car:', error);
+            }
+          );
+        } else {
+          // New car
+        }
+      });
+    }
+    else{
+      this.router.navigate([`/`]);
+    }
 
   }
 
@@ -89,7 +98,7 @@ export class NewRideComponent implements OnInit, OnDestroy {
         // Handle the loaded cars here
         this.carsList = cars || []; // Use the provided array or default to an empty array if null
         this.carsList.forEach(cas => {
-          console.log(cas)
+          // console.log(cas)
         });
       },
       (error) => {
@@ -124,7 +133,7 @@ export class NewRideComponent implements OnInit, OnDestroy {
       });
     } else {
       console.log('Creating new ride');
-
+      console.log(this.ride)
       this.ridesService.create(this.ride).subscribe({
         next: (createdRide) => {
           console.log('Car added successfully:', createdRide);
