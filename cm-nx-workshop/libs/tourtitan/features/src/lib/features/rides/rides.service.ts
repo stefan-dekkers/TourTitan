@@ -13,7 +13,6 @@ export const httpOptions = {
 export class RidesService {
   endpoint = 'http://localhost:3000/api/ride';
   endpoint_user ='http://localhost:3000/api/ride?driverId=' 
-
   constructor(private readonly http: HttpClient) {}
 
   public list(options?: any): Observable<IRide[] | null> {
@@ -45,6 +44,7 @@ export class RidesService {
         catchError(this.handleError)
       );
   }
+
 
   public read(id: string | null, options?: any): Observable<IRide> {
     const url = `${this.endpoint}/${id}`;
