@@ -3,7 +3,10 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { RidesService } from '../../rides.service';
 import { IRide } from '@cm-nx-workshop/shared/api';
-
+import { AuthService } from 'libs/tourtitan/auth/src/lib/auth.service';
+import { IUser } from '@cm-nx-workshop/shared/api';
+import { ActivatedRoute, Router } from '@angular/router';
+import { UserService } from '../../../user/user.service';
 
 @Component({
   selector: 'cm-nx-workshop-my-rides',
@@ -11,21 +14,45 @@ import { IRide } from '@cm-nx-workshop/shared/api';
   styles: [],
 })
 
+
+
 export class MyRidesListComponent implements OnInit, OnDestroy {
   ride: IRide[] | null = null;
+  user: IUser | null = null;
+  subscription: Subscription | undefined = undefined;
+
   filteredRides: IRide[] | null = null;
   searchTerm: string = '';
-  subscription: Subscription | undefined = undefined;
   status: string = ''
-  constructor(private ridesService: RidesService) {}
+  constructor(private ridesService: RidesService, private authService: AuthService, private userService: UserService,
+    private route: ActivatedRoute,
+    private router: Router) {}
 
-  ngOnInit(): void {
-    //Hier moet de userId komen van de ingelogde user
-    this.subscription = this.ridesService.list_user('2617D607-C09E-EE11-85F8-005056A6A0FB').subscribe((results) => {
-      this.ride = results;
-      this.filteredRides = results;
-    });
-  }
+    ngOnInit(): void {
+      //Hier moet de userId komen van de ingelogde user
+      const currentUser = this.authService.getCurrentUser();
+    
+      if (currentUser !== null) {
+        this.subscription = this.authService.currentUser$.subscribe((results) => {
+          this.user = results;
+          this.loadRides();
+        });
+      } else {
+        this.router.navigate([`/`], {
+          relativeTo: this.route,
+        });
+      }
+    }
+    
+    loadRides(): void {
+      if (this.user && this.user.id) {
+        this.subscription = this.ridesService.list_user(this.user.id).subscribe((results) => {
+          this.ride = results;
+          this.filteredRides = results;
+        });
+      }
+    }
+    
 
   
 
