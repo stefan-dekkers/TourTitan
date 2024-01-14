@@ -168,14 +168,14 @@ export class MyRidesListComponent implements OnInit, OnDestroy {
     return plateNumber; // Return original if not in the expected format
   }
   
-  finishRide(): void {
-    if (this.ride && this.ride.length > 0) {
-      const rideToFinish = this.ride[0];
+  finishRide(ride:IRide): void {
+    if (ride) {
+      const rideToFinish = ride;
   
       const modalRef = this.modalService.open(RideFinishComponent, {
         centered: true,
         backdrop: true,
-      });
+    });
       
       modalRef.componentInstance.ride = rideToFinish;
       console.log(rideToFinish);
