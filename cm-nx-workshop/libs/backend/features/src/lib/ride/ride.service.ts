@@ -31,7 +31,6 @@ export class RideService {
     private readonly locationRepository: Repository<LocationEntity>,
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
-    // private readonly storageKey = 'currentUser'
   ) {}
 
   async findAll(): Promise<IRide[]> {
@@ -123,14 +122,29 @@ export class RideService {
     }
 
     // Check if the vehicle exists and is available
+    // const vehicle = await this.carRepository.findOne({
+    //   where: { id: ride.vehicle.id },
+    // });
+
     const vehicle = await this.carRepository.findOne({
       where: { id: ride.vehicle.id },
+      select: [
+        'id',
+        'name',
+        'plateNumber',
+        'capacity',
+        'mileage',
+        'isAvailable',
+        'location',
+        'imageUrl',
+      ],
+      relations: ['location'],
     });
     if (!vehicle || !vehicle.isAvailable) {
       throw new ConflictException('Vehicle is not available for ride creation');
     }
 
-    
+    console.log('ride'+ vehicle.location.street)
     ride.vehicle = vehicle
     ride.departureLocation = vehicle.location
     ride.arrivalLocation = await this.createRideLocation(ride);

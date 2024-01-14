@@ -29,7 +29,8 @@ export class MyRidesListComponent implements OnInit, OnDestroy {
   status: string = ''
   constructor(private ridesService: RidesService, private authService: AuthService, private userService: UserService,
     private route: ActivatedRoute,
-    private router: Router,     private modalService: NgbModal,
+    private router: Router,     
+    private modalService: NgbModal,
     ) {}
 
     ngOnInit(): void {
@@ -51,6 +52,9 @@ export class MyRidesListComponent implements OnInit, OnDestroy {
     loadRides(): void {
       if (this.user && this.user.id) {
         this.subscription = this.ridesService.list_user(this.user.id).subscribe((results) => {
+          this.ride?.forEach(r => {
+            console.log(r.departureLocation)
+          });
           this.ride = results;
           this.filteredRides = results;
         });
@@ -166,17 +170,18 @@ export class MyRidesListComponent implements OnInit, OnDestroy {
   
   finishRide(): void {
     if (this.ride && this.ride.length > 0) {
-      const rideToFinish = this.ride[0]; // Assuming you want to finish the first ride in the array
+      const rideToFinish = this.ride[0];
   
-      const modalRef: NgbModalRef = this.modalService.open(RideFinishComponent, {
+      const modalRef = this.modalService.open(RideFinishComponent, {
         centered: true,
         backdrop: true,
       });
       
       modalRef.componentInstance.ride = rideToFinish;
-  
+      console.log(rideToFinish);
       modalRef.componentInstance.confirmFinish.subscribe(() => {
         if (rideToFinish.id) {
+          console.log(rideToFinish);
           this.ridesService.finish(rideToFinish.id, rideToFinish).subscribe({
             next: () => {
               // Update the ride list after finishing
@@ -194,6 +199,7 @@ export class MyRidesListComponent implements OnInit, OnDestroy {
       console.error('Ride not found.');
     }
   }
+  
   
   
 }
