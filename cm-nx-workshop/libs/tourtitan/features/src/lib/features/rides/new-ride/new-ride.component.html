@@ -111,8 +111,16 @@
                     </div>
                   </div>
                   
-                  
-                                    
+                  <div class="col-md-6 radio-2">
+                    <label for="car" class="form-text-2 form-label">Public/private:</label>
+                    <select class="input-2 form-control" id="car" name="car" [(ngModel)]="ride.vehicle.id" required>
+                      <option  [value]='false'>Private</option>
+                      <option  [value]='true' selected>Public</option>
+
+                    </select>
+
+                  </div>
+                      
 
 
                   <div class="col-12">

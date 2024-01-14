@@ -12,10 +12,11 @@ import { AuthService } from 'libs/tourtitan/auth/src/lib/auth.service';
   templateUrl: './ride-details.component.html'
 })
 export class RideDetailComponent implements OnInit, OnDestroy {
-  ride: IRide | null = null;
+  ride: IRide | undefined;
   subscription: Subscription | undefined = undefined;
-
+  
   constructor(
+    private ridesService: RidesService,
     private modalService: NgbModal,
     private rideService: RidesService,
     private route: ActivatedRoute,
@@ -78,4 +79,94 @@ export class RideDetailComponent implements OnInit, OnDestroy {
     }
     return false
   }
+
+  formatDateTime(inputDate: Date | undefined): string {
+    if (inputDate === undefined) {
+      return ''; // or provide a default value or handle accordingly
+    }
+  
+    const date = new Date(inputDate);
+    
+    // Ensure the input date is valid
+    if (isNaN(date.getTime())) {
+      throw new Error('Invalid date format');
+    }
+  
+    // Get date components
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+    const year = date.getFullYear();
+  
+    // Get time components
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+  
+    // Construct the formatted date string
+    const formattedDate = `${hours}:${minutes}`;
+  
+    return formattedDate;
+  }
+
+  formatDateFull(inputDate: Date | undefined): string {
+    if (inputDate === undefined) {
+      return ''; // or provide a default value or handle accordingly
+    }
+
+    const date = new Date(inputDate);
+  
+    // Ensure the input date is valid
+    if (isNaN(date.getTime())) {
+      throw new Error('Invalid date format');
+    }
+  
+    // Get date components
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+    const year = date.getFullYear();
+  
+    // Get time components
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+  
+    // Construct the formatted date string
+    const formattedDate = `${day}-${month}-${year} ${hours}:${minutes}`;
+  
+    return formattedDate;
+  }
+
+  formatDateDay(inputDate: Date): string {
+    const date = new Date(inputDate);
+  
+    // Ensure the input date is valid
+    if (isNaN(date.getTime())) {
+      throw new Error('Invalid date format');
+    }
+  
+    // Get date components
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+    const year = date.getFullYear();
+  
+    // Get time components
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+  
+    // Construct the formatted date string
+    const formattedDate = `${day}-${month}-${year}`;
+  
+    return formattedDate;
+  }
+
+  
+  formatLicensePlate(plateNumber: string): string {
+    // Format license plate to resemble Dutch format (e.g., XX-99-99)
+    if (plateNumber && plateNumber.length === 6) {
+      return `${plateNumber.substring(0, 2)}-${plateNumber.substring(
+        2,
+        4
+      )}-${plateNumber.substring(4, 6)}`;
+    }
+    return plateNumber; // Return original if not in the expected format
+  }
+
 }
