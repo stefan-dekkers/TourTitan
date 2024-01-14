@@ -1,7 +1,7 @@
 import { Observable, throwError } from 'rxjs';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { map, catchError, tap } from 'rxjs/operators';
-import { ApiResponse, IRide } from '@cm-nx-workshop/shared/api';
+import { ApiResponse, IRide, Status } from '@cm-nx-workshop/shared/api';
 import { Injectable } from '@angular/core';
 import { CarsService } from '../cars/cars.service';
 export const httpOptions = {
@@ -64,6 +64,21 @@ export class RidesService {
   public update(id: string, ride: IRide, options?: any): Observable<IRide | null> {
     const url = `${this.endpoint}/${id}`;
     console.log(`update ${this.endpoint}`);
+
+    return this.http
+      .put<ApiResponse<IRide>>(url, ride, { ...httpOptions, ...options })
+      .pipe(
+        tap(console.log),
+        map((response: any) => response.results as IRide),
+        catchError(this.handleError)
+      );
+  }
+
+  public finish(id: string, ride: IRide, options?:any): Observable<IRide | null>{
+    const url = `${this.endpoint}/${id}`;
+    console.log(`finish ${this.endpoint}`);
+    ride.status = Status.FINISHED;
+    console.log('finished is called ', ride)
 
     return this.http
       .put<ApiResponse<IRide>>(url, ride, { ...httpOptions, ...options })

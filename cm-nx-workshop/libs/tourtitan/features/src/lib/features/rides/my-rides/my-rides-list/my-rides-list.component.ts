@@ -7,6 +7,9 @@ import { AuthService } from 'libs/tourtitan/auth/src/lib/auth.service';
 import { IUser } from '@cm-nx-workshop/shared/api';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../../../user/user.service';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { CarDeleteComponent } from '../../../cars/cars-detail/car-delete/car-delete.component';
+import { RideFinishComponent } from '../../ride-finish/ride-finish.component';
 
 @Component({
   selector: 'cm-nx-workshop-my-rides',
@@ -20,13 +23,14 @@ export class MyRidesListComponent implements OnInit, OnDestroy {
   ride: IRide[] | null = null;
   user: IUser | null = null;
   subscription: Subscription | undefined = undefined;
-
+  
   filteredRides: IRide[] | null = null;
   searchTerm: string = '';
   status: string = ''
   constructor(private ridesService: RidesService, private authService: AuthService, private userService: UserService,
     private route: ActivatedRoute,
-    private router: Router) {}
+    private router: Router,     private modalService: NgbModal,
+    ) {}
 
     ngOnInit(): void {
       //Hier moet de userId komen van de ingelogde user
@@ -159,5 +163,37 @@ export class MyRidesListComponent implements OnInit, OnDestroy {
     }
     return plateNumber; // Return original if not in the expected format
   }
+  
+  finishRide(): void {
+    if (this.ride && this.ride.length > 0) {
+      const rideToFinish = this.ride[0]; // Assuming you want to finish the first ride in the array
+  
+      const modalRef: NgbModalRef = this.modalService.open(RideFinishComponent, {
+        centered: true,
+        backdrop: true,
+      });
+      
+      modalRef.componentInstance.ride = rideToFinish;
+  
+      modalRef.componentInstance.confirmFinish.subscribe(() => {
+        if (rideToFinish.id) {
+          this.ridesService.finish(rideToFinish.id, rideToFinish).subscribe({
+            next: () => {
+              // Update the ride list after finishing
+              this.loadRides();
+            },
+            error: (error) => {
+              console.error('Error finishing ride:', error);
+            },
+          });
+        } else {
+          console.error('Ride id is missing for finishing.');
+        }
+      });
+    } else {
+      console.error('Ride not found.');
+    }
+  }
+  
   
 }
