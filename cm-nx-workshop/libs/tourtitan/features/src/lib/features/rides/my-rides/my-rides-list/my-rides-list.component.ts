@@ -60,7 +60,10 @@ export class MyRidesListComponent implements OnInit, OnDestroy {
       }
     }
     
-    
+    passengerIncludesUser(passengers: IUser[] | undefined): boolean {
+      return !!passengers && passengers.some(passenger => passenger.id === this.user?.id);
+    }
+      
 
   
 
@@ -77,6 +80,13 @@ export class MyRidesListComponent implements OnInit, OnDestroy {
     ) || [];
   }
 
+  cancel(ride: IRide):void{
+
+  }
+
+  unjoin(ride: IRide):void{
+
+  }
 
   formatDateTime(inputDate: Date | undefined): string {
     if (inputDate === undefined) {
