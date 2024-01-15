@@ -25,6 +25,9 @@ jobs:
           npm run build --if-present
           # npm run test --if-present
 
+      - run: |
+          ls -l ${GITHUB_WORKSPACE}/cm-nx-workshop/dist/apps/
+
       - name: Zip artifacts for deployment
         run: |
           echo ${GITHUB_WORKSPACE}
