@@ -3,7 +3,6 @@ import { UserService } from '../user.service';
 import { IUser } from '@cm-nx-workshop/shared/api';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
-import { IUser } from '@cm-nx-workshop/shared/api';
 
 @Component({
   selector: 'cm-nx-workshop-user-login',

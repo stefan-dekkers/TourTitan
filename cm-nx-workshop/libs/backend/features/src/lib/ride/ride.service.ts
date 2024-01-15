@@ -249,17 +249,17 @@ export class RideService {
     arrivalDateTime.setHours(arrivalDateTime.getHours()+1);
     const currentDateTime = new Date();
 
-    if (arrivalDateTime > currentDateTime) {
-      throw new ConflictException('Arrival time cannot be in the future');
-    }
+    // if (arrivalDateTime > currentDateTime) {
+    //   throw new ConflictException('Arrival time cannot be in the future');
+    // }
 
     ride.departureTime.setHours(ride.departureTime.getHours()+1);;
 
-    if (arrivalDateTime <= ride.departureTime) {
-      throw new ConflictException(
-        'Arrival time must be later than the departure time'
-      );
-    }
+    // if (arrivalDateTime <= ride.departureTime) {
+    //   throw new ConflictException(
+    //     'Arrival time must be later than the departure time'
+    //   );
+    // }
 
     const vehicle = await this.carRepository.findOne({
       where: { id: ride.vehicle.id },
