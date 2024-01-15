@@ -28,6 +28,7 @@ export class AvailableRideComponent implements OnInit, OnDestroy {
     private router: Router) {}
 
     ngOnInit(): void {
+      // Hier moet de userId komen van de ingelogde gebruiker
       const currentUser = this.authService.getCurrentUser();
     
       if (currentUser !== null) {
@@ -36,9 +37,9 @@ export class AvailableRideComponent implements OnInit, OnDestroy {
     
           this.subscription = this.ridesService.list().subscribe((results) => {
             this.ride = results;
-            console.log(this.ride)
             this.filteredRides = results;
     
+            // Call the filterRides method after fetching the rides
             this.filterRides();
           });
         });
@@ -159,4 +160,7 @@ export class AvailableRideComponent implements OnInit, OnDestroy {
     return plateNumber; // Return original if not in the expected format
   }
   
+
+  joinRide(): void {
+  }
 }
