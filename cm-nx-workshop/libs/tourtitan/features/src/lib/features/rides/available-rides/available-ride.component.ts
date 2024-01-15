@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { RidesService } from '../rides.service';
-import { IRide } from '@cm-nx-workshop/shared/api';
+import { IRide, Status } from '@cm-nx-workshop/shared/api';
 import { AuthService } from 'libs/tourtitan/auth/src/lib/auth.service';
 import { IUser } from '@cm-nx-workshop/shared/api';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -29,20 +29,16 @@ export class AvailableRideComponent implements OnInit, OnDestroy {
     private router: Router) {}
 
     ngOnInit(): void {
-      // Hier moet de userId komen van de ingelogde gebruiker
       const currentUser = this.authService.getCurrentUser();
+      console.log(currentUser);
     
       if (currentUser !== null) {
-        this.subscription = this.authService.currentUser$.subscribe((results) => {
-          this.user = results;
+        this.user = currentUser;
+        this.subscription = this.ridesService.list().subscribe((results) => {
+          this.ride = results;
     
-          this.subscription = this.ridesService.list().subscribe((results) => {
-            this.ride = results;
-            this.filteredRides = results;
-    
-            // Call the filterRides method after fetching the rides
-            this.filterRides();
-          });
+          // Call the filterRides method after fetching the rides
+          this.filterRides();
         });
       } else {
         this.router.navigate([`/`], {
@@ -57,9 +53,14 @@ export class AvailableRideComponent implements OnInit, OnDestroy {
     
     filterRides(): void {
       this.filteredRides = this.ride?.filter((ride) =>
-        ride.isPublic === true && this.getAmountOfPassengers(ride) < ride.vehicle.capacity &&ride.status.toLowerCase() === "pending"
+        ride.isPublic === true &&
+        this.getAmountOfPassengers(ride) < ride.vehicle.capacity &&
+        ride.status === Status.PENDING &&
+        // Check if user is not already a passenger
+        !ride.passengers?.some((passenger) => passenger.id === this.user?.id)
       ) || [];
     }
+    
 
     getAmountOfPassengers(ride : IRide): number{
       //+1, because of the driver
@@ -162,18 +163,18 @@ export class AvailableRideComponent implements OnInit, OnDestroy {
   }
   
 
-  joinRide(id?: string, userId?:string): void {
-    this.ridesService.join(id,userId).subscribe(
+  joinRide(id?: string): void {
+    this.ridesService.join(id, this.user?.id).subscribe(
       (success) => {
-        console.log(`User ${userId} joined ride ${id}`);
+        console.log(`User ${this.user?.id} joined ride ${id}`);
         this.alertMessage = `You have joined the ride!`;
-        this.router.navigate(['/my-rides']);
+        this.router.navigate(['/available-rides']);
       },
       (error) => {
-        console.error('Error joining ride:', error);
+        console.error('Error joining ride: ', error);
         this.alertMessage = `Error joining ride: ${error.message}`;
       }
     );
-
   }
+  
 }

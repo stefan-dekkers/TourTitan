@@ -103,4 +103,14 @@ export class RideController {
   async getRideByUserId(@Param('id') userId: string): Promise<IRide[]> {
     return await this.rideService.getRidesByUserId(userId);
   }
+
+  @Get('passengers')
+  async getRidesWithPassengers(): Promise<IRide[]> {
+    return await this.rideService.getRidesWithPassenger();
+  }
+
+  @Get('available')
+  async getAvailableRides(): Promise<IRide[]> {
+    return await this.rideService.getAvailableRides();
+  }
 }

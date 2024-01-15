@@ -116,25 +116,23 @@ export class RidesService {
       );
   }
 
-  public join(id?: string,userId?: string, options?: any): Observable<IRide> {
+  public join(id?: string, userId?: string, options?: any): Observable<IRide> {
     console.log(`join  ${this.endpoint}`);
-    const url = this.endpoint +'/id/join'
-
+    const url = `${this.endpoint}/${id}/join`;
+  
     return this.http
-      .post<ApiResponse<IRide>>(url, userId, {
-        ...httpOptions,
-        ...options,
-      })
+      .post<ApiResponse<IRide>>(url, { userId }, { ...httpOptions, ...options })
       .pipe(
         tap(console.log),
         map((response: any) => response.results as IRide),
         catchError(error => {
-          // Handle errors
-          let errorMessage = 'Unable to join ride'
+          let errorMessage = 'Unable to join ride' + error.error.message;
           return throwError(() => new Error(errorMessage));
         })
       );
   }
+  
+  
 
   /**
    * Handle errors.

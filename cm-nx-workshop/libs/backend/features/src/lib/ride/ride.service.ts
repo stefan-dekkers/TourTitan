@@ -297,11 +297,14 @@ export class RideService {
   }
 
   async joinRide(rideId: string, userId: string): Promise<IRide> {
+    console.log('rideId'+rideId)
+    console.log('userId'+userId)
     const ride = await this.rideRepository.findOne({
       where: { id: rideId },
       relations: ['passengers', 'vehicle', 'driver'],
     });
 
+    console.log('ride'+ride)
     if (!ride) {
       throw new NotFoundException(`Ride with ID ${rideId} not found`);
     }
@@ -323,7 +326,7 @@ export class RideService {
     
     if (ride.passengers.some((passenger) => passenger.id === userId)) {
       throw new ConflictException(
-        `User with ID ${userId} is already a passenger of this ride`
+        ` You are already a passenger of this ride`
       );
     }
 
@@ -424,5 +427,20 @@ export class RideService {
     }
 
     return ride;
+  }
+
+  async getRidesWithPassenger(): Promise<IRide[]> {
+    const rides = await this.rideRepository.find({
+      relations: ['passengers'],
+    });
+    return rides;
+  }
+  async getAvailableRides(): Promise<IRide[]> {
+    const rides = await this.rideRepository.find({
+      where: { status: Status.PENDING },
+      relations: ['passengers', 'driver', 'vehicle'],
+    });
+
+    return rides;
   }
 }
