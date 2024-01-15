@@ -101,7 +101,11 @@ export class RidesService {
       .pipe(
         tap(console.log),
         map((response: any) => response.results as IRide),
-        catchError(this.handleError)
+        catchError(error => {
+          // Handle errors
+          let errorMessage = 'Invalid date'
+          return throwError(() => new Error(errorMessage));
+        })
       );
   }
 
