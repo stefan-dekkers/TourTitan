@@ -28,8 +28,8 @@ jobs:
       - name: Zip artifacts for deployment
         run: |
           echo ${GITHUB_WORKSPACE}
-          cd ${GITHUB_WORKSPACE}/dist/apps/data-api/ && zip ${GITHUB_WORKSPACE}/data-api-release.zip ./* -r
-          cd ${GITHUB_WORKSPACE}/dist/apps/tour-titan/ && zip ${GITHUB_WORKSPACE}/tour-titan-release.zip ./* -r
+          cd ${GITHUB_WORKSPACE}cm-nx-workshop/dist/apps/data-api/ && zip ${GITHUB_WORKSPACE}cm-nx-workshop/data-api-release.zip ./* -r
+          cd ${GITHUB_WORKSPACE}cm-nx-workshop/dist/apps/tour-titan/ && zip ${GITHUB_WORKSPACE}cm-nx-workshop/tour-titan-release.zip ./* -r
 
       - name: Upload tour-titan artifact for deployment job
         uses: actions/upload-artifact@v3
