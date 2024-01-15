@@ -49,7 +49,7 @@ export class CreateRideDto implements ICreateRide {
 
   @ApiProperty({ description: 'The departure location of the ride' })
   @IsObject()
-  departureLocation!: ILocation;
+  departureLocation?: ILocation;
 
   @ApiProperty({ description: 'The arrival location of the ride' })
   @ValidateNested()

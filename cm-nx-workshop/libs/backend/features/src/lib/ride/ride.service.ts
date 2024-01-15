@@ -9,7 +9,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Equal, Repository } from 'typeorm';
 import { RideEntity } from './ride.entity';
 import { ILocation, IRide, Status } from '@cm-nx-workshop/shared/api';
 import { CarEntity } from '../car/car.entity';
@@ -40,6 +40,36 @@ export class RideService {
     });
   }
 
+  async findAllPending(): Promise<IRide[]> {
+    this.logger.log('Finding all pending rides');
+    return this.rideRepository.find({
+      where: {
+        status: Equal(Status.PENDING),
+      },
+      relations: ['driver', 'vehicle', 'departureLocation', 'arrivalLocation'],
+    });
+  }
+
+  async findAllDriving(): Promise<IRide[]> {
+    this.logger.log('Finding all driving rides');
+    return this.rideRepository.find({
+      where: {
+        status: Equal(Status.DRIVING),
+      },
+      relations: ['driver', 'vehicle', 'departureLocation', 'arrivalLocation'],
+    });
+  }
+
+  async findAllFinished(): Promise<IRide[]> {
+    this.logger.log('Finding all finished rides');
+    return this.rideRepository.find({
+      where: {
+        status: Equal(Status.FINISHED),
+      },
+      relations: ['driver', 'vehicle', 'departureLocation', 'arrivalLocation'],
+    });
+  }
+
   async findOne(id: string): Promise<IRide | null> {
     this.logger.log(`Finding ride with id ${id}`);
     const ride = await this.rideRepository.findOne({
@@ -53,25 +83,25 @@ export class RideService {
 
     return ride;
   }
-  validateRide(ride: CreateRideDto): boolean {
+
+  validateRideForCurrentOrNextDay(ride: CreateRideDto): boolean {
     const currentDateTime = new Date();
     const departureDateTime = new Date(ride.departureTime);
 
-    const tomorrow = new Date(currentDateTime);
-    tomorrow.setDate(currentDateTime.getDate() + 1);
+    const endOfTomorrow = new Date(currentDateTime);
+    endOfTomorrow.setDate(currentDateTime.getDate() + 1);
+    endOfTomorrow.setHours(24, 59, 59, 999);
 
     this.logger.debug(
-      `Validating ride: Departure DateTime - ${departureDateTime.toISOString()}, Current DateTime - ${currentDateTime.toISOString()}, Tomorrow - ${tomorrow.toISOString()}`
+      `Validating ride: Departure DateTime - ${departureDateTime.toISOString()}, Current DateTime - ${currentDateTime.toISOString()}, End of Tomorrow - ${endOfTomorrow.toISOString()}`
     );
 
     const isValid =
-      (departureDateTime > currentDateTime &&
-        departureDateTime.toDateString() === currentDateTime.toDateString()) ||
-      departureDateTime.toDateString() === tomorrow.toDateString();
+      departureDateTime > currentDateTime && departureDateTime <= endOfTomorrow;
 
     if (!isValid) {
       this.logger.warn(
-        `Ride validation failed: Departure datetime ${departureDateTime.toISOString()} is not allowed. It must be later than the current time if today or any time if tomorrow.`
+        `Ride validation failed: Departure datetime ${departureDateTime.toISOString()} is not allowed. It must be later than the current time and cannot be later than the end of tomorrow.`
       );
     }
 
@@ -105,19 +135,22 @@ export class RideService {
 
     return location;
   }
-
   async create(ride: CreateRideDto): Promise<IRide | null> {
     this.logger.log(`Creating new ride: ${JSON.stringify(ride)}`);
 
-    if (!this.validateRide(ride)) {
+    if (!this.validateRideForCurrentOrNextDay(ride)) {
       const currentDateTime = new Date();
       const departureDateTime = new Date(ride.departureTime);
 
-      const tomorrow = new Date(currentDateTime);
-      tomorrow.setDate(currentDateTime.getDate() + 1);
+      const endOfTomorrow = new Date(currentDateTime);
+      endOfTomorrow.setDate(currentDateTime.getDate() + 1);
+      endOfTomorrow.setHours(24, 59, 59, 999);
 
+      this.logger.warn(
+        `Invalid ride creation attempt. Current DateTime: ${currentDateTime.toISOString()}, Requested Departure DateTime: ${departureDateTime.toISOString()}`
+      );
       throw new ConflictException(
-        `Invalid departureTime: ${departureDateTime.toISOString()} is not within the allowed range (Today: ${currentDateTime.toISOString()}, Tomorrow: ${tomorrow.toISOString()})`
+        `Invalid departureTime: ${departureDateTime.toISOString()} is not within the allowed range (Today: ${currentDateTime.toISOString()}, Tomorrow: ${endOfTomorrow.toISOString()})`
       );
     }
 
@@ -140,6 +173,7 @@ export class RideService {
       ],
       relations: ['location'],
     });
+
     if (!vehicle || !vehicle.isAvailable) {
       throw new ConflictException('Vehicle is not available for ride creation');
     }
@@ -161,7 +195,6 @@ export class RideService {
 
     return this.findOne(newRide.id);
   }
-
   async update(id: string, updateRideDto: UpdateRideDto): Promise<IRide> {
     this.logger.log(`Updating ride with id ${id}`);
     const ride = await this.findOne(id);
@@ -173,15 +206,17 @@ export class RideService {
     this.rideRepository.update(id, updateRideDto);
     return this.rideRepository.save(updateRideDto);
   }
-
   async delete(id: string): Promise<{ deleted: boolean; message?: string }> {
     this.logger.log(`Deleting ride with id: ${id}`);
     const result = await this.rideRepository.delete(id);
+
     if (result.affected === 0) {
       return { deleted: false, message: 'No ride found with that ID' };
     }
+
     return { deleted: true };
   }
+
   async finishRide(
     rideId: string,
     driverId: string,
@@ -198,9 +233,11 @@ export class RideService {
     if (!ride) {
       throw new NotFoundException(`Ride with ID ${rideId} not found`);
     }
+
     if (ride.status === Status.FINISHED) {
       throw new ConflictException('This ride has already been finished');
     }
+
     if (ride.driver.id !== driverId) {
       throw new UnauthorizedException(
         'Only the assigned driver can finish the ride'
@@ -209,11 +246,17 @@ export class RideService {
 
     const arrivalDateTime =
       arrivalTime instanceof Date ? arrivalTime : new Date(arrivalTime);
-
+    arrivalDateTime.setHours(arrivalDateTime.getHours() - 1);
     const currentDateTime = new Date();
+    // console.log(`finishRide -> currentDateTime: ${currentDateTime}`);
+    // console.log(`finishRide -> arrivalDateTime: ${arrivalDateTime}`);
+
     if (arrivalDateTime > currentDateTime) {
       throw new ConflictException('Arrival time cannot be in the future');
     }
+
+    ride.departureTime.setHours(ride.departureTime.getHours() - 1);
+    // console.log(`finishRide -> ride.departureTime: ${ride.departureTime}`);
 
     if (arrivalDateTime <= ride.departureTime) {
       throw new ConflictException(
@@ -255,6 +298,7 @@ export class RideService {
 
     return ride;
   }
+
   async joinRide(rideId: string, userId: string): Promise<IRide> {
     const ride = await this.rideRepository.findOne({
       where: { id: rideId },
@@ -264,27 +308,31 @@ export class RideService {
     if (!ride) {
       throw new NotFoundException(`Ride with ID ${rideId} not found`);
     }
+
     if (ride.driver.id === userId) {
       throw new ConflictException(
         `The driver of the ride cannot join as a passenger`
       );
     }
+
     if (!ride.isPublic) {
       throw new UnauthorizedException(
         'This ride is not public and cannot be joined'
       );
     }
+    if (ride.status === Status.DRIVING) {
+      throw new ConflictException('This ride is already on its way');
+    }
+    
     if (ride.passengers.some((passenger) => passenger.id === userId)) {
       throw new ConflictException(
         `User with ID ${userId} is already a passenger of this ride`
       );
     }
 
-    const currentDateTime = new Date();
-    const departureDateTime = new Date(ride.departureTime);
-    if (currentDateTime >= departureDateTime) {
+    if (ride.status !== Status.PENDING) {
       throw new ConflictException(
-        `Cannot join the ride as the departure time has already passed`
+        `Cannot join the ride because the departure time has already passed`
       );
     }
 
@@ -313,17 +361,71 @@ export class RideService {
     if (!ride) {
       throw new NotFoundException(`Ride with ID ${rideId} not found`);
     }
-
+    if (ride.status === Status.DRIVING) {
+      throw new ConflictException('This ride is already on its way');
+    }
     const passengerIndex = ride.passengers.findIndex(
       (passenger) => passenger.id === userId
     );
+
     if (passengerIndex === -1) {
       throw new NotFoundException(
         `User with ID ${userId} is not a passenger of this ride`
       );
     }
+
     ride.passengers.splice(passengerIndex, 1);
     await this.rideRepository.save(ride);
+    return ride;
+  }
+
+  async getRidesByUserId(userId: string): Promise<IRide[]> {
+    this.logger.log(`Finding all rides for user with ID ${userId}`);
+
+    const driverRides = await this.rideRepository.find({
+      where: { driver: { id: userId } },
+      relations: [
+        'driver',
+        'passengers',
+        'vehicle',
+        'departureLocation',
+        'arrivalLocation',
+      ],
+    });
+
+    const passengerRides = await this.rideRepository
+      .createQueryBuilder('ride')
+      .leftJoinAndSelect('ride.passengers', 'passenger')
+      .leftJoinAndSelect('ride.driver', 'driver')
+      .leftJoinAndSelect('ride.vehicle', 'vehicle')
+      .leftJoinAndSelect('ride.departureLocation', 'departureLocation')
+      .leftJoinAndSelect('ride.arrivalLocation', 'arrivalLocation')
+      .where('passenger.id = :userId', { userId })
+      .getMany();
+
+    const combinedRides = [...driverRides, ...passengerRides].filter(
+      (ride, index, self) => index === self.findIndex((r) => r.id === ride.id)
+    );
+
+    return combinedRides;
+  }
+
+  async updateStatus(rideId: string): Promise<IRide> {
+    const ride = await this.rideRepository.findOne({ where: { id: rideId } });
+
+    if (!ride) {
+      throw new Error(`Ride with ID ${rideId} not found`);
+    }
+
+    if (ride.status === Status.FINISHED) {
+      return ride;
+    }
+
+    if (ride.status === Status.PENDING) {
+      ride.status = Status.DRIVING;
+      await this.rideRepository.save(ride);
+    }
+
     return ride;
   }
 }
