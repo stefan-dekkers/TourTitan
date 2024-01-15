@@ -12,7 +12,7 @@ export const httpOptions = {
 @Injectable()
 export class RidesService {
   endpoint = 'http://localhost:3000/api/ride';
-  endpoint_user ='http://localhost:3000/api/ride?driverId=' 
+  endpoint_user ='http://localhost:3000/api/ride/user' 
   constructor(private readonly http: HttpClient) {}
 
   public list(options?: any): Observable<IRide[] | null> {
@@ -31,7 +31,7 @@ export class RidesService {
   }
 
   public list_user(user_id: string | null, options?: any): Observable<IRide[] | null> {
-    console.log(`list ${this.endpoint_user}`);
+    console.log(` endpoint used: ${this.endpoint_user}/${user_id}`);
     const url = `${this.endpoint_user}/${user_id}`;
     return this.http
       .get<ApiResponse<IRide[]>>(url, {

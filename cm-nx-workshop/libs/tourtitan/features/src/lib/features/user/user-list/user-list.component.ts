@@ -30,7 +30,7 @@ export class UserListComponent implements OnInit, OnDestroy {
         this.filteredUsers = results;
       });
     } else {
-      this.router.navigate([`/cars`], {
+      this.router.navigate([`/`], {
         relativeTo: this.route,
       });
     }
