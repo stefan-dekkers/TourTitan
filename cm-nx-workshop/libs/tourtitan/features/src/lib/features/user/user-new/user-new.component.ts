@@ -14,11 +14,10 @@ import { AuthService } from 'libs/tourtitan/auth/src/lib/auth.service';
 export class UserNewComponent implements OnInit, OnDestroy {
   userId: Id | null = null;
   newUser: IUser = {
-    
     name: '',
     emailAddress: '',
     role: UserRole.User,
-    password: ''
+    password: '',
   };
 
   private userSubscription: Subscription | undefined;
@@ -27,7 +26,7 @@ export class UserNewComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private userService: UserService,
     private router: Router,
-    private authService: AuthService,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -44,12 +43,9 @@ export class UserNewComponent implements OnInit, OnDestroy {
               console.error('Error fetching user:', error);
             }
           );
-        } else {
-          // New car
         }
       });
-    }
-    else{
+    } else {
       this.router.navigate([`/cars`], {
         relativeTo: this.route,
       });
@@ -93,9 +89,6 @@ export class UserNewComponent implements OnInit, OnDestroy {
   }
 
   isCreate(): boolean {
-    if (this.userId) {
-      return false;
-    }
-    return true;
+    return !this.userId;
   }
 }

@@ -11,37 +11,34 @@ import { Subscription } from 'rxjs';
   templateUrl: './user-profile.component.html',
   styles: [],
 })
-export class UserProfileComponent  implements OnInit, OnDestroy{
+export class UserProfileComponent implements OnInit, OnDestroy {
   user: IUser | null = null;
   subscription: Subscription | undefined = undefined;
 
-
-  constructor(private userService: UserService,
+  constructor(
+    private userService: UserService,
     private authService: AuthService,
     private route: ActivatedRoute,
-    private router: Router) {}
+    private router: Router
+  ) {}
 
-    ngOnInit(): void {
-
-      if (this.authService.getCurrentUser() !== null) {
-        this.subscription = this.authService.currentUser$.subscribe((results) => {
-          this.user = results;
-        });
-      }else{
-        this.router.navigate([`/`], {
-          relativeTo: this.route,
-        });
-      }
-      
+  ngOnInit(): void {
+    if (this.authService.getCurrentUser() !== null) {
+      this.subscription = this.authService.currentUser$.subscribe((results) => {
+        this.user = results;
+      });
+    } else {
+      this.router.navigate([`/`], {
+        relativeTo: this.route,
+      });
     }
-  
-    ngOnDestroy(): void {
-      if (this.subscription) this.subscription.unsubscribe();
-    }
+  }
 
-    logout(): void{
-      this.authService.logout();
-    }
+  ngOnDestroy(): void {
+    if (this.subscription) this.subscription.unsubscribe();
+  }
 
+  logout(): void {
+    this.authService.logout();
+  }
 }
-
