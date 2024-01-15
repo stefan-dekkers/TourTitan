@@ -74,20 +74,27 @@ export class RidesService {
       );
   }
 
-  public finish(id: string, ride: IRide, options?:any): Observable<IRide | null>{
-    const url = `${this.endpoint}/${id}`;
-    console.log(`finish ${this.endpoint}`);
-    ride.status = Status.FINISHED;
-    console.log('finished is called ', ride)
+  public finish(id: string, newMileage: number, arrivalTime?: Date, driverId?: string, options?: any): Observable<IRide | null> {
+    const url = `${this.endpoint}/${id}/finish`;
+
+    // Create a payload object to include in the request body
+    const payload = {
+        driverId: driverId,
+        newMileage: newMileage,
+        arrivalTime: arrivalTime,
+    };
+
+    console.log('finished is called ', id);
 
     return this.http
-      .put<ApiResponse<IRide>>(url, ride, { ...httpOptions, ...options })
-      .pipe(
-        tap(console.log),
-        map((response: any) => response.results as IRide),
-        catchError(this.handleError)
-      );
-  }
+        .patch<ApiResponse<IRide>>(url, payload, { ...httpOptions, ...options })
+        .pipe(
+            tap(console.log),
+            map((response: any) => response.results as IRide),
+            catchError(this.handleError)
+        );
+}
+
 
   public create(ride: IRide, options?: any): Observable<IRide> {
     console.log(`create ${this.endpoint}`);

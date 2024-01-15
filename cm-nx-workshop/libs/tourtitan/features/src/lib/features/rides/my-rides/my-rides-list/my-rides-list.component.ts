@@ -182,9 +182,9 @@ export class MyRidesListComponent implements OnInit, OnDestroy {
       modalRef.componentInstance.confirmFinish.subscribe(() => {
         if (rideToFinish.id) {
           console.log(rideToFinish);
-          this.ridesService.finish(rideToFinish.id, rideToFinish).subscribe({
-            next: () => {
-              // Update the ride list after finishing
+          this.ridesService.finish(rideToFinish.id, rideToFinish.vehicle.mileage,rideToFinish.arrivalTime, rideToFinish.driver.id).subscribe({
+            next: (response) => {
+              console.log('Finish Ride Response:', response);
               this.loadRides();
             },
             error: (error) => {
