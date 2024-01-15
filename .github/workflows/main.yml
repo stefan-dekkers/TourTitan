@@ -25,11 +25,17 @@ jobs:
           npm run build --if-present
           # npm run test --if-present
 
+      - name: List directory contents after build
+        run: |
+          ls -la cm-nx-workshop/dist/apps/
+
+
       - name: Zip artifacts for deployment
         run: |
           echo ${GITHUB_WORKSPACE}
           cd ${GITHUB_WORKSPACE}/cm-nx-workshop/dist/apps/data-api/ && zip ${GITHUB_WORKSPACE}/cm-nx-workshop/data-api-release.zip ./* -r
           cd ${GITHUB_WORKSPACE}/cm-nx-workshop/dist/apps/tour-titan/ && zip ${GITHUB_WORKSPACE}/cm-nx-workshop/tour-titan-release.zip ./* -r
+
 
       - name: Upload tour-titan artifact for deployment job
         uses: actions/upload-artifact@v3
