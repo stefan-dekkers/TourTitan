@@ -7,10 +7,9 @@ import { UserListComponent } from 'libs/tourtitan/features/src/lib/features/user
 import { UserNewComponent } from 'libs/tourtitan/features/src/lib/features/user/user-new/user-new.component';
 import { UserDetailComponent } from 'libs/tourtitan/features/src/lib/features/user/user-detail/user-detail.component';
 import { MyRidesListComponent } from 'libs/tourtitan/features/src/lib/features/rides/my-rides/my-rides-list/my-rides-list.component';
-import { AvailableRidesComponent } from 'libs/tourtitan/features/src/lib/features/rides/available-rides/available-ride.component';
 import { NewRideComponent } from 'libs/tourtitan/features/src/lib/features/rides/new-ride/new-ride.component';
 import { LoginComponent } from '@cm-nx-workshop/tourtitan/auth';
-
+import { AvailableRideComponent } from 'libs/tourtitan/features/src/lib/features/rides/available-rides/available-ride.component';
 
 import { RideDetailComponent } from 'libs/tourtitan/features/src/lib/features/rides/ride-details/ride-details.component';
 export const appRoutes: Route[] = [
@@ -76,7 +75,7 @@ export const appRoutes: Route[] = [
   },
   {
     path: 'available-rides',
-    component: AvailableRidesComponent,
+    component: AvailableRideComponent,
     pathMatch: 'full',
   },
   {

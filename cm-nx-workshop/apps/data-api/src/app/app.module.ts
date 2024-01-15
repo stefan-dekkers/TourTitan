@@ -8,7 +8,7 @@ import {
   RideEntity,
   UserEntity,
 } from '@cm-nx-workshop/backend/features';
-
+import { ScheduleModule } from '@nestjs/schedule';
 @Module({
   imports: [
     FeaturesBackendModule,
@@ -31,6 +31,7 @@ import {
       }),
       inject: [ConfigService],
     }),
+    ScheduleModule.forRoot(),
   ],
   controllers: [],
   providers: [],

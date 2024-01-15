@@ -9,7 +9,7 @@ export enum Status {
 }
 
 export interface IRide {
-  id: Id;
+  id?: Id;
   driver: IUser;
   passengers?: IUser[];
   vehicle: ICar;
@@ -18,7 +18,7 @@ export interface IRide {
   departureLocation: ILocation;
   arrivalLocation: ILocation;
   departureTime: Date;
-  arrivalTime: Date;
+  arrivalTime?: Date;
   distance?: number;
 }
 
@@ -29,7 +29,6 @@ export type ICreateRide = Pick<
   | 'vehicle'
   | 'isPublic'
   | 'status'
-  | 'departureLocation'
   | 'arrivalLocation'
   | 'departureTime'
 >;

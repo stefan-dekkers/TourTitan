@@ -46,7 +46,7 @@ export class CarDetailComponent implements OnInit, OnDestroy {
     if (this.car) {
       const modalRef: NgbModalRef = this.modalService.open(CarDeleteComponent, {
         centered: true,
-        backdrop: false,
+        backdrop: true,
       });
       modalRef.componentInstance.car = this.car;
 
