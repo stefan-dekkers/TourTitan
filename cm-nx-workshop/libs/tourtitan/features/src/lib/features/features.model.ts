@@ -16,10 +16,10 @@ import { UserListComponent } from './user/user-list/user-list.component';
 import { UserNewComponent } from './user/user-new/user-new.component';
 import { UserDetailComponent } from './user/user-detail/user-detail.component';
 import { NewRideComponent } from './rides/new-ride/new-ride.component';
-import { AvailableRidesComponent } from './rides/available-rides/available-ride.component';
+import { AvailableRideComponent } from './rides/available-rides/available-ride.component';
 import { RidesService } from './rides/rides.service';
 import { RideDetailComponent } from './rides/ride-details/ride-details.component';
-
+import { RideFinishComponent } from './rides/ride-finish/ride-finish.component';
 @NgModule({
   imports: [CommonModule, HttpClientModule, FormsModule, RouterModule],
   declarations: [
@@ -34,11 +34,13 @@ import { RideDetailComponent } from './rides/ride-details/ride-details.component
     CarDeleteComponent,
     SidebarComponent,
     NewRideComponent,
-    AvailableRidesComponent,
-    RideDetailComponent
+    AvailableRideComponent,
+    RideDetailComponent,
+    RideFinishComponent
   ],
   providers: [UserService, CarsService, RidesService],
   exports: [
+    RideFinishComponent,
     UserListComponent,
     UserDetailComponent,
     UserNewComponent,
@@ -51,7 +53,7 @@ import { RideDetailComponent } from './rides/ride-details/ride-details.component
     SidebarComponent,
     CarDeleteComponent,
     NewRideComponent,
-    AvailableRidesComponent,
+    AvailableRideComponent,
     UserProfileComponent,
     CarDeleteComponent,
     RideDetailComponent

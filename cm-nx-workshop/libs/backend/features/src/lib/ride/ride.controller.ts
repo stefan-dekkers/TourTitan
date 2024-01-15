@@ -22,6 +22,21 @@ export class RideController {
     return this.rideService.findAll();
   }
 
+  @Get('pending')
+  getAllPending(): Promise<IRide[]> {
+    return this.rideService.findAllPending();
+  }
+
+  @Get('driving')
+  getAllDriving(): Promise<IRide[]> {
+    return this.rideService.findAllDriving();
+  }
+
+  @Get('finished')
+  getAllFinished(): Promise<IRide[]> {
+    return this.rideService.findAllFinished();
+  }
+
   @Get(':id')
   getOne(@Param('id') id: string): Promise<IRide | null> {
     return this.rideService.findOne(id);
@@ -60,6 +75,7 @@ export class RideController {
     }
     return this.rideService.finishRide(id, driverId, newMileage, arrivalTime);
   }
+
   @Post(':id/join')
   async joinRide(
     @Param('id') rideId: string,
@@ -75,10 +91,16 @@ export class RideController {
   ): Promise<IRide> {
     return this.rideService.unjoinRide(rideId, userId);
   }
+
   @Delete(':id')
   async delete(
     @Param('id') id: string
   ): Promise<{ deleted: boolean; message?: string }> {
     return this.rideService.delete(id);
+  }
+
+  @Get('user/:id')
+  async getRideByUserId(@Param('id') userId: string): Promise<IRide[]> {
+    return await this.rideService.getRidesByUserId(userId);
   }
 }

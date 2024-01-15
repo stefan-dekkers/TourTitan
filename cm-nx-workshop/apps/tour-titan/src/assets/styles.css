@@ -303,3 +303,52 @@ hr{
   color: white !important; /* Set the text color to white when the pill is active */
   text-decoration: none !important; /* Remove any text decoration */
 }
+
+.vertical-line {
+    display: flex;
+    align-items: center;
+}
+
+.vertical-line svg {
+    height: 20px; /* Adjust the height of the SVG as needed */
+    margin-right: 10px; /* Adjust the margin as needed for spacing */
+}
+
+.filled {
+    fill: black;
+}
+
+.not-filled {
+    fill: none;
+}
+
+
+input[type="radio"]{
+    visibility: hidden;
+    height: 0;
+    width: 0;
+  }
+  
+  .label-radio {
+    width:100%;
+    vertical-align: middle;
+    text-align: center;
+    cursor: pointer;
+    background-color: none;
+    border-bottom: 2px solid #595C5F;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+  
+    margin-top: 10px;
+
+  }
+  input[type="radio"]:checked + label{
+    border-bottom-color: var(--color3);
+    border-bottom: 4px solid var(--color3);
+    margin-top: 8px;
+    
+  }
+
+  
+  
