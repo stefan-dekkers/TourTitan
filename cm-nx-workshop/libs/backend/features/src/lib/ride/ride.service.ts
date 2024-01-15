@@ -17,7 +17,6 @@ import { LocationEntity } from '../location/location.entity';
 import { CreateRideDto, UpdateRideDto } from '@cm-nx-workshop/backend/dto';
 import { UserEntity } from '../user/user.entity';
 
-
 @Injectable()
 export class RideService {
   private readonly logger: Logger = new Logger(RideService.name);
@@ -30,7 +29,7 @@ export class RideService {
     @InjectRepository(LocationEntity)
     private readonly locationRepository: Repository<LocationEntity>,
     @InjectRepository(UserEntity)
-    private readonly userRepository: Repository<UserEntity>,
+    private readonly userRepository: Repository<UserEntity>
   ) {}
 
   async findAll(): Promise<IRide[]> {
@@ -178,11 +177,11 @@ export class RideService {
       throw new ConflictException('Vehicle is not available for ride creation');
     }
 
-    console.log('ride'+ vehicle.location.street)
-    ride.vehicle = vehicle
-    ride.departureLocation = vehicle.location
+    console.log('ride' + vehicle.location.street);
+    ride.vehicle = vehicle;
+    ride.departureLocation = vehicle.location;
     ride.arrivalLocation = await this.createRideLocation(ride);
-    console.log(ride)
+    console.log(ride);
 
     const newRide = await this.rideRepository.save(
       this.rideRepository.create(ride)
@@ -246,14 +245,14 @@ export class RideService {
 
     const arrivalDateTime =
       arrivalTime instanceof Date ? arrivalTime : new Date(arrivalTime);
-    arrivalDateTime.setHours(arrivalDateTime.getHours()+1);
+    arrivalDateTime.setHours(arrivalDateTime.getHours() + 1);
     const currentDateTime = new Date();
 
     if (arrivalDateTime > currentDateTime) {
       throw new ConflictException('Arrival time cannot be in the future');
     }
 
-    ride.departureTime.setHours(ride.departureTime.getHours()+1);;
+    ride.departureTime.setHours(ride.departureTime.getHours() + 1);
 
     if (arrivalDateTime <= ride.departureTime) {
       throw new ConflictException(
@@ -320,7 +319,7 @@ export class RideService {
     if (ride.status === Status.DRIVING) {
       throw new ConflictException('This ride is already on its way');
     }
-    
+
     if (ride.passengers.some((passenger) => passenger.id === userId)) {
       throw new ConflictException(
         `User with ID ${userId} is already a passenger of this ride`
@@ -333,7 +332,7 @@ export class RideService {
       );
     }
 
-    if (ride.passengers.length >= ride.vehicle.capacity) {
+    if (ride.passengers.length >= ride.vehicle.capacity - 1) {
       throw new ConflictException(
         `Ride has reached its capacity and cannot accept more passengers`
       );

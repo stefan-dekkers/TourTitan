@@ -1,7 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { RidesService } from '../rides.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ILocation, IRide, IUser, Status, UserRole } from '@cm-nx-workshop/shared/api';
+import {
+  ILocation,
+  IRide,
+  IUser,
+  Status,
+  UserRole,
+} from '@cm-nx-workshop/shared/api';
 import { ICar } from '@cm-nx-workshop/shared/api';
 import { Subscription } from 'rxjs';
 import { Id } from 'libs/shared/api/src/lib/models/id.type';
@@ -20,9 +26,10 @@ export class NewRideComponent implements OnInit, OnDestroy {
       emailAddress: '',
       role: UserRole.User,
       id: '',
-      password: ''
+      password: '',
     },
-    vehicle: {name: '',
+    vehicle: {
+      name: '',
       plateNumber: '',
       capacity: 0,
       mileage: 0,
@@ -33,7 +40,8 @@ export class NewRideComponent implements OnInit, OnDestroy {
         zipCode: '',
         street: '',
         number: 0,
-      }},
+      },
+    },
     isPublic: true,
     status: Status.PENDING,
     arrivalLocation: {
@@ -48,10 +56,8 @@ export class NewRideComponent implements OnInit, OnDestroy {
       zipCode: '',
       street: '',
       number: 0,
-    }
+    },
   };
-
-
 
   private rideSubscription: Subscription | undefined;
 
@@ -63,7 +69,7 @@ export class NewRideComponent implements OnInit, OnDestroy {
     private authService: AuthService
   ) {}
 
-  carsList: ICar[] = [] ; 
+  carsList: ICar[] = [];
 
   ngOnInit(): void {
     if (this.authService.getCurrentUser() != null) {
@@ -85,29 +91,25 @@ export class NewRideComponent implements OnInit, OnDestroy {
           // New car
         }
       });
-    }
-    else{
+    } else {
       this.router.navigate([`/`]);
     }
-
   }
 
   loadCars(): void {
     this.carsService.list().subscribe(
       (cars: ICar[] | null) => {
-        // Handle the loaded cars here
-        this.carsList = cars || []; // Use the provided array or default to an empty array if null
-        this.carsList.forEach(cas => {
-          // console.log(cas)
-        });
+        if (cars) {
+          this.carsList = cars.filter((car) => car.isAvailable);
+        } else {
+          this.carsList = [];
+        }
       },
       (error) => {
         console.error('Error loading cars:', error);
       }
     );
   }
-  
-
 
   ngOnDestroy(): void {
     if (this.rideSubscription) {
@@ -133,7 +135,7 @@ export class NewRideComponent implements OnInit, OnDestroy {
       });
     } else {
       console.log('Creating new ride');
-      console.log(this.ride)
+      console.log(this.ride);
       this.ridesService.create(this.ride).subscribe({
         next: (createdRide) => {
           console.log('Car added successfully:', createdRide);
@@ -144,11 +146,7 @@ export class NewRideComponent implements OnInit, OnDestroy {
         },
       });
     }
-
-    
-  
   }
-
 
   isUpdate(): boolean {
     if (this.rideId) {
