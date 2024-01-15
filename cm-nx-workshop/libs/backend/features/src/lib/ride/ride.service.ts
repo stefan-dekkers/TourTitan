@@ -248,9 +248,9 @@ export class RideService {
     arrivalDateTime.setHours(arrivalDateTime.getHours() + 1);
     const currentDateTime = new Date();
 
-    if (arrivalDateTime > currentDateTime) {
-      throw new ConflictException('Arrival time cannot be in the future');
-    }
+    // if (arrivalDateTime > currentDateTime) {
+    //   throw new ConflictException('Arrival time cannot be in the future');
+    // }
 
     ride.departureTime.setHours(ride.departureTime.getHours() + 1);
 
