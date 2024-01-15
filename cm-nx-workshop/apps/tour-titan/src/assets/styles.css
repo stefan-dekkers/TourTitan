@@ -207,10 +207,11 @@ hr{
 }
 
 .button-3{
-    height: 20%;
+    height: 25%;
     width:20%;
     color: var(--color1);
     background-color: var(--color1);
+    padding: 1.5%;
 }
 .button-text{
     color: var(--color3);
