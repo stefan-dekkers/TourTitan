@@ -8,7 +8,6 @@ import { IUser } from '@cm-nx-workshop/shared/api';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../../../user/user.service';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { CarDeleteComponent } from '../../../cars/cars-detail/car-delete/car-delete.component';
 import { RideFinishComponent } from '../../ride-finish/ride-finish.component';
 
 @Component({
@@ -168,17 +167,14 @@ export class MyRidesListComponent implements OnInit, OnDestroy {
     return plateNumber; // Return original if not in the expected format
   }
   
-  finishRide(ride:IRide): void {
-    if (ride) {
-      const rideToFinish = ride;
-  
-      const modalRef = this.modalService.open(RideFinishComponent, {
+  finishRide(ride: IRide): void {
+      const modalRef: NgbModalRef = this.modalService.open(RideFinishComponent, {
         centered: true,
         backdrop: true,
     });
       
-      modalRef.componentInstance.ride = rideToFinish;
-      console.log(rideToFinish);
+      modalRef.componentInstance.ride = ride;
+  
       modalRef.componentInstance.confirmFinish.subscribe(() => {
         if (rideToFinish.id) {
           console.log(rideToFinish);
@@ -195,11 +191,5 @@ export class MyRidesListComponent implements OnInit, OnDestroy {
           console.error('Ride id is missing for finishing.');
         }
       });
-    } else {
-      console.error('Ride not found.');
-    }
-  }
-  
-  
-  
+  }  
 }
