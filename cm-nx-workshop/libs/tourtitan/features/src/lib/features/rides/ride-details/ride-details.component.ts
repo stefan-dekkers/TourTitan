@@ -169,4 +169,5 @@ export class RideDetailComponent implements OnInit, OnDestroy {
     return plateNumber; // Return original if not in the expected format
   }
 
+  
 }
