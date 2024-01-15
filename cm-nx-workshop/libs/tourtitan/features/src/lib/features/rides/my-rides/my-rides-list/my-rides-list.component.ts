@@ -164,20 +164,17 @@ export class MyRidesListComponent implements OnInit, OnDestroy {
     return plateNumber; // Return original if not in the expected format
   }
   
-  finishRide(): void {
-    if (this.ride && this.ride.length > 0) {
-      const rideToFinish = this.ride[0]; // Assuming you want to finish the first ride in the array
-  
+  finishRide(ride: IRide): void {
       const modalRef: NgbModalRef = this.modalService.open(RideFinishComponent, {
         centered: true,
         backdrop: true,
       });
       
-      modalRef.componentInstance.ride = rideToFinish;
+      modalRef.componentInstance.ride = ride;
   
       modalRef.componentInstance.confirmFinish.subscribe(() => {
-        if (rideToFinish.id) {
-          this.ridesService.finish(rideToFinish.id, rideToFinish).subscribe({
+        if (ride.id) {
+          this.ridesService.finish(ride.id, ride).subscribe({
             next: () => {
               // Update the ride list after finishing
               this.loadRides();
@@ -190,9 +187,7 @@ export class MyRidesListComponent implements OnInit, OnDestroy {
           console.error('Ride id is missing for finishing.');
         }
       });
-    } else {
-      console.error('Ride not found.');
-    }
+    
   }
   
   
