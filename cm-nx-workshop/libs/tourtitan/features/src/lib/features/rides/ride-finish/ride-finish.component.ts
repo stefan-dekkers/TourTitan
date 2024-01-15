@@ -14,6 +14,7 @@ export class RideFinishComponent {
   constructor(public activeModal: NgbActiveModal) {}
   onFinish() {
     this.confirmFinish.emit();
+    this.activeModal.close();
   }
 
   formatDateFull(inputDate: Date | undefined): string {

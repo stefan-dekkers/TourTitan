@@ -168,10 +168,13 @@ export class MyRidesListComponent implements OnInit, OnDestroy {
   }
   
   finishRide(ride: IRide): void {
+    if (ride) {
+      const rideToFinish = ride;
+  
       const modalRef: NgbModalRef = this.modalService.open(RideFinishComponent, {
         centered: true,
         backdrop: true,
-    });
+      });
       
       modalRef.componentInstance.ride = ride;
   
@@ -191,5 +194,8 @@ export class MyRidesListComponent implements OnInit, OnDestroy {
           console.error('Ride id is missing for finishing.');
         }
       });
+    } else {
+      console.error('Ride not found.');
+    }
   }  
 }

@@ -19,6 +19,7 @@ export class AvailableRideComponent implements OnInit, OnDestroy {
   ride: IRide[] | null = null;
   user: IUser | null = null;
   subscription: Subscription | undefined = undefined;
+  alertMessage: string = '';
 
   filteredRides: IRide[] | null = null;
   searchTerm: string = '';
@@ -161,6 +162,18 @@ export class AvailableRideComponent implements OnInit, OnDestroy {
   }
   
 
-  joinRide(): void {
+  joinRide(id?: string, userId?:string): void {
+    this.ridesService.join(id,userId).subscribe(
+      (success) => {
+        console.log(`User ${userId} joined ride ${id}`);
+        this.alertMessage = `You have joined the ride!`;
+        this.router.navigate(['/my-rides']);
+      },
+      (error) => {
+        console.error('Error joining ride:', error);
+        this.alertMessage = `Error joining ride: ${error.message}`;
+      }
+    );
+
   }
 }
