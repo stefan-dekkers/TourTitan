@@ -246,17 +246,14 @@ export class RideService {
 
     const arrivalDateTime =
       arrivalTime instanceof Date ? arrivalTime : new Date(arrivalTime);
-    arrivalDateTime.setHours(arrivalDateTime.getHours() - 1);
+    arrivalDateTime.setHours(arrivalDateTime.getHours()+1);
     const currentDateTime = new Date();
-    // console.log(`finishRide -> currentDateTime: ${currentDateTime}`);
-    // console.log(`finishRide -> arrivalDateTime: ${arrivalDateTime}`);
 
     if (arrivalDateTime > currentDateTime) {
       throw new ConflictException('Arrival time cannot be in the future');
     }
 
-    ride.departureTime.setHours(ride.departureTime.getHours() - 1);
-    // console.log(`finishRide -> ride.departureTime: ${ride.departureTime}`);
+    ride.departureTime.setHours(ride.departureTime.getHours()+1);;
 
     if (arrivalDateTime <= ride.departureTime) {
       throw new ConflictException(
@@ -410,7 +407,7 @@ export class RideService {
     return combinedRides;
   }
 
-  async updateStatus(rideId: string): Promise<IRide> {
+  async updateStatus(rideId?: string): Promise<IRide> {
     const ride = await this.rideRepository.findOne({ where: { id: rideId } });
 
     if (!ride) {

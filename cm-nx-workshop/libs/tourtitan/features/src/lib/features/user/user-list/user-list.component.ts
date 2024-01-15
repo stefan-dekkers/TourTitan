@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { UserService } from '../user.service';
 import { IUser } from '@cm-nx-workshop/shared/api';
-import {AuthService} from '../../../../../../auth/src/lib/auth.service'
+import { AuthService } from '../../../../../../auth/src/lib/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
@@ -16,24 +16,24 @@ export class UserListComponent implements OnInit, OnDestroy {
   searchTerm: string = '';
   subscription: Subscription | undefined = undefined;
 
-  constructor(private userService: UserService,
-     private authService: AuthService,
-     private route: ActivatedRoute,
-     private router: Router) {}
+  constructor(
+    private userService: UserService,
+    private authService: AuthService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
-
     if (this.authService.isAdmin()) {
       this.subscription = this.userService.list().subscribe((results) => {
         this.users = results;
         this.filteredUsers = results;
       });
-    }else{
+    } else {
       this.router.navigate([`/cars`], {
         relativeTo: this.route,
       });
     }
-    
   }
 
   ngOnDestroy(): void {
@@ -41,8 +41,9 @@ export class UserListComponent implements OnInit, OnDestroy {
   }
 
   filterUsers(): void {
-    this.filteredUsers = this.users?.filter(user =>
-      user.name.toLowerCase().includes(this.searchTerm.toLowerCase())
-    ) || [];
+    this.filteredUsers =
+      this.users?.filter((user) =>
+        user.name.toLowerCase().includes(this.searchTerm.toLowerCase())
+      ) || [];
   }
 }

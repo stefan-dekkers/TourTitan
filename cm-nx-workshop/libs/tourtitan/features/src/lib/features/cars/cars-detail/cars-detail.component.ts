@@ -70,14 +70,16 @@ export class CarDetailComponent implements OnInit, OnDestroy {
     }
   }
 
-  ngOnDestroy(): void {
-    if (this.subscription) this.subscription.unsubscribe();
-  }
-
-  isAdmin(): boolean{
-    if(this.authService.isAdmin()){
-      return true
+  
+    ngOnDestroy(): void {
+      if (this.subscription) this.subscription.unsubscribe();
     }
-    return false
+
+    isAdmin(): boolean{
+      if(this.authService.isAdmin()){
+        return true
+      }
+      return false
+    }
+    
   }
-}

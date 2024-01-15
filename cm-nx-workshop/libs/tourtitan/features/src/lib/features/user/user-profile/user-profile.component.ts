@@ -11,15 +11,16 @@ import { Subscription } from 'rxjs';
   templateUrl: './user-profile.component.html',
   styles: [],
 })
-export class UserProfileComponent  implements OnInit, OnDestroy{
+export class UserProfileComponent implements OnInit, OnDestroy {
   user: IUser | null = null;
   subscription: Subscription | undefined = undefined;
 
-
-  constructor(private userService: UserService,
+  constructor(
+    private userService: UserService,
     private authService: AuthService,
     private route: ActivatedRoute,
-    private router: Router) {}
+    private router: Router
+  ) {}
 
     ngOnInit(): void {
 
@@ -40,9 +41,7 @@ export class UserProfileComponent  implements OnInit, OnDestroy{
       if (this.subscription) this.subscription.unsubscribe();
     }
 
-    logout(): void{
-      this.authService.logout();
-    }
-
+  logout(): void {
+    this.authService.logout();
+  }
 }
-
