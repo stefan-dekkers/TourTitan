@@ -23,10 +23,7 @@ jobs:
           cd cm-nx-workshop
           npm install
           npm run build --if-present
-          # npm run test --if-present
-
-      - run: |
-          ls -l ${GITHUB_WORKSPACE}/cm-nx-workshop/dist/apps/
+          npm run test --if-present
 
       - name: Zip artifacts for deployment
         run: |
