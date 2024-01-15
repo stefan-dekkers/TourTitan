@@ -101,14 +101,11 @@ export class AuthService {
       
         return this.http.get<IUser>(url, httpOptions).pipe(
           map((response) => {
-            // console.log('Token validation successful, user data:', userData);
-            // console.log('Token validation successful, response data:', response);
             return userData;
           }),
           catchError((error: any) => {
             console.error('Token validation failed:', error.message);
             this.logout();
-            // console.log('User has been logged out due to token validation failure.');
             return of(null);
           })
         );
@@ -140,8 +137,6 @@ export class AuthService {
         const userString = sessionStorage.getItem(this.storageKey);
         if (userString) {
           const user = JSON.parse(userString);
-          // console.log('aaaaaaaaaaaaaaaaaa'+user)
-          // Check if the user has the 'admin' role
           if (user?.role === 'admin') {
             return true
           }
