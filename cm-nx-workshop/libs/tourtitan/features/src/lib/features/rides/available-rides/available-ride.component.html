@@ -1,5 +1,5 @@
 <div class="row bg-light-gray">
-  <div class="col-lg-2 col-md-12 col-sm-12">
+  <div class="col-lg-2 col-md-12 col-sm-12 bg-light">
     <cm-nx-workshop-sidebar-component></cm-nx-workshop-sidebar-component>
     </div>
   <div class="col-lg-3 d-none d-lg-block bg-light-gray"></div>
@@ -73,7 +73,7 @@
                           </div>
                           
                           <div class="col-lg-5 col-md-5 col-sm-5 pt-4">
-                            <h5>{{ride.departureLocation.street}} {{ride.departureLocation.number}} </h5>
+                            <h5>{{ride.arrivalLocation.street}} {{ride.arrivalLocation.number}}</h5>
                             <p class="text-muted p-0 m-0 mt-3"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar-event mb-1" viewBox="0 0 16 16">
                               <path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5z"/>
                               <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z"/>
@@ -100,19 +100,36 @@
                                     <path d="M2 13c0 1 1 1 1 1h5.256A4.5 4.5 0 0 1 8 12.5a4.5 4.5 0 0 1 1.544-3.393Q8.844 9.002 8 9c-5 0-6 3-6 4"/>
                                   </svg> Ride is public </p>
                                   
-                              </ng-template>  
+                              </ng-template> 
                             </p>
                             <h5 class="mt-2 pt-2">{{ride.arrivalLocation.street}} {{ride.arrivalLocation.number}}</h5>
                           </div>
 
                           <div class="col-lg-2 col-md-2 col-sm-2">
+                            <ul>
+                              <li>
                             <p
-                            
+
                             class="badge bg-success"
                             style="position: absolute; top: 20px; right: 20px"
                         >
                         Seats full: {{getAmountOfPassengers(ride)}}/{{ ride.vehicle.capacity }}
                         </p>
+                              </li>                              
+                              <li class="position-absolute bottom-0 end-0 m-3">
+                                <button class="button-2 input bg-primary px-2" (click)="joinRide()">
+                                  <div class="button-text-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle mb-1" viewBox="0 0 16 16">
+                                      <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                                      <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+                                    </svg>
+                                    
+                                    Join ride
+                                  </div>
+                                </button>
+                              </li>
+
+                            </ul>
                         </div>
                       </div>
                   </div>
