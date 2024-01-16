@@ -36,7 +36,7 @@ export class RideService {
   async findAll(): Promise<IRide[]> {
     this.logger.log('Finding all rides');
     return this.rideRepository.find({
-      relations: ['driver', 'vehicle', 'departureLocation', 'arrivalLocation'],
+      relations: ['driver', 'vehicle', 'departureLocation', 'arrivalLocation','passengers'],
     });
   }
 
@@ -46,7 +46,7 @@ export class RideService {
       where: {
         status: Equal(Status.PENDING),
       },
-      relations: ['driver', 'vehicle', 'departureLocation', 'arrivalLocation'],
+      relations: ['driver', 'vehicle', 'departureLocation', 'arrivalLocation','passengers'],
     });
   }
 
@@ -74,7 +74,7 @@ export class RideService {
     this.logger.log(`Finding ride with id ${id}`);
     const ride = await this.rideRepository.findOne({
       where: { id: id },
-      relations: ['driver', 'vehicle', 'departureLocation', 'arrivalLocation'],
+      relations: ['driver', 'vehicle', 'departureLocation', 'arrivalLocation','passengers'],
     });
 
     if (!ride) {
@@ -353,11 +353,13 @@ export class RideService {
   }
 
   async unjoinRide(rideId: string, userId: string): Promise<IRide> {
+    console.log('rideId'+userId)
     const ride = await this.rideRepository.findOne({
       where: { id: rideId },
-      relations: ['passengers'],
+      relations: ['driver', 'vehicle', 'departureLocation', 'arrivalLocation','passengers'],
     });
 
+    console.log('ride'+ride)
     if (!ride) {
       throw new NotFoundException(`Ride with ID ${rideId} not found`);
     }
@@ -429,12 +431,6 @@ export class RideService {
     return ride;
   }
 
-  async getRidesWithPassenger(): Promise<IRide[]> {
-    const rides = await this.rideRepository.find({
-      relations: ['passengers'],
-    });
-    return rides;
-  }
   async getAvailableRides(userId: string): Promise<IRide[]> {
 
     const rides = await this.rideRepository.find({

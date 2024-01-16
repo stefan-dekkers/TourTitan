@@ -38,6 +38,7 @@ export class MyRidesListComponent implements OnInit, OnDestroy {
       const currentUser = this.authService.getCurrentUser();
     
       if (currentUser !== null) {
+        this.user = currentUser;
         this.subscription = this.authService.currentUser$.subscribe((results) => {
           this.user = results;
           this.loadRides();
@@ -86,11 +87,13 @@ export class MyRidesListComponent implements OnInit, OnDestroy {
   }
 
   unjoinRide(id?: string): void {
+    console.log(`User ${this.user?.id} unjoining ride ${id}`);
     
     this.ridesService.unjoin(id, this.user?.id).subscribe(
       (success) => {
         console.log(`User ${this.user?.id} unjoined ride ${id}`);
         this.alertMessage = `You have unjoined the ride!`;
+        this.loadRides();
         this.router.navigate(['/my-rides']);
       },
       (error) => {

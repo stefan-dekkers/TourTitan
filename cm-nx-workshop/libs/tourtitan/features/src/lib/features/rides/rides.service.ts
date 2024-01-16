@@ -135,15 +135,11 @@ export class RidesService {
   public unjoin(id?: string, userId?: string, options?: any): Observable<IRide> {
     console.log(`unjoin  ${this.endpoint}`);
     const url = `${this.endpoint}/${id}/unjoin`;
-
-    const mergedOptions = {
-      ...httpOptions,
-      ...options,
-      params: { userId },  // Assuming you want to include userId as a query parameter
-    };
+    console.log(`unjoin ${url}`);
+    console.log(`unjoin ${userId}`);
 
     return this.http
-      .delete<ApiResponse<IRide>>(url, mergedOptions)
+      .delete<ApiResponse<IRide>>(url, { params: { userId: userId }, ...httpOptions, ...options })
       .pipe(
         tap(console.log),
         map((response: any) => response.results as IRide),

@@ -8,6 +8,7 @@ import {
   Put,
   Patch,
   UnauthorizedException,
+  Query,
 } from '@nestjs/common';
 import { RideService } from './ride.service';
 import { CreateRideDto, UpdateRideDto } from '@cm-nx-workshop/backend/dto';
@@ -87,10 +88,11 @@ export class RideController {
   @Delete(':id/unjoin')
   async unjoinRide(
     @Param('id') rideId: string,
-    @Body('userId') userId: string
+    @Query('userId') userId: string
   ): Promise<IRide> {
     return this.rideService.unjoinRide(rideId, userId);
-  }
+}
+
 
   @Delete(':id')
   async delete(
@@ -102,11 +104,6 @@ export class RideController {
   @Get('user/:id')
   async getRideByUserId(@Param('id') userId: string): Promise<IRide[]> {
     return await this.rideService.getRidesByUserId(userId);
-  }
-
-  @Get('passengers')
-  async getRidesWithPassengers(): Promise<IRide[]> {
-    return await this.rideService.getRidesWithPassenger();
   }
 
   @Get('available/:id')
