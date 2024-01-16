@@ -40,36 +40,6 @@ export class RideService {
     });
   }
 
-  async findAllPending(): Promise<IRide[]> {
-    this.logger.log('Finding all pending rides');
-    return this.rideRepository.find({
-      where: {
-        status: Equal(Status.PENDING),
-      },
-      relations: ['driver', 'vehicle', 'departureLocation', 'arrivalLocation'],
-    });
-  }
-
-  async findAllDriving(): Promise<IRide[]> {
-    this.logger.log('Finding all driving rides');
-    return this.rideRepository.find({
-      where: {
-        status: Equal(Status.DRIVING),
-      },
-      relations: ['driver', 'vehicle', 'departureLocation', 'arrivalLocation'],
-    });
-  }
-
-  async findAllFinished(): Promise<IRide[]> {
-    this.logger.log('Finding all finished rides');
-    return this.rideRepository.find({
-      where: {
-        status: Equal(Status.FINISHED),
-      },
-      relations: ['driver', 'vehicle', 'departureLocation', 'arrivalLocation'],
-    });
-  }
-
   async findOne(id: string): Promise<IRide | null> {
     this.logger.log(`Finding ride with id ${id}`);
     const ride = await this.rideRepository.findOne({

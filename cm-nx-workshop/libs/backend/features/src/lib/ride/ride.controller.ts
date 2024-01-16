@@ -22,21 +22,6 @@ export class RideController {
     return this.rideService.findAll();
   }
 
-  @Get('pending')
-  getAllPending(): Promise<IRide[]> {
-    return this.rideService.findAllPending();
-  }
-
-  @Get('driving')
-  getAllDriving(): Promise<IRide[]> {
-    return this.rideService.findAllDriving();
-  }
-
-  @Get('finished')
-  getAllFinished(): Promise<IRide[]> {
-    return this.rideService.findAllFinished();
-  }
-
   @Get(':id')
   getOne(@Param('id') id: string): Promise<IRide | null> {
     return this.rideService.findOne(id);
