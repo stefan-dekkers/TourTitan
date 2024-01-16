@@ -9,7 +9,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Equal, Repository } from 'typeorm';
+import { Equal, Repository, Not, Any } from 'typeorm';
 import { RideEntity } from './ride.entity';
 import { ILocation, IRide, Status } from '@cm-nx-workshop/shared/api';
 import { CarEntity } from '../car/car.entity';
@@ -435,12 +435,22 @@ export class RideService {
     });
     return rides;
   }
-  async getAvailableRides(): Promise<IRide[]> {
-    const rides = await this.rideRepository.find({
-      where: { status: Status.PENDING },
-      relations: ['passengers', 'driver', 'vehicle'],
-    });
+  async getAvailableRides(userId: string): Promise<IRide[]> {
 
+    const rides = await this.rideRepository.find({
+      where: {
+        status: Equal(Status.PENDING),
+        driver: { id: Not(userId) },
+        // passengers: {id: Not(userId)}
+      },
+      relations: [
+        'driver',
+        'passengers',
+        'vehicle',
+        'departureLocation',
+        'arrivalLocation',
+      ],
+    });
     return rides;
   }
 }

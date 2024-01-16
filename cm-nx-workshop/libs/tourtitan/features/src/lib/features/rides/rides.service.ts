@@ -15,11 +15,11 @@ export class RidesService {
   endpoint_user ='http://localhost:3000/api/ride/user' 
   constructor(private readonly http: HttpClient) {}
 
-  public list(options?: any): Observable<IRide[] | null> {
+  public list(userId?: string,options?: any): Observable<IRide[] | null> {
     console.log(`list ${this.endpoint}`);
-
+    const url = `${this.endpoint}/available/${userId}`;
     return this.http
-      .get<ApiResponse<IRide[]>>(this.endpoint, {
+      .get<ApiResponse<IRide[]>>(url, {
         ...options,
         ...httpOptions,
       })

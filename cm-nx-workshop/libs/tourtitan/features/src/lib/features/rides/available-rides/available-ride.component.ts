@@ -34,7 +34,7 @@ export class AvailableRideComponent implements OnInit, OnDestroy {
     
       if (currentUser !== null) {
         this.user = currentUser;
-        this.subscription = this.ridesService.list().subscribe((results) => {
+        this.subscription = this.ridesService.list(currentUser.id).subscribe((results) => {
           this.ride = results;
     
           // Call the filterRides method after fetching the rides
