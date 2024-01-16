@@ -71,7 +71,7 @@ describe('UserListComponent', () => {
     expect(component.filteredUsers).toEqual(mockUsers);
   });
 
-//   it('should redirect to /cars for non-admin user on ngOnInit', async () => {
+//   it('should redirect to /car for non-admin user on ngOnInit', async () => {
 //     // Arrange
 //     authServiceMock.isAdmin.mockReturnValue(false);
 
@@ -79,12 +79,12 @@ describe('UserListComponent', () => {
 //     await component.ngOnInit();
 
 //     // Assert
-//     expect(routerMock.navigate).toHaveBeenCalledWith(['/cars'], {
+//     expect(routerMock.navigate).toHaveBeenCalledWith(['/car'], {
 //       relativeTo: component.route,
 //     });
 //   });
 
-it('should redirect to /cars for non-admin user on ngOnInit', async () => {
+it('should redirect to /car for non-admin user on ngOnInit', async () => {
     // Arrange
     authServiceMock.isAdmin.mockReturnValue(false);
     const navigateSpy = jest.spyOn(routerMock, 'navigate').mockReturnValue(Promise.resolve(true));
@@ -94,7 +94,7 @@ it('should redirect to /cars for non-admin user on ngOnInit', async () => {
     fixture.detectChanges(); // Trigger change detection
 
     // Assert
-    expect(navigateSpy).toHaveBeenCalledWith(['/cars'], {
+    expect(navigateSpy).toHaveBeenCalledWith(['/car'], {
       relativeTo: activatedRouteMock, // Use activatedRouteMock instead of component.route
     });
   });
