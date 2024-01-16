@@ -226,6 +226,7 @@ export class MyRidesListComponent implements OnInit, OnDestroy {
             },
             error: (error) => {
               console.error('Error finishing ride:', error);
+              this.alertMessage = `Error finishing ride: ${error.message}`;
             },
           });
         } else {
