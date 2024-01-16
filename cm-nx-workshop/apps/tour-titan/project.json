@@ -53,12 +53,9 @@
           ]
         },
         "development": {
-          "buildOptimizer": false,
           "optimization": false,
-          "vendorChunk": true,
           "extractLicenses": false,
           "sourceMap": true,
-          "namedChunks": true,
           "fileReplacements": [
             {
               "replace": "libs/shared/util-env/src/lib/environment.ts",

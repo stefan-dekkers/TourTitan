@@ -13,7 +13,7 @@ export const httpOptions = {
 
 @Injectable()
 export class CarsService {
-  endpoint: string = `${environment.dataApiUrl}/cars`;
+  endpoint: string = `${environment.dataApiUrl}/car`;
 
   constructor(private readonly http: HttpClient) {}
 

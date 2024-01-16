@@ -13,13 +13,14 @@ import {
 import { IUser, UserRole } from '../../../../shared/api/src/lib/models/user.interface';
 import { Router } from '@angular/router';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { environment } from '@cm-nx-workshop/shared/util-env';
 
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-    private endpoint = "${environment.dataApiUrl}/auth";
+    private endpoint = `${environment.dataApiUrl}/auth`;
     private currentUserSubject = new BehaviorSubject<IUser | null>(null);
     private readonly storageKey = 'currentUser';
     private readonly headers = new HttpHeaders({

@@ -45,8 +45,6 @@ export class RideService {
     });
   }
 
-  
-
   async findAllDriving(): Promise<IRide[]> {
     this.logger.log('Finding all driving rides');
     return this.rideRepository.find({
@@ -237,9 +235,7 @@ export class RideService {
       where: { id: ride.vehicle.id },
     });
     if (!car) {
-      throw new ConflictException(
-        `Invalid car`
-      );
+      throw new ConflictException(`Invalid car`);
     }
     car.isAvailable = true;
     await this.carRepository.save(car);
