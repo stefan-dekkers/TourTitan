@@ -17,7 +17,6 @@ import { LocationEntity } from '../location/location.entity';
 import { CreateRideDto, UpdateRideDto } from '@cm-nx-workshop/backend/dto';
 import { UserEntity } from '../user/user.entity';
 
-
 @Injectable()
 export class RideService {
   private readonly logger: Logger = new Logger(RideService.name);
@@ -30,13 +29,19 @@ export class RideService {
     @InjectRepository(LocationEntity)
     private readonly locationRepository: Repository<LocationEntity>,
     @InjectRepository(UserEntity)
-    private readonly userRepository: Repository<UserEntity>,
+    private readonly userRepository: Repository<UserEntity>
   ) {}
 
   async findAll(): Promise<IRide[]> {
     this.logger.log('Finding all rides');
     return this.rideRepository.find({
-      relations: ['driver', 'vehicle', 'departureLocation', 'arrivalLocation','passengers'],
+      relations: [
+        'driver',
+        'vehicle',
+        'departureLocation',
+        'arrivalLocation',
+        'passengers',
+      ],
     });
   }
 
@@ -46,7 +51,13 @@ export class RideService {
       where: {
         status: Equal(Status.PENDING),
       },
-      relations: ['driver', 'vehicle', 'departureLocation', 'arrivalLocation','passengers'],
+      relations: [
+        'driver',
+        'vehicle',
+        'departureLocation',
+        'arrivalLocation',
+        'passengers',
+      ],
     });
   }
 
@@ -74,7 +85,13 @@ export class RideService {
     this.logger.log(`Finding ride with id ${id}`);
     const ride = await this.rideRepository.findOne({
       where: { id: id },
-      relations: ['driver', 'vehicle', 'departureLocation', 'arrivalLocation','passengers'],
+      relations: [
+        'driver',
+        'vehicle',
+        'departureLocation',
+        'arrivalLocation',
+        'passengers',
+      ],
     });
 
     if (!ride) {
@@ -178,11 +195,11 @@ export class RideService {
       throw new ConflictException('Vehicle is not available for ride creation');
     }
 
-    console.log('ride'+ vehicle.location.street)
-    ride.vehicle = vehicle
-    ride.departureLocation = vehicle.location
+    console.log('ride' + vehicle.location.street);
+    ride.vehicle = vehicle;
+    ride.departureLocation = vehicle.location;
     ride.arrivalLocation = await this.createRideLocation(ride);
-    console.log(ride)
+    console.log(ride);
 
     const newRide = await this.rideRepository.save(
       this.rideRepository.create(ride)
@@ -211,22 +228,35 @@ export class RideService {
 
     const ride = await this.rideRepository.findOne({
       where: { id: id },
-      relations: ['driver', 'vehicle', 'departureLocation', 'arrivalLocation','passengers'],
+      relations: [
+        'driver',
+        'vehicle',
+        'departureLocation',
+        'arrivalLocation',
+        'passengers',
+      ],
     });
 
     if (!ride) {
       throw new NotFoundException(`Ride with ID ${id} not found`);
     }
 
-    if(ride.passengers.length > 0){
-      this.logger.warn(
-        `Invalid ride deletion attempt. Ride has passengers`
-      );
+    if (ride.passengers.length > 0) {
+      this.logger.warn(`Invalid ride deletion attempt. Ride has passengers`);
       throw new ConflictException(
         `Invalid ride deletion attempt. Ride has passengers`
       );
     }
-
+    const car = await this.carRepository.findOne({
+      where: { id: ride.vehicle.id },
+    });
+    if (!car) {
+      throw new ConflictException(
+        `Invalid car`
+      );
+    }
+    car.isAvailable = true;
+    await this.carRepository.save(car);
     const result = await this.rideRepository.delete(id);
 
     if (result.affected === 0) {
@@ -265,14 +295,14 @@ export class RideService {
 
     const arrivalDateTime =
       arrivalTime instanceof Date ? arrivalTime : new Date(arrivalTime);
-    arrivalDateTime.setHours(arrivalDateTime.getHours()+1);
+    arrivalDateTime.setHours(arrivalDateTime.getHours() + 1);
     const currentDateTime = new Date();
 
     // if (arrivalDateTime > currentDateTime) {
     //   throw new ConflictException('Arrival time cannot be in the future');
     // }
 
-    ride.departureTime.setHours(ride.departureTime.getHours()+1);;
+    ride.departureTime.setHours(ride.departureTime.getHours() + 1);
 
     // if (arrivalDateTime <= ride.departureTime) {
     //   throw new ConflictException(
@@ -316,14 +346,14 @@ export class RideService {
   }
 
   async joinRide(rideId: string, userId: string): Promise<IRide> {
-    console.log('rideId'+rideId)
-    console.log('userId'+userId)
+    console.log('rideId' + rideId);
+    console.log('userId' + userId);
     const ride = await this.rideRepository.findOne({
       where: { id: rideId },
       relations: ['passengers', 'vehicle', 'driver'],
     });
 
-    console.log('ride'+ride)
+    console.log('ride' + ride);
     if (!ride) {
       throw new NotFoundException(`Ride with ID ${rideId} not found`);
     }
@@ -342,11 +372,9 @@ export class RideService {
     if (ride.status === Status.DRIVING) {
       throw new ConflictException('This ride is already on its way');
     }
-    
+
     if (ride.passengers.some((passenger) => passenger.id === userId)) {
-      throw new ConflictException(
-        ` You are already a passenger of this ride`
-      );
+      throw new ConflictException(` You are already a passenger of this ride`);
     }
 
     if (ride.status !== Status.PENDING) {
@@ -372,13 +400,19 @@ export class RideService {
   }
 
   async unjoinRide(rideId: string, userId: string): Promise<IRide> {
-    console.log('rideId'+userId)
+    console.log('rideId' + userId);
     const ride = await this.rideRepository.findOne({
       where: { id: rideId },
-      relations: ['driver', 'vehicle', 'departureLocation', 'arrivalLocation','passengers'],
+      relations: [
+        'driver',
+        'vehicle',
+        'departureLocation',
+        'arrivalLocation',
+        'passengers',
+      ],
     });
 
-    console.log('ride'+ride)
+    console.log('ride' + ride);
     if (!ride) {
       throw new NotFoundException(`Ride with ID ${rideId} not found`);
     }
@@ -451,7 +485,6 @@ export class RideService {
   }
 
   async getAvailableRides(userId: string): Promise<IRide[]> {
-
     const rides = await this.rideRepository.find({
       where: {
         status: Equal(Status.PENDING),

@@ -1,11 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CarsService } from '../cars.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ICar } from '@cm-nx-workshop/shared/api';
 import { Subscription } from 'rxjs';
 import { Id } from 'libs/shared/api/src/lib/models/id.type';
 import { AuthService } from 'libs/tourtitan/auth/src/lib/auth.service';
-import { CreateCarDto, UpdateCarDto } from '@cm-nx-workshop/backend/dto';
+import { CreateCarDto } from '@cm-nx-workshop/backend/dto';
 import { NgZone } from '@angular/core';
 
 @Component({
@@ -31,6 +30,8 @@ export class CarsNewComponent implements OnInit, OnDestroy {
   };
 
   private carSubscription: Subscription | undefined;
+  errorMessage: string = '';
+
 
   constructor(
     private route: ActivatedRoute,
@@ -89,6 +90,7 @@ export class CarsNewComponent implements OnInit, OnDestroy {
         },
         error: (error) => {
           console.error('Error updating car:', error);
+          this.errorMessage = ('Error updating car: '+ error.error.message)
         },
       });
     } else {
@@ -101,6 +103,8 @@ export class CarsNewComponent implements OnInit, OnDestroy {
         },
         error: (error) => {
           console.error('Error adding car:', error);
+          this.errorMessage = 'Platenumber is already in use';
+
         },
       });
     }

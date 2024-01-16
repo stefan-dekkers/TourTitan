@@ -24,6 +24,9 @@
                 >
                   Please fill in all the required fields.
                 </div>
+                <div *ngIf="errorMessage" class="alert alert-danger mt-3">
+                  {{ errorMessage }}
+                </div>
                 <h5 class="card-title mb-4">Car information</h5>
                 <form (ngSubmit)="submitForm()" #carForm="ngForm" class="row">
                   <div class="col-md-6">
