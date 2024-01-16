@@ -98,6 +98,15 @@ export class MyRidesListComponent implements OnInit, OnDestroy {
     );
   }
 
+   listAllPassengers(passengers?: IUser[]): string {
+    if (!passengers || passengers.length === 0) {
+      return "No passengers";
+    }
+  
+    const passengerNames = passengers.map((passenger) => passenger.name);
+    return passengerNames.join(', ');
+  }
+    
   unjoinRide(id?: string): void {
     console.log(`User ${this.user?.id} unjoining ride ${id}`);
     
