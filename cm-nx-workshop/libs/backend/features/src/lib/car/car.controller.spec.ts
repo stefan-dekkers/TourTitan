@@ -31,7 +31,7 @@ describe('CarController', () => {
     service = module.get<CarService>(CarService);
   });
 
-  it.skip('should be defined', () => {
+  it('should be defined', () => {
     expect(controller).toBeDefined();
   });
 
