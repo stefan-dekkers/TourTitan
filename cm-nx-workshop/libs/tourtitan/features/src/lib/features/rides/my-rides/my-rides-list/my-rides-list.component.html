@@ -163,7 +163,7 @@
                                 >
                                   {{ ride.status }}
                                 </p>
-                              </li>
+                              </li><br class="d-lg-none">
                               <li class="position-absolute bottom-0 end-0 m-3">
                                 <button class="button-2 input bg-danger px-2" *ngIf="ride.status === 'driving' && !passengerIncludesUser(ride.passengers)" (click)="finishRide(ride)">
                                   <div class="button-text-2">
