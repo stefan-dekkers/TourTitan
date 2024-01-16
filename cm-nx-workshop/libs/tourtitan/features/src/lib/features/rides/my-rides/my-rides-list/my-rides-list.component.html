@@ -56,10 +56,10 @@
           <div *ngFor="let ride of filteredRides" class="col-lg-12 col-md-12 col-sm-12 py-2">
             <!-- <a  [routerLink]="['/my-rides', ride.id]" routerLinkActive="active"> -->
               <div class="justify-content-between align-items-center">
-                  <div class="card shadow-lg w-100">
+                  <div class="card shadow-lg">
                       <div class="row">
                           <div class="col-lg-3 col-md-3 col-sm-3">
-                              <ul class="">
+                              <ul class="d-none d-lg-block">
                                   <li class="pt-4"><h5 style="margin-left:15px">{{formatDateTime(ride.departureTime)}}</h5>
                                   </li>
                                   <li>
@@ -85,10 +85,11 @@
                                           <h5 style="margin-left:15px">{{ formatDateTime(ride.arrivalTime)}}</h5>
                                       </ng-template>
                                   </li>
+                                  
                               </ul>
                           </div>
                           
-                          <div class="col-lg-7 col-md-7 col-sm-7 pt-4">
+                          <div class="col-lg-7 col-md-7 col-sm-7 pt-4 mx-3">
                             <h5>{{ride.departureLocation.street}} {{ride.departureLocation.number}}</h5>
                             <p class="text-muted p-0 m-0 mt-3"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar-event mb-1" viewBox="0 0 16 16">
                               <path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5z"/>
@@ -116,12 +117,35 @@
                                     <path d="M2 13c0 1 1 1 1 1h5.256A4.5 4.5 0 0 1 8 12.5a4.5 4.5 0 0 1 1.544-3.393Q8.844 9.002 8 9c-5 0-6 3-6 4"/>
                                   </svg> Ride is public </p>
                                   
-                              </ng-template>  
+                              </ng-template> 
+                               
                             </p>
                             <h5 class="mt-2 pt-2">{{ride.arrivalLocation.street}} {{ride.arrivalLocation.number}}</h5>
-                          </div>
-
-                          <div class="col-lg-4 col-md-4 col-sm-4">
+                            </div>
+                            <div class="d-lg-none">
+                              <div>
+                              <h5 class="mx-3">
+                                {{formatDateTime(ride.departureTime)}}
+                            
+                            <svg xmlns="http://www.w3.org/2000/svg" width="200" height="40">
+                              <!-- First circle -->
+                              <circle cx="10" cy="20" r="5" stroke="black" stroke-width="2" fill="none"/>
+                              <!-- Connecting line -->
+                              <line x1="15" y1="20" x2="180" y2="20" stroke="#0074E8" stroke-width="7"/>
+                              <!-- Second circle -->
+                              <circle cx="180" cy="20" r="5" stroke="black" stroke-width="2" fill="black"/>
+                            </svg>
+                            <ng-container *ngIf="formatDateFull(ride.arrivalTime) === '01-01-1970 01:00'; else displayDateSM">
+                              ?
+                            </ng-container>
+                            <ng-template #displayDateSM>
+                              {{ formatDateTime(ride.arrivalTime)}}
+                            </ng-template>
+                          </h5>
+                              </div>
+                            </div>
+  
+                          <div class="col-lg-2 col-md-2 col-sm-2">
                             <ul>
                               <li>
                                 <p
@@ -169,6 +193,7 @@
 
                               </li>                            </ul>
                           </div>
+
                           
 
                       </div>
@@ -176,7 +201,9 @@
               </div>
             <!-- </a> -->
           </div>
+    
       </div>
-                <div class="col-lg-1 d-none d-lg-block bg-light-gray"></div>
-        </div>
+    </div>
 </div>
+
+

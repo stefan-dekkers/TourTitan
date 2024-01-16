@@ -246,14 +246,14 @@ export class RideService {
 
     const arrivalDateTime =
       arrivalTime instanceof Date ? arrivalTime : new Date(arrivalTime);
-    arrivalDateTime.setHours(arrivalDateTime.getHours()+1);
+    arrivalDateTime.setHours(arrivalDateTime.getHours());
     const currentDateTime = new Date();
 
     // if (arrivalDateTime > currentDateTime) {
     //   throw new ConflictException('Arrival time cannot be in the future');
     // }
 
-    ride.departureTime.setHours(ride.departureTime.getHours()+1);;
+    ride.departureTime.setHours(ride.departureTime.getHours());;
 
     // if (arrivalDateTime <= ride.departureTime) {
     //   throw new ConflictException(
