@@ -222,11 +222,12 @@ export class MyRidesListComponent implements OnInit, OnDestroy {
           this.ridesService.finish(rideToFinish.id, rideToFinish.vehicle.mileage,rideToFinish.arrivalTime, rideToFinish.driver.id).subscribe({
             next: (response) => {
               console.log('Finish Ride Response:', response);
+              this.alertMessage= '';
               this.loadRides();
             },
             error: (error) => {
               console.error('Error finishing ride:', error);
-              this.alertMessage = `Error finishing ride: ${error.message}`;
+              this.alertMessage = `Mileage must be higher than the current mileage of the vehicle`;
             },
           });
         } else {
