@@ -15,11 +15,11 @@ export class RidesService {
   endpoint_user ='http://localhost:3000/api/ride/user' 
   constructor(private readonly http: HttpClient) {}
 
-  public list(options?: any): Observable<IRide[] | null> {
+  public list(userId?: string,options?: any): Observable<IRide[] | null> {
     console.log(`list ${this.endpoint}`);
-
+    const url = `${this.endpoint}/available/${userId}`;
     return this.http
-      .get<ApiResponse<IRide[]>>(this.endpoint, {
+      .get<ApiResponse<IRide[]>>(url, {
         ...options,
         ...httpOptions,
       })
@@ -135,15 +135,11 @@ export class RidesService {
   public unjoin(id?: string, userId?: string, options?: any): Observable<IRide> {
     console.log(`unjoin  ${this.endpoint}`);
     const url = `${this.endpoint}/${id}/unjoin`;
-
-    const mergedOptions = {
-      ...httpOptions,
-      ...options,
-      params: { userId },  // Assuming you want to include userId as a query parameter
-    };
+    console.log(`unjoin ${url}`);
+    console.log(`unjoin ${userId}`);
 
     return this.http
-      .delete<ApiResponse<IRide>>(url, mergedOptions)
+      .delete<ApiResponse<IRide>>(url, { params: { userId: userId }, ...httpOptions, ...options })
       .pipe(
         tap(console.log),
         map((response: any) => response.results as IRide),
@@ -153,6 +149,22 @@ export class RidesService {
         })
       );
 }
+
+public delete(id?: string, options?: any): Observable<IRide> {
+  console.log(`delete  ${this.endpoint}`);
+  const url = `${this.endpoint}/${id}`;
+  console.log(`delete ${url}`);
+  return this.http
+  .delete<ApiResponse<IRide>>(url, { ...httpOptions, ...options })
+  .pipe(
+    tap(console.log),
+    map((response: any) => response.results as IRide),
+    catchError(error => {
+      let errorMessage = 'Unable to delete ride' + error.error.message;
+      return throwError(() => new Error(errorMessage));
+    })
+  );
+  }
 
 
   

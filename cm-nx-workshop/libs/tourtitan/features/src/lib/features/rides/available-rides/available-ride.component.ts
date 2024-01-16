@@ -34,7 +34,7 @@ export class AvailableRideComponent implements OnInit, OnDestroy {
     
       if (currentUser !== null) {
         this.user = currentUser;
-        this.subscription = this.ridesService.list().subscribe((results) => {
+        this.subscription = this.ridesService.list(currentUser.id).subscribe((results) => {
           this.ride = results;
     
           // Call the filterRides method after fetching the rides
@@ -168,7 +168,7 @@ export class AvailableRideComponent implements OnInit, OnDestroy {
       (success) => {
         console.log(`User ${this.user?.id} joined ride ${id}`);
         this.alertMessage = `You have joined the ride!`;
-        this.router.navigate(['/available-rides']);
+        this.router.navigate(['/my-rides']);
       },
       (error) => {
         console.error('Error joining ride: ', error);

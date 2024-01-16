@@ -38,6 +38,7 @@ export class MyRidesListComponent implements OnInit, OnDestroy {
       const currentUser = this.authService.getCurrentUser();
     
       if (currentUser !== null) {
+        this.user = currentUser;
         this.subscription = this.authService.currentUser$.subscribe((results) => {
           this.user = results;
           this.loadRides();
@@ -82,15 +83,29 @@ export class MyRidesListComponent implements OnInit, OnDestroy {
   }
 
   cancel(ride: IRide):void{
-
+    console.log(`User ${this.user?.id} cancelling ride ${ride.id}`);
+    this.ridesService.delete(ride.id).subscribe(
+      (success) => {
+        console.log(`User ${this.user?.id} cancelled ride ${ride.id}`);
+        this.alertMessage = `You have cancelled the ride!`;
+        this.loadRides();
+        this.router.navigate(['/my-rides']);
+      },
+      (error) => {
+        console.error('Error cancelling ride: ', error);
+        this.alertMessage = `Error cancelling ride: ${error.message}`;
+      }
+    );
   }
 
   unjoinRide(id?: string): void {
+    console.log(`User ${this.user?.id} unjoining ride ${id}`);
     
     this.ridesService.unjoin(id, this.user?.id).subscribe(
       (success) => {
         console.log(`User ${this.user?.id} unjoined ride ${id}`);
         this.alertMessage = `You have unjoined the ride!`;
+        this.loadRides();
         this.router.navigate(['/my-rides']);
       },
       (error) => {
@@ -207,10 +222,12 @@ export class MyRidesListComponent implements OnInit, OnDestroy {
           this.ridesService.finish(rideToFinish.id, rideToFinish.vehicle.mileage,rideToFinish.arrivalTime, rideToFinish.driver.id).subscribe({
             next: (response) => {
               console.log('Finish Ride Response:', response);
+              this.alertMessage= '';
               this.loadRides();
             },
             error: (error) => {
               console.error('Error finishing ride:', error);
+              this.alertMessage = `Mileage must be higher than the current mileage of the vehicle`;
             },
           });
         } else {
