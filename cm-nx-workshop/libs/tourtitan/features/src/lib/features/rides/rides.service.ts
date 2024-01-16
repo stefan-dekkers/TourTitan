@@ -131,7 +131,30 @@ export class RidesService {
         })
       );
   }
-  
+
+  public unjoin(id?: string, userId?: string, options?: any): Observable<IRide> {
+    console.log(`unjoin  ${this.endpoint}`);
+    const url = `${this.endpoint}/${id}/unjoin`;
+
+    const mergedOptions = {
+      ...httpOptions,
+      ...options,
+      params: { userId },  // Assuming you want to include userId as a query parameter
+    };
+
+    return this.http
+      .delete<ApiResponse<IRide>>(url, mergedOptions)
+      .pipe(
+        tap(console.log),
+        map((response: any) => response.results as IRide),
+        catchError(error => {
+          let errorMessage = 'Unable to unjoin ride' + error.error.message;
+          return throwError(() => new Error(errorMessage));
+        })
+      );
+}
+
+
   
 
   /**

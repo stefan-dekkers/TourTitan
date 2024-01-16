@@ -22,7 +22,8 @@ export class MyRidesListComponent implements OnInit, OnDestroy {
   ride: IRide[] | null = null;
   user: IUser | null = null;
   subscription: Subscription | undefined = undefined;
-  
+  alertMessage: string = '';
+
   filteredRides: IRide[] | null = null;
   searchTerm: string = '';
   status: string = ''
@@ -84,9 +85,21 @@ export class MyRidesListComponent implements OnInit, OnDestroy {
 
   }
 
-  unjoin(ride: IRide):void{
-
+  unjoinRide(id?: string): void {
+    
+    this.ridesService.unjoin(id, this.user?.id).subscribe(
+      (success) => {
+        console.log(`User ${this.user?.id} unjoined ride ${id}`);
+        this.alertMessage = `You have unjoined the ride!`;
+        this.router.navigate(['/my-rides']);
+      },
+      (error) => {
+        console.error('Error unjoining ride: ', error);
+        this.alertMessage = `Error unjoining ride: ${error.message}`;
+      }
+    );
   }
+
 
   formatDateTime(inputDate: Date | undefined): string {
     if (inputDate === undefined) {
