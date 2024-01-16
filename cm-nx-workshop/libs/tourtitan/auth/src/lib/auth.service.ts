@@ -19,7 +19,7 @@ import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
   providedIn: 'root',
 })
 export class AuthService {
-    private endpoint = "http://localhost:3000/api/auth";
+    private endpoint = "${environment.dataApiUrl}/auth";
     private currentUserSubject = new BehaviorSubject<IUser | null>(null);
     private readonly storageKey = 'currentUser';
     private readonly headers = new HttpHeaders({
