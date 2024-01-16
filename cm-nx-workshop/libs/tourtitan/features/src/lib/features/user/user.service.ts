@@ -4,6 +4,7 @@ import { map, catchError, tap } from 'rxjs/operators';
 import { ApiResponse, IUser } from '@cm-nx-workshop/shared/api';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { environment } from '@cm-nx-workshop/shared/util-env';
 
 export const httpOptions = {
   observe: 'body' as const,
@@ -12,24 +13,22 @@ export const httpOptions = {
 
 @Injectable()
 export class UserService {
-  endpoint = 'http://localhost:3000/api/user';
-  endpoint_auth ='http://localhost:3000/api/login'
+  endpoint = `${environment.dataApiUrl}/user`;
+  endpoint_auth = `${environment.dataApiUrl}/login`;
 
   constructor(private readonly http: HttpClient) {}
 
-  authenticate(emailAddress: string, password: string)  {
+  authenticate(emailAddress: string, password: string) {
     const credentials = { emailAddress, password };
     // console.log('Authenticate ontvangen' + emailAddress + " " + password);
 
-    this.http.post(this.endpoint_auth, credentials, httpOptions)
-      .pipe(
-        tap(console.log),
-        map((response: any) => response.results as IUser),
-        catchError(this.handleError)
-      );
+    this.http.post(this.endpoint_auth, credentials, httpOptions).pipe(
+      tap(console.log),
+      map((response: any) => response.results as IUser),
+      catchError(this.handleError)
+    );
   }
 
-  
   public list(options?: any): Observable<IUser[] | null> {
     // console.log(`list ${this.endpoint}`);
 
@@ -99,7 +98,6 @@ export class UserService {
         catchError(this.handleError)
       );
   }
-
 
   private handleError(error: HttpErrorResponse): Observable<any> {
     console.error('Error in UserService:', error);

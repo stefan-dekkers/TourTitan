@@ -4,6 +4,8 @@ import { map, catchError, tap } from 'rxjs/operators';
 import { ApiResponse, IRide, Status } from '@cm-nx-workshop/shared/api';
 import { Injectable } from '@angular/core';
 import { CarsService } from '../cars/cars.service';
+import { environment } from '@cm-nx-workshop/shared/util-env';
+
 export const httpOptions = {
   observe: 'body' as const,
   responseType: 'json' as const,
@@ -11,8 +13,9 @@ export const httpOptions = {
 
 @Injectable()
 export class RidesService {
-  endpoint = 'http://localhost:3000/api/ride';
-  endpoint_user ='http://localhost:3000/api/ride?driverId=' 
+  endpoint = `${environment.dataApiUrl}/ride`;
+  endpoint_user = `${environment.dataApiUrl}/ride?driverId=`;
+
   constructor(private readonly http: HttpClient) {}
 
   public list(options?: any): Observable<IRide[] | null> {
@@ -30,7 +33,10 @@ export class RidesService {
       );
   }
 
-  public list_user(user_id: string | null, options?: any): Observable<IRide[] | null> {
+  public list_user(
+    user_id: string | null,
+    options?: any
+  ): Observable<IRide[] | null> {
     console.log(`list ${this.endpoint_user}`);
     const url = `${this.endpoint_user}/${user_id}`;
     return this.http
@@ -44,7 +50,6 @@ export class RidesService {
         catchError(this.handleError)
       );
   }
-
 
   public read(id: string | null, options?: any): Observable<IRide> {
     const url = `${this.endpoint}/${id}`;
@@ -61,7 +66,11 @@ export class RidesService {
       );
   }
 
-  public update(id: string, ride: IRide, options?: any): Observable<IRide | null> {
+  public update(
+    id: string,
+    ride: IRide,
+    options?: any
+  ): Observable<IRide | null> {
     const url = `${this.endpoint}/${id}`;
     console.log(`update ${this.endpoint}`);
 
@@ -74,11 +83,15 @@ export class RidesService {
       );
   }
 
-  public finish(id: string, ride: IRide, options?:any): Observable<IRide | null>{
+  public finish(
+    id: string,
+    ride: IRide,
+    options?: any
+  ): Observable<IRide | null> {
     const url = `${this.endpoint}/${id}`;
     console.log(`finish ${this.endpoint}`);
     ride.status = Status.FINISHED;
-    console.log('finished is called ', ride)
+    console.log('finished is called ', ride);
 
     return this.http
       .put<ApiResponse<IRide>>(url, ride, { ...httpOptions, ...options })
@@ -91,7 +104,7 @@ export class RidesService {
 
   public create(ride: IRide, options?: any): Observable<IRide> {
     console.log(`create ${this.endpoint}`);
-    const url = this.endpoint +'/create'
+    const url = this.endpoint + '/create';
 
     return this.http
       .post<ApiResponse<IRide>>(url, ride, {
