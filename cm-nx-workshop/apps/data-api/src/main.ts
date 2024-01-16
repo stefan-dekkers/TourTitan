@@ -8,8 +8,15 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const globalPrefix = 'api';
   app.setGlobalPrefix(globalPrefix);
-  const corsOptions: CorsOptions = {};
-  app.enableCors(corsOptions);
+    const corsOptions: CorsOptions = {
+      origin: 'https://red-pond-037f95f03.4.azurestaticapps.net',
+      methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+      allowedHeaders: 'Content-Type, Accept, Authorization',
+      credentials: true,
+    };
+    app.enableCors(corsOptions);
+  // const corsOptions: CorsOptions = {};
+  // app.enableCors(corsOptions);
   app.useGlobalInterceptors(new ApiResponseInterceptor());
   // app.useGlobalPipes(new ValidationPipe({
   //   whitelist: true,
