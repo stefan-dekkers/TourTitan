@@ -1,0 +1,184 @@
+<div class="row bg-light-gray">
+  <div class="col-lg-2 col-md-12 col-sm-12">
+    <cm-nx-workshop-sidebar-component></cm-nx-workshop-sidebar-component>
+  </div>
+
+  <div class="col-lg-10 col-md-12 col-sm-12 bg-light-gray">
+    <section class="py-1">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-3 d-none d-lg-block"></div>
+          <div class="col-lg-6 col-md-12 col-sm-12 full-vh pt-3">
+            <div class="card shadow-lg">
+              <div class="card-body">
+                <ng-container *ngIf="isCreate() === false; else createUserText">
+                  <h4 class="card-title mb-3">Update user</h4>
+                </ng-container>
+                <ng-template #createUserText>
+                  <h4 class="card-title mb-3">Add a new user</h4>
+                </ng-template>
+                <div *ngIf="!userForm.valid" class="mb-3">
+                  <p class="text-danger">
+                    Please fill in all the required fields.
+                  </p>
+                </div>
+                <h5 class="card-title mb-3">User information</h5>
+                <form (ngSubmit)="submitForm()" #userForm="ngForm" class="row">
+                  <div class="col-md-12">
+                    <div class="mb-3">
+                      <label for="name" class="form-text-2 form-label"
+                        >Name:</label
+                      >
+                      <input
+                        type="text"
+                        class="input-2 form-control"
+                        id="name"
+                        name="name"
+                        [(ngModel)]="newUser.name"
+                        #nameField="ngModel"
+                        required
+                        minlength="3"
+                      />
+                      <div
+                        *ngIf="nameField.errors?.['required'] && nameField.touched"
+                        class="text-danger"
+                      >
+                        Name is required.
+                      </div>
+                      <div
+                        *ngIf="
+                          nameField.errors?.['minlength'] && nameField.touched
+                        "
+                        class="text-danger"
+                      >
+                        Name must be at least 3 characters long.
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-12">
+                    <div class="mb-3">
+                      <label for="emailAddress" class="form-text-2 form-label"
+                        >Email address:</label
+                      >
+                      <input
+                        type="email"
+                        class="input-2 form-control"
+                        id="emailAddress"
+                        name="emailAddress"
+                        [(ngModel)]="newUser.emailAddress"
+                        #emailAddress="ngModel"
+                        required
+                        email
+                        minlength="3"
+                      />
+                      <div
+                        *ngIf="
+                          emailAddress.errors?.['required'] && emailAddress.touched
+                        "
+                        class="text-danger"
+                      >
+                        Email address is required.
+                      </div>
+                      <div
+                        *ngIf="
+                          emailAddress.errors?.['email'] && emailAddress.touched
+                        "
+                        class="text-danger"
+                      >
+                        Invalid email format (E.g. user&#64;example.com).
+                      </div>
+                      <div
+                        *ngIf="
+                          emailAddress.errors?.['minlength'] && emailAddress.touched
+                        "
+                        class="text-danger"
+                      >
+                        Email must be at least 3 characters long.
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-12">
+                    <div class="mb-3">
+                      <label for="role" class="form-text-2 form-label"
+                        >Role:</label
+                      >
+                      <select
+                        class="input-2 form-select"
+                        id="role"
+                        name="role"
+                        [(ngModel)]="newUser.role"
+                        required
+                      >
+                        <option value="user">User</option>
+                        <option value="admin">Admin</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div *ngIf="isCreate()" class="col-md-12">
+                    <div class="mb-3">
+                      <label for="password" class="form-text-2 form-label"
+                        >Password:</label
+                      >
+                      <input
+                        type="password"
+                        class="input-2 form-control"
+                        id="password"
+                        name="password"
+                        [(ngModel)]="newUser.password"
+                        #password="ngModel"
+                        required
+                        minlength="6"
+                      />
+                      <div
+                        *ngIf="password.errors?.['required'] && password.touched"
+                        class="text-danger"
+                      >
+                        Password is required.
+                      </div>
+                      <div
+                        *ngIf="password.errors?.['minlength'] && password.touched"
+                        class="text-danger"
+                      >
+                        Password must be at least 6 characters long.
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <button
+                      type="submit"
+                      class="mt-2 button-2 input"
+                      aria-label="Add"
+                      style="width: 100%"
+                      [disabled]="!userForm.valid"
+                      [class.pointer-events-none]="userForm.invalid"
+                    >
+                      <div class="button-text-2">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="16"
+                          height="16"
+                          fill="currentColor"
+                          class="bi bi-plus-circle"
+                          viewBox="0 0 16 16"
+                        >
+                          <path
+                            d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"
+                          />
+                          <path
+                            d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"
+                          />
+                        </svg>
+                        Submit
+                      </div>
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 d-none d-lg-block"></div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>

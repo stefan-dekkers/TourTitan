@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { UserService } from '../user.service';
+import { IUser } from '@cm-nx-workshop/shared/api';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 
@@ -9,25 +10,23 @@ import { Router } from '@angular/router';
   styleUrls: ['./user-login.component.css'],
 })
 export class UserLoginComponent implements OnInit, OnDestroy {
-  TAG = 'UserLoginComponent';
+  user: IUser[] | null = null;
   subscription: Subscription | undefined = undefined;
-  email!: string;
-  password!: string;
-  errorMessage: string | null = null;
 
-  constructor(private userService: UserService, private router: Router) {}
+  constructor(private userService: UserService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.subscription = this.userService.list().subscribe((results) => {
+      console.log(`results: ${results}`);
+      this.user = results;
+    });
+  }
 
   ngOnDestroy(): void {
     if (this.subscription) this.subscription.unsubscribe();
   }
 
-  authenticate(emailAddress: string, password: string) {
-    console.log(
-      'Authenticate ontvangen' + emailAddress + ' ' + password,
-      this.TAG
-    );
-    this.userService.authenticate(emailAddress, password);
+  authenticate(email: string, password: string): void {
+    this.userService.authenticate(email, password);
   }
 }

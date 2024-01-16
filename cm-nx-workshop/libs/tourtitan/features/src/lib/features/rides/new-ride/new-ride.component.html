@@ -1,0 +1,146 @@
+<div class="row">
+  <div class="col-lg-2 col-md-12 col-sm-12">
+    <cm-nx-workshop-sidebar-component></cm-nx-workshop-sidebar-component>
+  </div>
+  <div class="col-lg-10 col-md-9 col-sm-9">
+    <section class="py-1">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-3 d-none d-lg-block"></div>
+          <div class="col-lg-6 col-md-12 col-sm-12 full-vh pt-3">
+            <div class="card shadow-lg">
+              <div class="card-body">
+                <ng-container *ngIf="isUpdate(); else createRideText">
+                  <h4 class="card-title mb-4">Update ride</h4>
+                </ng-container>
+                <ng-template #createRideText>
+                  <h4 class="card-title mb-4">Add a new ride</h4>
+                </ng-template>
+                <div *ngIf="rideForm.submitted && rideForm.invalid" class="alert alert-danger mt-3">
+                  Please fill in all the required fields.
+                </div>
+                <h5 class="card-title mb-4">Destination information:</h5>
+                <form (ngSubmit)="submitForm()" #rideForm="ngForm" class="row">
+                  <div class="col-md-6">
+                    <div class="mb-3">
+                      <label for="street" class="form-text-2 form-label"
+                        >Street:</label
+                      >
+                      <input
+                        type="text"
+                        class="input-2 form-control"
+                        id="street"
+                        name="street"
+                        [(ngModel)]="ride.arrivalLocation.street"
+                        required
+                        #name="ngModel"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="mb-3">
+                      <label for="number" class="form-text-2 form-label"
+                        >Number:</label
+                      >
+                      <input
+                        type="number"
+                        class="input-2 form-control"
+                        id="number"
+                        name="number"
+                        [(ngModel)]="ride.arrivalLocation.number"
+                        required
+                      />
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="mb-3">
+                      <label for="zipCode" class="form-text-2 form-label"
+                        >Zip Code:</label
+                      >
+                      <input
+                        type="text"
+                        class="input-2 form-control"
+                        id="zipCode"
+                        name="zipCode"
+                        [(ngModel)]="ride.arrivalLocation.zipCode"
+                        required
+                      />
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="mb-3">
+                      <label for="city" class="form-text-2 form-label"
+                        >City:</label
+                      >
+                      <input
+                        type="text"
+                        class="input-2 form-control"
+                        id="city"
+                        name="city"
+                        [(ngModel)]="ride.arrivalLocation.city"
+                        required
+                      />
+                    </div>
+                  </div>
+                  
+                  <h5 class="card-title mb-4">Ride information:</h5>
+
+                  <div class="col-md-6">
+                    <div class="mb-3">
+                      <label for="departureTime" class="form-text-2 form-label"
+                        >Departure date:</label
+                      >
+                      <input
+                        type="datetime-local"
+                        class="input-2 form-control"
+                        id="departureTime"
+                        name="departureTime"
+                        [(ngModel)]="ride.departureTime"
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="mb-3">
+                      <label for="car" class="form-text-2 form-label">Car:</label>
+                      <select class="input-2 form-control" id="car" name="car" [(ngModel)]="ride.vehicle.id" required>
+                        <option value="" disabled selected>Choose a car</option>
+                        <option *ngFor="let car of carsList" [value]="car.id">{{ car.name }} - {{car.location.city}}, {{car.location.street}} {{car.location.number}}</option>
+                      </select>
+                    </div>
+                  </div>
+                  
+                  <div class="col-md-6 radio-2 mb-4">
+                    <label for="isPublic" class="form-text-2 form-label">Want to carpool?:</label>
+                    <select class="input-2 form-control" id="isPublic" name="isPublic" [(ngModel)]="ride.isPublic" required>
+                      <option  [value]='false'>No thanks</option>
+                      <option  [value]='true' selected>Yes please</option>
+
+                    </select>
+
+                  </div>
+                      
+
+
+                  <div class="col-12">
+                    <button type="submit" class="mt-2 button-2 input" aria-label="Add" style="width: 100%">
+                      <div class="button-text-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
+                          <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                          <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+                        </svg>
+                        Submit
+                      </div>
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 d-none d-lg-block"></div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>

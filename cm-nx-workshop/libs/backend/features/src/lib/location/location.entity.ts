@@ -1,5 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 import { CarEntity } from '../car/car.entity';
+import { RideEntity } from '../ride/ride.entity';
 
 @Entity()
 export class LocationEntity {
@@ -20,4 +21,10 @@ export class LocationEntity {
 
   @OneToMany(() => CarEntity, (car) => car.location)
   cars!: CarEntity[];
+
+  @OneToMany(() => RideEntity, (ride) => ride.arrivalLocation)
+  arrivalLocation!: RideEntity[];
+
+  @OneToMany(() => RideEntity, (ride) => ride.departureLocation)
+  departureLocation!: string[];
 }

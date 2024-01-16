@@ -10,6 +10,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserEntity } from './user/user.entity';
 import { CarEntity } from './car/car.entity';
 import { LocationEntity } from './location/location.entity';
+import { RideController } from './ride/ride.controller';
+import { RideService } from './ride/ride.service';
+import { RideEntity } from './ride/ride.entity';
+import { TasksService } from './tasks.service';
 
 @Module({
   imports: [
@@ -17,10 +21,15 @@ import { LocationEntity } from './location/location.entity';
       secret: 'secret',
       signOptions: { expiresIn: '60m' },
     }),
-    TypeOrmModule.forFeature([UserEntity, CarEntity, LocationEntity]),
+    TypeOrmModule.forFeature([
+      UserEntity,
+      CarEntity,
+      LocationEntity,
+      RideEntity,
+    ]),
   ],
-  controllers: [AuthController, UserController, CarController],
-  providers: [UserService, AuthService, CarService],
-  exports: [UserService, AuthService, CarService],
+  controllers: [AuthController, UserController, CarController, RideController],
+  providers: [UserService, AuthService, CarService, RideService, TasksService],
+  exports: [UserService, AuthService, CarService, RideService],
 })
 export class FeaturesBackendModule {}

@@ -1,10 +1,14 @@
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { FeaturesBackendModule } from './../../../../libs/backend/features/src/lib/features-backend.module';
 import { Module } from '@nestjs/common';
-import { UserEntity } from 'libs/backend/features/src/lib/user/user.entity';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { CarEntity } from 'libs/backend/features/src/lib/car/car.entity';
-import { LocationEntity } from 'libs/backend/features/src/lib/location/location.entity';
+import {
+  CarEntity,
+  FeaturesBackendModule,
+  LocationEntity,
+  RideEntity,
+  UserEntity,
+} from '@cm-nx-workshop/backend/features';
+import { ScheduleModule } from '@nestjs/schedule';
 @Module({
   imports: [
     FeaturesBackendModule,
@@ -17,7 +21,7 @@ import { LocationEntity } from 'libs/backend/features/src/lib/location/location.
         username: configService.get<string>('DATABASE_USERNAME'),
         password: configService.get<string>('DATABASE_PASSWORD'),
         database: configService.get<string>('DATABASE_NAME'),
-        entities: [UserEntity, CarEntity, LocationEntity],
+        entities: [UserEntity, CarEntity, LocationEntity, RideEntity],
         synchronize: configService.get<boolean>('DATABASE_SYNCHRONIZE'),
         options: {
           trustServerCertificate:
@@ -27,6 +31,7 @@ import { LocationEntity } from 'libs/backend/features/src/lib/location/location.
       }),
       inject: [ConfigService],
     }),
+    ScheduleModule.forRoot(),
   ],
   controllers: [],
   providers: [],
