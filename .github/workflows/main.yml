@@ -25,12 +25,6 @@ jobs:
           npm run build --if-present
           # npm run test --if-present
 
-      - name: Debugging workspace path
-        run: |
-          echo "Current GITHUB_WORKSPACE: ${GITHUB_WORKSPACE}"
-          echo "Listing workspace contents:"
-          ls -lah "${GITHUB_WORKSPACE}"
-
       - name: Zip artifacts for deployment
         run: |
           cd ${GITHUB_WORKSPACE}/cm-nx-workshop/dist/apps/data-api/ && zip ${GITHUB_WORKSPACE}/data-api-release.zip ./* -r
@@ -62,11 +56,6 @@ jobs:
 
       - name: Unzip artifact for deployment
         run: unzip tour-titan-release.zip
-
-      - name: Debugging App Location Path
-        run: |
-          echo "App location path: ${GITHUB_WORKSPACE}/cm-nx-workshop/apps/tour-titan"
-          ls -lah "${GITHUB_WORKSPACE}/cm-nx-workshop/apps/tour-titan"
 
       - name: Deploy to static azure web app
         id: builddeploy
