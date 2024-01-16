@@ -6,8 +6,8 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { RideEntity } from './ride.entity';
 import { CarEntity } from '../car/car.entity';
 import { LocationEntity } from '../location/location.entity';
-import { NotFoundException } from '@nestjs/common';
 import { Status, UserRole } from '@cm-nx-workshop/shared/api';
+import { NotFoundException } from '@nestjs/common';
 
 describe('RideController', () => {
   let controller: RideController;
@@ -225,9 +225,8 @@ describe('RideController', () => {
           departureTime: new Date('2024-01-17T08:00:00Z'),
           arrivalTime: new Date('2024-01-17T10:00:00Z'),
           distance: 60,
-        }
-      ]
-      ;
+        },
+      ];
       jest.spyOn(service, 'findAll').mockResolvedValue(mockRides);
 
       // Act
@@ -312,6 +311,165 @@ describe('RideController', () => {
 
       // Assert
       expect(result).toEqual(mockRide);
+    });
+  });
+  describe('update', () => {
+    it('should update the ride when it exists', async () => {
+      // Arrange
+      const rideId = '1';
+      const updateRideDto = {
+        id: '1',
+        driver: {
+          id: '20',
+          name: 'newName',
+          emailAddress: 'Driver2@test.com',
+          password: 'Secret1232',
+          role: UserRole.Admin,
+          drivenRides: [],
+        },
+        passengers: [
+          {
+            id: 'passengers1',
+            name: 'Passenger',
+            emailAddress: 'passenger@test.com',
+            password: 'Secret111',
+            role: UserRole.User,
+            drivenRides: [],
+          },
+          {
+            id: 'passengers2',
+            name: 'PassengerToo',
+            emailAddress: 'passengertoo@test.com',
+            password: 'Secret222',
+            role: UserRole.User,
+            drivenRides: [],
+          },
+        ],
+        vehicle: {
+          id: 'car1',
+          name: 'TestCar',
+          plateNumber: 'TE00ST',
+          capacity: 4,
+          mileage: 1000,
+          isAvailable: true,
+          location: new LocationEntity(),
+        },
+        isPublic: true,
+        status: Status.PENDING,
+        departureLocation: {
+          id: 'location1',
+          city: 'Testcity',
+          zipCode: '0000XX',
+          street: 'Teststreet',
+          number: 101,
+          cars: [],
+          arrivalLocation: [],
+          departureLocation: [],
+        },
+        arrivalLocation: {
+          id: 'location1',
+          city: 'Testcity',
+          zipCode: '1111XX',
+          street: 'TestStreet',
+          number: 202,
+          cars: [],
+          arrivalLocation: [],
+          departureLocation: [],
+        },
+        departureTime: new Date('2024-01-15T12:00:00Z'),
+        arrivalTime: new Date('2024-01-15T14:00:00Z'),
+        distance: 50,
+      };
+      const mockExistingRide = {
+        id: '1',
+        driver: {
+          id: '20',
+          name: 'Driver',
+          emailAddress: 'Driver@test.com',
+          password: 'Secret123',
+          role: UserRole.Admin,
+          drivenRides: [],
+        },
+        passengers: [
+          {
+            id: 'passenger1',
+            name: 'Passenger',
+            emailAddress: 'passenger@test.com',
+            password: 'Secret111',
+            role: UserRole.User,
+            drivenRides: [],
+          },
+          {
+            id: 'passenger2',
+            name: 'PassengerToo',
+            emailAddress: 'passengertoo@test.com',
+            password: 'Secret222',
+            role: UserRole.User,
+            drivenRides: [],
+          },
+        ],
+        vehicle: {
+          id: 'car1',
+          name: 'TestCar',
+          plateNumber: 'TE00ST',
+          capacity: 4,
+          mileage: 1000,
+          isAvailable: true,
+          location: new LocationEntity(),
+        },
+        isPublic: true,
+        status: Status.PENDING,
+        departureLocation: {
+          id: 'location1',
+          city: 'Testcity',
+          zipCode: '0000XX',
+          street: 'Teststreet',
+          number: 101,
+          cars: [],
+          arrivalLocation: [],
+          departureLocation: [],
+        },
+        arrivalLocation: {
+          id: 'location1',
+          city: 'Testcity',
+          zipCode: '1111XX',
+          street: 'TestStreet',
+          number: 202,
+          cars: [],
+          arrivalLocation: [],
+          departureLocation: [],
+        },
+        departureTime: new Date('2024-01-15T12:00:00Z'),
+        arrivalTime: new Date('2024-01-15T14:00:00Z'),
+        distance: 50,
+      };
+      jest.spyOn(service, 'findOne').mockResolvedValue(mockExistingRide);
+      jest.spyOn(service, 'update').mockResolvedValue(mockExistingRide);
+
+      // Act
+      await service.update(rideId, updateRideDto);
+
+      // Assert
+      expect(service.update).toHaveBeenCalledWith(
+        rideId,
+        updateRideDto
+      );
+      // Additional assertions based on your use case
+    });
+  });
+  describe('delete', () => {
+    it('should delete an existing ride', async () => {
+      // Arrange
+      const rideId = '1';
+      const deleteResult = { deleted: true }; // Mocking the result of the delete operation
+      jest.spyOn(service, 'delete').mockResolvedValue(deleteResult);
+
+      // Act
+      const result = await controller.delete(rideId);
+
+      // Assert
+      expect(result).toEqual({ deleted: true });
+      expect(service.delete).toHaveBeenCalledWith(rideId);
     });
   });
 });
