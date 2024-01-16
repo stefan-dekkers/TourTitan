@@ -207,8 +207,8 @@ hr{
 }
 
 .button-3{
-    height: 50%;
-    width:20%;
+    height: 40px;
+    width:90px;
     color: var(--color1);
     background-color: var(--color1);
     padding: 1.5%;
@@ -239,6 +239,8 @@ hr{
     font-size:16px;
     font-weight:600;
 }
+
+
 
 .login-alert{
     background-color: rgb(220, 76, 100, 0.7);

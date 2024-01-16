@@ -13,13 +13,14 @@ import {
 import { IUser, UserRole } from '../../../../shared/api/src/lib/models/user.interface';
 import { Router } from '@angular/router';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { environment } from '@cm-nx-workshop/shared/util-env';
 
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-    private endpoint = "http://localhost:3000/api/auth";
+    private endpoint = `${environment.dataApiUrl}/auth`;
     private currentUserSubject = new BehaviorSubject<IUser | null>(null);
     private readonly storageKey = 'currentUser';
     private readonly headers = new HttpHeaders({
@@ -101,14 +102,11 @@ export class AuthService {
       
         return this.http.get<IUser>(url, httpOptions).pipe(
           map((response) => {
-            // console.log('Token validation successful, user data:', userData);
-            // console.log('Token validation successful, response data:', response);
             return userData;
           }),
           catchError((error: any) => {
             console.error('Token validation failed:', error.message);
             this.logout();
-            // console.log('User has been logged out due to token validation failure.');
             return of(null);
           })
         );
@@ -140,8 +138,6 @@ export class AuthService {
         const userString = sessionStorage.getItem(this.storageKey);
         if (userString) {
           const user = JSON.parse(userString);
-          // console.log('aaaaaaaaaaaaaaaaaa'+user)
-          // Check if the user has the 'admin' role
           if (user?.role === 'admin') {
             return true
           }

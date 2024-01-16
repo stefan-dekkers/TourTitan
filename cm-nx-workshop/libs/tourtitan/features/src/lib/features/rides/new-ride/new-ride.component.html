@@ -19,6 +19,9 @@
                 <div *ngIf="rideForm.submitted && rideForm.invalid" class="alert alert-danger mt-3">
                   Please fill in all the required fields.
                 </div>
+                <div *ngIf="errorMessage" class="alert alert-danger mt-3">
+                  {{ errorMessage }}
+              </div>
                 <h5 class="card-title mb-4">Destination information:</h5>
                 <form (ngSubmit)="submitForm()" #rideForm="ngForm" class="row">
                   <div class="col-md-6">
@@ -105,9 +108,11 @@
                     <div class="mb-3">
                       <label for="car" class="form-text-2 form-label">Car:</label>
                       <select class="input-2 form-control" id="car" name="car" [(ngModel)]="ride.vehicle.id" required>
-                        <option value="" disabled selected>Choose a car</option>
+                        <option *ngIf="carsList.length === 0" value="" disabled selected>There are no cars available, try again later</option>
+                        <option *ngIf="carsList.length !== 0" value="" disabled selected>Choose a car</option>
                         <option *ngFor="let car of carsList" [value]="car.id">{{ car.name }} - {{car.location.city}}, {{car.location.street}} {{car.location.number}}</option>
                       </select>
+                    
                     </div>
                   </div>
                   

@@ -50,6 +50,7 @@ export class NewRideComponent implements OnInit, OnDestroy {
       number: 0,
     }
   };
+  errorMessage: string = '';
 
 
 
@@ -95,10 +96,10 @@ export class NewRideComponent implements OnInit, OnDestroy {
   loadCars(): void {
     this.carsService.list().subscribe(
       (cars: ICar[] | null) => {
-        // Handle the loaded cars here
-        this.carsList = cars || []; // Use the provided array or default to an empty array if null
-        this.carsList.forEach(cas => {
-          // console.log(cas)
+        cars?.forEach(c => {
+          if (c.isAvailable === true) {
+            this.carsList.push(c)
+          }
         });
       },
       (error) => {
@@ -141,6 +142,7 @@ export class NewRideComponent implements OnInit, OnDestroy {
         },
         error: (error) => {
           console.error('Error adding car:', error);
+          this.errorMessage = error.message;
         },
       });
     }

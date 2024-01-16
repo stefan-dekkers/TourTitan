@@ -1,5 +1,5 @@
 <div class="row bg-light-gray">
-  <div class="col-lg-2 col-md-12 col-sm-12">
+  <div class="col-lg-2 col-md-12 col-sm-12 bg-light">
     <cm-nx-workshop-sidebar-component></cm-nx-workshop-sidebar-component>
     </div>
   <div class="col-lg-3 d-none d-lg-block bg-light-gray"></div>
@@ -30,7 +30,11 @@
       </div>
 
       <div class="row">
-        
+        <div *ngIf="alertMessage !== ''">
+          <div class="alert alert-danger" role="alert">
+            {{alertMessage}}
+          </div>
+        </div>
         <!--filter-->
         <div class="center-align"> 
           <div class="row px-3">
@@ -88,7 +92,7 @@
                               </ul>
                           </div>
                           
-                          <div class="col-lg-6 col-md-6 col-sm-6 pt-4">
+                          <div class="col-lg-7 col-md-7 col-sm-7 pt-4">
                             <h5>{{ride.departureLocation.street}} {{ride.departureLocation.number}}</h5>
                             <p class="text-muted p-0 m-0 mt-3"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar-event mb-1" viewBox="0 0 16 16">
                               <path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5z"/>
@@ -136,8 +140,8 @@
                                   {{ ride.status }}
                                 </p>
                               </li>
-                              <li class="position-absolute bottom-0 end-0 m-3" *ngIf="ride.status === 'driving'">
-                                <button class="button-2 input bg-danger px-2" (click)="finishRide(ride)">
+                              <li class="position-absolute bottom-0 end-0 m-3">
+                                <button class="button-2 input bg-danger px-2" *ngIf="ride.status === 'driving' && !passengerIncludesUser(ride.passengers)" (click)="finishRide(ride)">
                                   <div class="button-text-2">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-stop-circle mb-1" viewBox="0 0 16 16">
                                       <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
@@ -146,8 +150,28 @@
                                     End ride
                                   </div>
                                 </button>
-                              </li>
-                            </ul>
+                                <button class="button-2 input bg-secondary px-2" *ngIf="ride.status === 'pending' && ride.driver.id === user?.id" (click)="cancel(ride)">
+                                  <div class="button-text-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle mb-1" viewBox="0 0 16 16">
+                                      <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                                      <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
+                                    </svg>
+                                    
+                                    Cancel
+                                  </div>
+                                </button>
+                                <button class="button-2 input bg-danger px-2" *ngIf="ride.status === 'pending' && passengerIncludesUser(ride.passengers)" (click)="unjoinRide(ride?.id)">
+                                  <div class="button-text-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dash-circle mb-1" viewBox="0 0 16 16">
+                                      <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                                      <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8"/>
+                                    </svg>
+                                    
+                                    Unjoin
+                                  </div>
+                                </button>
+
+                              </li>                            </ul>
                           </div>
                           
 
