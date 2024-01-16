@@ -8,7 +8,6 @@ import { IUser } from '@cm-nx-workshop/shared/api';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../../../user/user.service';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { CarDeleteComponent } from '../../../cars/cars-detail/car-delete/car-delete.component';
 import { RideFinishComponent } from '../../ride-finish/ride-finish.component';
 
 @Component({
@@ -23,7 +22,8 @@ export class MyRidesListComponent implements OnInit, OnDestroy {
   ride: IRide[] | null = null;
   user: IUser | null = null;
   subscription: Subscription | undefined = undefined;
-  
+  alertMessage: string = '';
+
   filteredRides: IRide[] | null = null;
   searchTerm: string = '';
   status: string = ''
@@ -38,6 +38,7 @@ export class MyRidesListComponent implements OnInit, OnDestroy {
       const currentUser = this.authService.getCurrentUser();
     
       if (currentUser !== null) {
+        this.user = currentUser;
         this.subscription = this.authService.currentUser$.subscribe((results) => {
           this.user = results;
           this.loadRides();
@@ -61,7 +62,10 @@ export class MyRidesListComponent implements OnInit, OnDestroy {
       }
     }
     
-    
+    passengerIncludesUser(passengers: IUser[] | undefined): boolean {
+      return !!passengers && passengers.some(passenger => passenger.id === this.user?.id);
+    }
+      
 
   
 
@@ -76,6 +80,39 @@ export class MyRidesListComponent implements OnInit, OnDestroy {
       ride.arrivalLocation.street.toLowerCase().includes(this.searchTerm.toLowerCase()) &&
       ride.status.toLowerCase() === this.status.toLowerCase()
     ) || [];
+  }
+
+  cancel(ride: IRide):void{
+    console.log(`User ${this.user?.id} cancelling ride ${ride.id}`);
+    this.ridesService.delete(ride.id).subscribe(
+      (success) => {
+        console.log(`User ${this.user?.id} cancelled ride ${ride.id}`);
+        this.alertMessage = `You have cancelled the ride!`;
+        this.loadRides();
+        this.router.navigate(['/my-rides']);
+      },
+      (error) => {
+        console.error('Error cancelling ride: ', error);
+        this.alertMessage = `Error cancelling ride: ${error.message}`;
+      }
+    );
+  }
+
+  unjoinRide(id?: string): void {
+    console.log(`User ${this.user?.id} unjoining ride ${id}`);
+    
+    this.ridesService.unjoin(id, this.user?.id).subscribe(
+      (success) => {
+        console.log(`User ${this.user?.id} unjoined ride ${id}`);
+        this.alertMessage = `You have unjoined the ride!`;
+        this.loadRides();
+        this.router.navigate(['/my-rides']);
+      },
+      (error) => {
+        console.error('Error unjoining ride: ', error);
+        this.alertMessage = `Error unjoining ride: ${error.message}`;
+      }
+    );
   }
 
 
@@ -168,27 +205,29 @@ export class MyRidesListComponent implements OnInit, OnDestroy {
     return plateNumber; // Return original if not in the expected format
   }
   
-  finishRide(ride:IRide): void {
+  finishRide(ride: IRide): void {
     if (ride) {
       const rideToFinish = ride;
   
-      const modalRef = this.modalService.open(RideFinishComponent, {
+      const modalRef: NgbModalRef = this.modalService.open(RideFinishComponent, {
         centered: true,
         backdrop: true,
-    });
+      });
       
-      modalRef.componentInstance.ride = rideToFinish;
-      console.log(rideToFinish);
+      modalRef.componentInstance.ride = ride;
+  
       modalRef.componentInstance.confirmFinish.subscribe(() => {
         if (rideToFinish.id) {
           console.log(rideToFinish);
-          this.ridesService.finish(rideToFinish.id, rideToFinish).subscribe({
-            next: () => {
-              // Update the ride list after finishing
+          this.ridesService.finish(rideToFinish.id, rideToFinish.vehicle.mileage,rideToFinish.arrivalTime, rideToFinish.driver.id).subscribe({
+            next: (response) => {
+              console.log('Finish Ride Response:', response);
+              this.alertMessage= '';
               this.loadRides();
             },
             error: (error) => {
               console.error('Error finishing ride:', error);
+              this.alertMessage = `Mileage must be higher than the current mileage of the vehicle`;
             },
           });
         } else {
@@ -198,8 +237,5 @@ export class MyRidesListComponent implements OnInit, OnDestroy {
     } else {
       console.error('Ride not found.');
     }
-  }
-  
-  
-  
+  }  
 }
