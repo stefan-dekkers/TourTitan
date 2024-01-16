@@ -83,7 +83,19 @@ export class MyRidesListComponent implements OnInit, OnDestroy {
   }
 
   cancel(ride: IRide):void{
-
+    console.log(`User ${this.user?.id} cancelling ride ${ride.id}`);
+    this.ridesService.delete(ride.id).subscribe(
+      (success) => {
+        console.log(`User ${this.user?.id} cancelled ride ${ride.id}`);
+        this.alertMessage = `You have cancelled the ride!`;
+        this.loadRides();
+        this.router.navigate(['/my-rides']);
+      },
+      (error) => {
+        console.error('Error cancelling ride: ', error);
+        this.alertMessage = `Error cancelling ride: ${error.message}`;
+      }
+    );
   }
 
   unjoinRide(id?: string): void {

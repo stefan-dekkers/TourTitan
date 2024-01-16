@@ -30,7 +30,11 @@
       </div>
 
       <div class="row">
-        
+        <div *ngIf="alertMessage !== ''">
+          <div class="alert alert-danger" role="alert">
+            {{alertMessage}}
+          </div>
+        </div>
         <!--filter-->
         <div class="center-align"> 
           <div class="row px-3">

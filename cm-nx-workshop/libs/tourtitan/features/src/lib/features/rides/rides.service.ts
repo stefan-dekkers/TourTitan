@@ -150,6 +150,22 @@ export class RidesService {
       );
 }
 
+public delete(id?: string, options?: any): Observable<IRide> {
+  console.log(`delete  ${this.endpoint}`);
+  const url = `${this.endpoint}/${id}`;
+  console.log(`delete ${url}`);
+  return this.http
+  .delete<ApiResponse<IRide>>(url, { ...httpOptions, ...options })
+  .pipe(
+    tap(console.log),
+    map((response: any) => response.results as IRide),
+    catchError(error => {
+      let errorMessage = 'Unable to delete ride' + error.error.message;
+      return throwError(() => new Error(errorMessage));
+    })
+  );
+  }
+
 
   
 

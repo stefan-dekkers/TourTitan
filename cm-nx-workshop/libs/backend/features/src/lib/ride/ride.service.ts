@@ -208,6 +208,25 @@ export class RideService {
   }
   async delete(id: string): Promise<{ deleted: boolean; message?: string }> {
     this.logger.log(`Deleting ride with id: ${id}`);
+
+    const ride = await this.rideRepository.findOne({
+      where: { id: id },
+      relations: ['driver', 'vehicle', 'departureLocation', 'arrivalLocation','passengers'],
+    });
+
+    if (!ride) {
+      throw new NotFoundException(`Ride with ID ${id} not found`);
+    }
+
+    if(ride.passengers.length > 0){
+      this.logger.warn(
+        `Invalid ride deletion attempt. Ride has passengers`
+      );
+      throw new ConflictException(
+        `Invalid ride deletion attempt. Ride has passengers`
+      );
+    }
+
     const result = await this.rideRepository.delete(id);
 
     if (result.affected === 0) {
