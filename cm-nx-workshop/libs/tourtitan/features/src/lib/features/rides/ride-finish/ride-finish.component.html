@@ -1,71 +1,58 @@
 <div class="modal-header">
-    <h4 class="modal-title">Finish ride</h4>
-  </div>
-  <div class="modal-body">
-
-    <form class="row">
-        <div class="col-md-12">
-          <div class="mb-3">
-            <label for="mileage" class="form-text-2 form-label"
-              >New mileage:</label
-            >
-            <input
-              type="text"
-              class="input-2 form-control"
-              id="mileage"
-              name="mileage"
-              [(ngModel)]="ride!.vehicle.mileage"
-              required
-            />
-          </div>
-        </div>
-        <div class="col-md-12">
-            <div class="mb-3">
-              <label for="arrivalTime" class="form-text-2 form-label"
-                >Arrival date:</label
-              >
-              <input
-              type="datetime-local"
-              class="input-2 form-control"
-              id="arrivalTime"
-              name="arrivalTime"
-              [(ngModel)]="ride!.arrivalTime"
-
-              required
-            />
-                        </div>
-          </div>
-
-      </form>
-
-  </div>
-  <div class="modal-footer">
-    <div class="row">
-      <div class="col-lg-6 col-md-6 col-sm-6">
-        <button
-      type="button"
-      class="button-2 input bg-secondary"
-      data-bs-dismiss="modal"
-      (click)="activeModal.dismiss()"
-    >
-      <div class="button-text-2 mx-4">
-        
-        
-          
-        Cancel
+  <h4 class="modal-title">Finish ride</h4>
+</div>
+<div class="modal-body">
+  <form class="row">
+    <div class="col-md-12">
+      <div class="mb-3">
+        <label for="mileage" class="form-text-2 form-label">New mileage:</label>
+        <input
+          type="text"
+          class="input-2 form-control"
+          id="mileage"
+          name="mileage"
+          [(ngModel)]="ride!.vehicle.mileage"
+          required
+        />
       </div>
-
-    </button>
-      </div> 
-      <div class="col-lg-6 col-md-6 col-sm-6">
-        <button type="button" class="button-2 input bg-success" (click)="onFinish()">
-          <div class="button-text-2 mx-4">
-            
-              Finish
-          </div>
-        </button>
-      
-      </div> 
+    </div>
+    <div class="col-md-12">
+      <div class="mb-3">
+        <label for="arrivalTime" class="form-text-2 form-label"
+          >Arrival date:</label
+        >
+        <input
+          type="datetime-local"
+          class="input-2 form-control"
+          id="arrivalTime"
+          name="arrivalTime"
+          [(ngModel)]="ride!.arrivalTime"
+          required
+        />
+      </div>
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <div class="row">
+    <div class="col-lg-6 col-md-6 col-sm-6">
+      <button
+        type="button"
+        class="button-2 input bg-secondary"
+        data-bs-dismiss="modal"
+        (click)="activeModal.dismiss()"
+      >
+        <div class="button-text-2 mx-4">Cancel</div>
+      </button>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-6">
+      <button
+        type="button"
+        class="button-2 input bg-success"
+        (click)="onFinish()"
+      >
+        <div class="button-text-2 mx-4">Finish</div>
+      </button>
+    </div>
   </div>
-  </div>
-  
+</div>

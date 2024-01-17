@@ -5,7 +5,6 @@ import {
   BadRequestException,
   Controller,
   Delete,
-  ForbiddenException,
   Put,
   Req,
 } from '@nestjs/common';

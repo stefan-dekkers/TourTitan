@@ -20,6 +20,7 @@ import { AvailableRideComponent } from './rides/available-rides/available-ride.c
 import { RidesService } from './rides/rides.service';
 import { RideDetailComponent } from './rides/ride-details/ride-details.component';
 import { RideFinishComponent } from './rides/ride-finish/ride-finish.component';
+
 @NgModule({
   imports: [CommonModule, HttpClientModule, FormsModule, RouterModule],
   declarations: [
@@ -36,7 +37,7 @@ import { RideFinishComponent } from './rides/ride-finish/ride-finish.component';
     NewRideComponent,
     AvailableRideComponent,
     RideDetailComponent,
-    RideFinishComponent
+    RideFinishComponent,
   ],
   providers: [UserService, CarsService, RidesService],
   exports: [
@@ -56,7 +57,7 @@ import { RideFinishComponent } from './rides/ride-finish/ride-finish.component';
     AvailableRideComponent,
     UserProfileComponent,
     CarDeleteComponent,
-    RideDetailComponent
+    RideDetailComponent,
   ],
 })
 export class FeaturesModule {}

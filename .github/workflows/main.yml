@@ -1,97 +1,97 @@
 name: TourTitan CI/CD
 
 on:
-  push:
-    branches:
-      - main
-  workflow_dispatch:
+    push:
+        branches:
+            - main
+    workflow_dispatch:
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+    build:
+        runs-on: ubuntu-latest
 
-    steps:
-      - uses: actions/checkout@v4
+        steps:
+            - uses: actions/checkout@v4
 
-      - name: Set up Node.js version
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18.x'
+            - name: Set up Node.js version
+              uses: actions/setup-node@v3
+              with:
+                  node-version: "18.x"
 
-      - name: npm install, build, and test
-        run: |
-          cd cm-nx-workshop
-          npm install
-          npm run build --if-present
-          npm run test --if-present
+            - name: npm install, build, and test
+              run: |
+                  cd cm-nx-workshop
+                  npm install
+                  npm run build --if-present
+                  npm run test --if-present
 
-      - name: Zip artifacts for deployment
-        run: |
-          cd ${GITHUB_WORKSPACE}/cm-nx-workshop/dist/apps/data-api/ && zip ${GITHUB_WORKSPACE}/data-api-release.zip ./* -r
-          cd ${GITHUB_WORKSPACE}/cm-nx-workshop/dist/apps/tour-titan/ && zip ${GITHUB_WORKSPACE}/tour-titan-release.zip ./* -r
+            - name: Zip artifacts for deployment
+              run: |
+                  cd ${GITHUB_WORKSPACE}/cm-nx-workshop/dist/apps/data-api/ && zip ${GITHUB_WORKSPACE}/data-api-release.zip ./* -r
+                  cd ${GITHUB_WORKSPACE}/cm-nx-workshop/dist/apps/tour-titan/ && zip ${GITHUB_WORKSPACE}/tour-titan-release.zip ./* -r
 
-      - name: Upload tour-titan artifact for deployment job
-        uses: actions/upload-artifact@v3
-        with:
-          name: tour-titan
-          path: tour-titan-release.zip
-          
-      - name: Upload data-api artifact for deployment job
-        uses: actions/upload-artifact@v3
-        with:
-          name: data-api
-          path: data-api-release.zip
+            - name: Upload tour-titan artifact for deployment job
+              uses: actions/upload-artifact@v3
+              with:
+                  name: tour-titan
+                  path: tour-titan-release.zip
 
-  deploy-tour-titan:
-    runs-on: ubuntu-latest
-    needs: build
-    environment:
-      name: 'Production'
+            - name: Upload data-api artifact for deployment job
+              uses: actions/upload-artifact@v3
+              with:
+                  name: data-api
+                  path: data-api-release.zip
 
-    steps:
-      - name: Download artifact from build job
-        uses: actions/download-artifact@v3
-        with:
-          name: tour-titan
+    deploy-tour-titan:
+        runs-on: ubuntu-latest
+        needs: build
+        environment:
+            name: "Production"
 
-      - name: Unzip artifact for deployment
-        run: unzip tour-titan-release.zip
+        steps:
+            - name: Download artifact from build job
+              uses: actions/download-artifact@v3
+              with:
+                  name: tour-titan
 
-      - name: Deploy to static azure web app
-        id: builddeploy
-        uses: Azure/static-web-apps-deploy@v1
-        with:
-          azure_static_web_apps_api_token: ${{ secrets.ANGULAR_PUBLISHTOKEN }}
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          action: "upload"
-          app_location: "/browser"
-          api_location: ""
-          output_location: ""
+            - name: Unzip artifact for deployment
+              run: unzip tour-titan-release.zip
 
-  deploy-data-api:
-    runs-on: ubuntu-latest
-    needs: build
-    environment:
-      name: 'Production'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+            - name: Deploy to static azure web app
+              id: builddeploy
+              uses: Azure/static-web-apps-deploy@v1
+              with:
+                  azure_static_web_apps_api_token: ${{ secrets.ANGULAR_PUBLISHTOKEN }}
+                  repo_token: ${{ secrets.GITHUB_TOKEN }}
+                  action: "upload"
+                  app_location: "/browser"
+                  api_location: ""
+                  output_location: ""
 
-    steps:
-      - name: Download artifact from build job
-        uses: actions/download-artifact@v3
-        with:
-          name: data-api
+    deploy-data-api:
+        runs-on: ubuntu-latest
+        needs: build
+        environment:
+            name: "Production"
+            url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
-      - name: Unzip artifact for deployment
-        run: unzip data-api-release.zip
+        steps:
+            - name: Download artifact from build job
+              uses: actions/download-artifact@v3
+              with:
+                  name: data-api
 
-      - name: Install dependencies
-        run: npm install
+            - name: Unzip artifact for deployment
+              run: unzip data-api-release.zip
 
-      - name: Deploy to Azure Web App
-        id: deploy-to-webapp
-        uses: azure/webapps-deploy@v2
-        with:
-          app-name: 'TourTitanNestJS'
-          slot-name: 'Production'
-          publish-profile: ${{ secrets.NEXTJS_PUBLISHPROFILE }}
-          package: .
+            - name: Install dependencies
+              run: npm install
+
+            - name: Deploy to Azure Web App
+              id: deploy-to-webapp
+              uses: azure/webapps-deploy@v2
+              with:
+                  app-name: "TourTitanNestJS"
+                  slot-name: "Production"
+                  publish-profile: ${{ secrets.NEXTJS_PUBLISHPROFILE }}
+                  package: .

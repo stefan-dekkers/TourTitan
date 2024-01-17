@@ -7,7 +7,6 @@ import { RideEntity } from './ride.entity';
 import { CarEntity } from '../car/car.entity';
 import { LocationEntity } from '../location/location.entity';
 import { Status, UserRole } from '@cm-nx-workshop/shared/api';
-import { NotFoundException } from '@nestjs/common';
 
 describe('RideController', () => {
   let controller: RideController;
@@ -450,10 +449,7 @@ describe('RideController', () => {
       await service.update(rideId, updateRideDto);
 
       // Assert
-      expect(service.update).toHaveBeenCalledWith(
-        rideId,
-        updateRideDto
-      );
+      expect(service.update).toHaveBeenCalledWith(rideId, updateRideDto);
       // Additional assertions based on your use case
     });
   });

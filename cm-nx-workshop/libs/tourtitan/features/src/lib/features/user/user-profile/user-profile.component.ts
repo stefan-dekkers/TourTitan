@@ -22,24 +22,21 @@ export class UserProfileComponent implements OnInit, OnDestroy {
     private router: Router
   ) {}
 
-    ngOnInit(): void {
+  ngOnInit(): void {
+    if (this.authService.getCurrentUser() !== null) {
+      this.subscription = this.authService.currentUser$.subscribe((results) => {
+        this.user = results;
+      });
+    } else {
+      this.router.navigate([`/`], {
+        relativeTo: this.route,
+      });
+    }
+  }
 
-      if (this.authService.getCurrentUser() !== null) {
-        this.subscription = this.authService.currentUser$.subscribe((results) => {
-          this.user = results;
-          
-        });
-      }else{
-        this.router.navigate([`/`], {
-          relativeTo: this.route,
-        });
-      }
-      
-    }
-  
-    ngOnDestroy(): void {
-      if (this.subscription) this.subscription.unsubscribe();
-    }
+  ngOnDestroy(): void {
+    if (this.subscription) this.subscription.unsubscribe();
+  }
 
   logout(): void {
     this.authService.logout();

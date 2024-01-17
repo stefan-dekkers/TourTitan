@@ -24,31 +24,6 @@ export const appRoutes: Route[] = [
     pathMatch: 'full',
   },
   {
-    path: 'my-rides',
-    component: MyRidesListComponent,
-    pathMatch: 'full',
-  },
-  {
-    path: 'cars',
-    component: CarsListComponent,
-    pathMatch: 'full',
-  },
-  {
-    path: 'cars/new',
-    component: CarsNewComponent,
-    pathMatch: 'full',
-  },
-  {
-    path: 'cars/edit/:id',
-    component: CarsNewComponent,
-    pathMatch: 'full',
-  },
-  {
-    path: 'cars/:id',
-    component: CarDetailComponent,
-    pathMatch: 'full',
-  },
-  {
     path: 'user',
     component: UserListComponent,
     pathMatch: 'full',
@@ -74,26 +49,53 @@ export const appRoutes: Route[] = [
     pathMatch: 'full',
   },
   {
-    path: 'available-rides',
-    component: AvailableRideComponent,
+    path: 'cars',
+    component: CarsListComponent,
+    pathMatch: 'full',
+  },
+  {
+    path: 'cars/new',
+    component: CarsNewComponent,
+    pathMatch: 'full',
+  },
+  {
+    path: 'cars/edit/:id',
+    component: CarsNewComponent,
+    pathMatch: 'full',
+  },
+  {
+    path: 'cars/:id',
+    component: CarDetailComponent,
+    pathMatch: 'full',
+  },
+  {
+    path: 'my-rides',
+    component: MyRidesListComponent,
     pathMatch: 'full',
   },
   {
     path: 'my-rides/new',
     component: NewRideComponent,
-    pathMatch: 'full'
-  },{
-    path: 'available-rides/new',
-    component: NewRideComponent,
-    pathMatch: 'full'
-  },{
-    path: 'available-rides/:id',
-    component: RideDetailComponent,
-    pathMatch: 'full'
-  },{
+    pathMatch: 'full',
+  },
+  {
     path: 'my-rides/:id',
     component: RideDetailComponent,
-    pathMatch: 'full'
-  }
-
+    pathMatch: 'full',
+  },
+  {
+    path: 'available-rides',
+    component: AvailableRideComponent,
+    pathMatch: 'full',
+  },
+  {
+    path: 'available-rides/new',
+    component: NewRideComponent,
+    pathMatch: 'full',
+  },
+  {
+    path: 'available-rides/:id',
+    component: RideDetailComponent,
+    pathMatch: 'full',
+  },
 ];

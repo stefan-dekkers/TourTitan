@@ -7,7 +7,6 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { CarDeleteComponent } from './car-delete/car-delete.component';
 import { AuthService } from 'libs/tourtitan/auth/src/lib/auth.service';
 
-
 @Component({
   selector: 'cm-nx-workshop-cars',
   templateUrl: './cars-detail.component.html',
@@ -22,22 +21,21 @@ export class CarDetailComponent implements OnInit, OnDestroy {
     private carsService: CarsService,
     private route: ActivatedRoute,
     private router: Router,
-    private authService: AuthService,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
-    if(this.authService.getCurrentUser() != null){
+    if (this.authService.getCurrentUser() != null) {
       this.subscription = this.route.paramMap.subscribe((params) => {
         const carId = params.get('id');
-  
+
         if (carId) {
           this.carsService.read(carId).subscribe((car) => {
             this.car = car;
           });
         }
       });
-    }
-    else{
+    } else {
       this.router.navigate([`/`]);
     }
   }
@@ -70,16 +68,14 @@ export class CarDetailComponent implements OnInit, OnDestroy {
     }
   }
 
-  
-    ngOnDestroy(): void {
-      if (this.subscription) this.subscription.unsubscribe();
-    }
-
-    isAdmin(): boolean{
-      if(this.authService.isAdmin()){
-        return true
-      }
-      return false
-    }
-    
+  ngOnDestroy(): void {
+    if (this.subscription) this.subscription.unsubscribe();
   }
+
+  isAdmin(): boolean {
+    if (this.authService.isAdmin()) {
+      return true;
+    }
+    return false;
+  }
+}

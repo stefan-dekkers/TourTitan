@@ -144,7 +144,7 @@ describe('CarController', () => {
         plateNumber: 'CM00CM',
         capacity: 4,
         mileage: 0,
-        isAvailable: false
+        isAvailable: false,
       };
       const mockCar: ICar = {
         id: '1',

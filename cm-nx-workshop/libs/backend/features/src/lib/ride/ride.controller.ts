@@ -28,7 +28,7 @@ export class RideController {
     return this.rideService.findOne(id);
   }
 
-  @Post('create')
+  @Post('')
   async create(@Body() data: CreateRideDto): Promise<IRide | null> {
     return this.rideService.create(data);
   }
@@ -76,8 +76,7 @@ export class RideController {
     @Query('userId') userId: string
   ): Promise<IRide> {
     return this.rideService.unjoinRide(rideId, userId);
-}
-
+  }
 
   @Delete(':id')
   async delete(

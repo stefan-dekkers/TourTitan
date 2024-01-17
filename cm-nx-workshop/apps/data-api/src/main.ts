@@ -8,6 +8,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const globalPrefix = 'api';
   app.setGlobalPrefix(globalPrefix);
+
   // const corsOptions: CorsOptions = {
   //   origin: 'https://red-pond-037f95f03.4.azurestaticapps.net',
   //   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
@@ -15,10 +16,12 @@ async function bootstrap() {
   //   credentials: true,
   // };
   // app.enableCors(corsOptions);
+
   const corsOptions: CorsOptions = {};
   console.log('Enabling CORS with options:', corsOptions);
   app.enableCors(corsOptions);
   app.useGlobalInterceptors(new ApiResponseInterceptor());
+
   // app.useGlobalPipes(new ValidationPipe({
   //   whitelist: true,
   //   forbidNonWhitelisted: true,
@@ -34,6 +37,7 @@ async function bootstrap() {
   //     return new BadRequestException(errorMessages);
   //   }
   // }));
+
   const config = new DocumentBuilder()
     .setTitle('TourTitans Backend API')
     .setDescription('The TourTitan API description')
