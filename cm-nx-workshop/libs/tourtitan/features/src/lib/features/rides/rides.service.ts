@@ -14,7 +14,6 @@ export const httpOptions = {
 @Injectable()
 export class RidesService {
   endpoint = `${environment.dataApiUrl}/ride`;
-  endpoint_user = `${environment.dataApiUrl}/ride`;
 
   constructor(private readonly http: HttpClient) {}
 
@@ -37,8 +36,8 @@ export class RidesService {
     user_id: string | null,
     options?: any
   ): Observable<IRide[] | null> {
-    console.log(` endpoint used: ${this.endpoint_user}/${user_id}`);
-    const url = `${this.endpoint_user}/${user_id}`;
+    console.log(` endpoint used: ${this.endpoint}/${user_id}`);
+    const url = `${this.endpoint}/${user_id}`;
     return this.http
       .get<ApiResponse<IRide[]>>(url, {
         ...options,

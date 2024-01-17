@@ -137,7 +137,7 @@ export class RideService {
     return location;
   }
   async create(ride: CreateRideDto): Promise<IRide | null> {
-    this.logger.log(`Creating new ride: ${JSON.stringify(ride)}`);
+    this.logger.log(`Creating new ride`);
 
     if (!this.validateRideForCurrentOrNextDay(ride)) {
       const currentDateTime = new Date();
@@ -179,7 +179,6 @@ export class RideService {
       throw new ConflictException('Vehicle is not available for ride creation');
     }
 
-    console.log('ride' + vehicle.location.street);
     ride.vehicle = vehicle;
     ride.departureLocation = vehicle.location;
     ride.arrivalLocation = await this.createRideLocation(ride);
@@ -196,6 +195,7 @@ export class RideService {
 
     return this.findOne(newRide.id);
   }
+
   async update(id: string, updateRideDto: UpdateRideDto): Promise<IRide> {
     this.logger.log(`Updating ride with id ${id}`);
     const ride = await this.findOne(id);
@@ -207,6 +207,7 @@ export class RideService {
     this.rideRepository.update(id, updateRideDto);
     return this.rideRepository.save(updateRideDto);
   }
+
   async delete(id: string): Promise<{ deleted: boolean; message?: string }> {
     this.logger.log(`Deleting ride with id: ${id}`);
 
@@ -231,12 +232,15 @@ export class RideService {
         `Invalid ride deletion attempt. Ride has passengers`
       );
     }
+
     const car = await this.carRepository.findOne({
       where: { id: ride.vehicle.id },
     });
+
     if (!car) {
       throw new ConflictException(`Invalid car`);
     }
+
     car.isAvailable = true;
     await this.carRepository.save(car);
     const result = await this.rideRepository.delete(id);
@@ -284,7 +288,7 @@ export class RideService {
     //   throw new ConflictException('Arrival time cannot be in the future');
     // }
 
-    ride.departureTime.setHours(ride.departureTime.getHours());;
+    ride.departureTime.setHours(ride.departureTime.getHours());
 
     // if (arrivalDateTime <= ride.departureTime) {
     //   throw new ConflictException(
@@ -394,7 +398,6 @@ export class RideService {
       ],
     });
 
-    console.log('ride' + ride);
     if (!ride) {
       throw new NotFoundException(`Ride with ID ${rideId} not found`);
     }
