@@ -198,6 +198,7 @@ export class RideService {
     console.log('ride' + vehicle.location.street);
     ride.vehicle = vehicle;
     ride.departureLocation = vehicle.location;
+
     ride.arrivalLocation = await this.createRideLocation(ride);
     console.log(ride);
 
@@ -251,9 +252,7 @@ export class RideService {
       where: { id: ride.vehicle.id },
     });
     if (!car) {
-      throw new ConflictException(
-        `Invalid car`
-      );
+      throw new ConflictException(`Invalid car`);
     }
     car.isAvailable = true;
     await this.carRepository.save(car);
@@ -302,7 +301,7 @@ export class RideService {
     //   throw new ConflictException('Arrival time cannot be in the future');
     // }
 
-    ride.departureTime.setHours(ride.departureTime.getHours());;
+    ride.departureTime.setHours(ride.departureTime.getHours());
 
     // if (arrivalDateTime <= ride.departureTime) {
     //   throw new ConflictException(

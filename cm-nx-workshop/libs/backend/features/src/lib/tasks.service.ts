@@ -19,11 +19,11 @@ export class TasksService {
     const rides = await this.rideService.findAll();
     for (const ride of rides) {
       const departureDateTime = new Date(ride.departureTime);
+      const utcDate = new Date(ride.departureTime.toUTCString());
+      const localDate = new Date(utcDate.toLocaleString());
+      this.logger.debug('utcDate: ' + utcDate);
 
-      console.log(departureDateTime);
-      console.log(
-        departureDateTime <= currentDateTime && ride.status === Status.PENDING
-      );
+      this.logger.debug('localDate: ' + localDate);
 
       if (
         departureDateTime <= currentDateTime &&
