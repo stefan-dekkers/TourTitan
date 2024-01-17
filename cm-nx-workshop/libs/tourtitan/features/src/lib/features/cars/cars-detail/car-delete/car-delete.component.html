@@ -1,17 +1,35 @@
 <div class="modal-header">
   <h4 class="modal-title">Delete car</h4>
 </div>
-<div class="modal-body">Are you sure you want to delete this car?</div>
+<div class="modal-body"><p>Are you sure you want to delete this car?</p></div>
 <div class="modal-footer">
-  <button
-    type="button"
-    class="btn btn-secondary"
-    data-bs-dismiss="modal"
-    (click)="activeModal.dismiss()"
-  >
-    Cancel
-  </button>
-  <button type="button" class="btn btn-danger" (click)="onDelete()">
-    Delete
-  </button>
+  <div class="row">
+      <div class="col-lg-6 col-md-6 col-sm-6">
+        <button
+      type="button"
+      class="button-2 input bg-secondary"
+      data-bs-dismiss="modal"
+      (click)="activeModal.dismiss()"
+    >
+      <div class="button-text-2 mx-4">
+        
+        
+          
+        Cancel
+      </div>
+
+    </button>
+      </div> 
+      <div class="col-lg-6 col-md-6 col-sm-6">
+        <button type="button" class="button-2 input bg-danger" (click)="onDelete()">
+          <div class="button-text-2 mx-4">
+            
+              Delete
+          </div>
+        </button>
+      
+      </div> 
+  </div>
+  
 </div>
+
