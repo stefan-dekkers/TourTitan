@@ -123,11 +123,7 @@ export class RidesService {
       .pipe(
         tap(console.log),
         map((response: any) => response.results as IRide),
-        catchError((error) => {
-          // Handle errors
-          let errorMessage = 'Invalid date';
-          return throwError(() => new Error(errorMessage));
-        })
+        catchError(this.handleError)
       );
   }
 
@@ -140,10 +136,7 @@ export class RidesService {
       .pipe(
         tap(console.log),
         map((response: any) => response.results as IRide),
-        catchError((error) => {
-          let errorMessage = 'Unable to join ride' + error.error.message;
-          return throwError(() => new Error(errorMessage));
-        })
+        catchError(this.handleError)
       );
   }
 
@@ -166,10 +159,7 @@ export class RidesService {
       .pipe(
         tap(console.log),
         map((response: any) => response.results as IRide),
-        catchError((error) => {
-          let errorMessage = 'Unable to unjoin ride' + error.error.message;
-          return throwError(() => new Error(errorMessage));
-        })
+        catchError(this.handleError)
       );
   }
 
@@ -182,19 +172,25 @@ export class RidesService {
       .pipe(
         tap(console.log),
         map((response: any) => response.results as IRide),
-        catchError((error) => {
-          let errorMessage = 'Unable to delete ride' + error.error.message;
-          return throwError(() => new Error(errorMessage));
-        })
+        catchError(this.handleError)
       );
   }
 
   /**
    * Handle errors.
    */
-  private handleError(error: HttpErrorResponse): Observable<any> {
-    console.error('Error in RidesService:', error);
-
-    return throwError(() => new Error(error.message));
+  private handleError(error: HttpErrorResponse) {
+    let errorMessage = 'Unknown error occurred';
+    if (error.error instanceof ErrorEvent) {
+      errorMessage = `Error: ${error.error.message}`;
+    } else {
+      if (error.error && error.error.message) {
+        errorMessage = error.error.message;
+      } else {
+        errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+      }
+    }
+    console.error('API Error:', errorMessage);
+    return throwError(() => new Error(errorMessage));
   }
 }
