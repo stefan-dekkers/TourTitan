@@ -1,7 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { RidesService } from '../rides.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ILocation, IRide, IUser, Status, UserRole } from '@cm-nx-workshop/shared/api';
+import {
+  ILocation,
+  IRide,
+  IUser,
+  Status,
+  UserRole,
+} from '@cm-nx-workshop/shared/api';
 import { ICar } from '@cm-nx-workshop/shared/api';
 import { Subscription } from 'rxjs';
 import { Id } from 'libs/shared/api/src/lib/models/id.type';
@@ -20,9 +26,10 @@ export class NewRideComponent implements OnInit, OnDestroy {
       emailAddress: '',
       role: UserRole.User,
       id: '',
-      password: ''
+      password: '',
     },
-    vehicle: {name: '',
+    vehicle: {
+      name: '',
       plateNumber: '',
       capacity: 0,
       mileage: 0,
@@ -33,7 +40,8 @@ export class NewRideComponent implements OnInit, OnDestroy {
         zipCode: '',
         street: '',
         number: 0,
-      }},
+      },
+    },
     isPublic: true,
     status: Status.PENDING,
     arrivalLocation: {
@@ -48,12 +56,10 @@ export class NewRideComponent implements OnInit, OnDestroy {
       zipCode: '',
       street: '',
       number: 0,
-    }
+    },
   };
   errorMessage: string = '';
-
-
-
+  formattedDepartureTime: string = '';
   private rideSubscription: Subscription | undefined;
 
   constructor(
@@ -64,7 +70,7 @@ export class NewRideComponent implements OnInit, OnDestroy {
     private authService: AuthService
   ) {}
 
-  carsList: ICar[] = [] ; 
+  carsList: ICar[] = [];
 
   ngOnInit(): void {
     if (this.authService.getCurrentUser() != null) {
@@ -86,19 +92,17 @@ export class NewRideComponent implements OnInit, OnDestroy {
           // New car
         }
       });
-    }
-    else{
+    } else {
       this.router.navigate([`/`]);
     }
-
   }
 
   loadCars(): void {
     this.carsService.list().subscribe(
       (cars: ICar[] | null) => {
-        cars?.forEach(c => {
+        cars?.forEach((c) => {
           if (c.isAvailable === true) {
-            this.carsList.push(c)
+            this.carsList.push(c);
           }
         });
       },
@@ -107,8 +111,6 @@ export class NewRideComponent implements OnInit, OnDestroy {
       }
     );
   }
-  
-
 
   ngOnDestroy(): void {
     if (this.rideSubscription) {
@@ -133,25 +135,42 @@ export class NewRideComponent implements OnInit, OnDestroy {
         },
       });
     } else {
+      if (!(this.ride.departureTime instanceof Date)) {
+        this.ride.departureTime = new Date(this.ride.departureTime);
+      }
+      this.formattedDepartureTime = this.formatDateForDateTimeLocal(
+        this.ride.departureTime
+      );
       console.log('Creating new ride');
-      console.log(this.ride)
+      console.log(this.ride);
+      if (this.formattedDepartureTime) {
+        this.ride.departureTime = new Date(this.formattedDepartureTime);
+      }
+
       this.ridesService.create(this.ride).subscribe({
         next: (createdRide) => {
           console.log('Car added successfully:', createdRide);
           this.router.navigate(['/my-rides']);
         },
         error: (error) => {
-          console.error('Error adding car:', error);
-          this.errorMessage = error.message;
+          console.error('Error adding ride:', error);
+          this.errorMessage =
+            error.error?.message ||
+            error.message ||
+            'An error occurred while creating the ride';
         },
       });
     }
-
-    
-  
+  }
+  private formatDateForDateTimeLocal(date: Date): string {
+    return `${date.getFullYear()}-${this.pad(date.getMonth() + 1)}-${this.pad(
+      date.getDate()
+    )}T${this.pad(date.getHours())}:${this.pad(date.getMinutes())}`;
   }
 
-
+  private pad(number: number): string {
+    return number < 10 ? `0${number}` : number.toString();
+  }
   isUpdate(): boolean {
     if (this.rideId) {
       return true;
