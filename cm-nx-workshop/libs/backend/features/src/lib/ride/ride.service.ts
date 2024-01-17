@@ -196,9 +196,10 @@ export class RideService {
     }
 
     console.log('ride' + vehicle.location.street);
+    const utcDate = new Date(ride.departureTime.toUTCString());
     ride.vehicle = vehicle;
     ride.departureLocation = vehicle.location;
-
+    ride.departureTime = utcDate;
     ride.arrivalLocation = await this.createRideLocation(ride);
     console.log(ride);
 

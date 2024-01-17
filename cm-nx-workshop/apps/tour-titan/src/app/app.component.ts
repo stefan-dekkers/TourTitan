@@ -7,7 +7,7 @@ import { UiModule } from '@cm-nx-workshop/ui';
   standalone: true,
   imports: [FeaturesModule, RouterModule, UiModule, AuthModule],
   selector: 'cm-nx-workshop-root',
-  providers: [{ provide: LOCALE_ID, useValue: 'nl' }],
+  providers: [{ provide: LOCALE_ID, useValue: 'nl-NL' }],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
