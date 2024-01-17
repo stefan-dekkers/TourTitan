@@ -2,6 +2,7 @@ import { ICar } from './car.interface';
 import { Id } from './id.type';
 import { ILocation } from './location.interface';
 import { IUser } from './user.interface';
+
 export enum Status {
   PENDING = 'pending',
   DRIVING = 'driving',
@@ -32,5 +33,5 @@ export type ICreateRide = Pick<
   | 'arrivalLocation'
   | 'departureTime'
 >;
-// update the driver and car and departurelocation
+
 export type IUpdateRide = Partial<Omit<IRide, 'id'>>;

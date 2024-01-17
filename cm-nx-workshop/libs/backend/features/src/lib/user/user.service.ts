@@ -7,10 +7,12 @@ import { UserEntity } from './user.entity';
 @Injectable()
 export class UserService {
   private readonly logger: Logger = new Logger(UserService.name);
+
   constructor(
     @InjectRepository(UserEntity)
     private userRepository: Repository<UserEntity>
   ) {}
+
   async findAll(): Promise<IUser[]> {
     this.logger.log('Finding all users');
     return this.userRepository.find({

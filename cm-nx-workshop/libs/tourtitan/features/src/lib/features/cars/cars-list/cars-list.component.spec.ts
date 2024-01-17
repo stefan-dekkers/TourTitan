@@ -480,7 +480,6 @@ describe('CarsListComponent', () => {
     expect(carsService.list).toHaveBeenCalled();
   }));
 
-
   it('should navigate to home page if user is not authenticated on initialization', inject(
     [Router],
     (router: Router) => {

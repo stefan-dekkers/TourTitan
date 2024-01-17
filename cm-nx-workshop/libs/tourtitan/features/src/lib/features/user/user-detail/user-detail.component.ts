@@ -28,15 +28,14 @@ export class UserDetailComponent implements OnInit, OnDestroy {
     if (this.authService.isAdmin()) {
       this.subscription = this.route.paramMap.subscribe((params) => {
         const userId = params.get('id');
-  
+
         if (userId) {
           this.userService.read(userId).subscribe((user) => {
             this.user = user;
           });
         }
       });
-    }
-    else{
+    } else {
       this.router.navigate([`/cars`], {
         relativeTo: this.route,
       });

@@ -4,15 +4,16 @@ import { JwtService } from '@nestjs/jwt';
 import { IUser } from '@cm-nx-workshop/shared/api';
 import { UserService } from '../user/user.service';
 import { CreateUserDto } from '@cm-nx-workshop/backend/dto';
-import { log } from 'console';
 
 @Injectable()
 export class AuthService {
   TAG = 'AuthService';
+
   constructor(
     private userService: UserService,
     private jwtService: JwtService
   ) {}
+
   async validateUser(
     emailAddress: string,
     pass: string
@@ -27,6 +28,7 @@ export class AuthService {
     const { password, ...result } = user;
     return result;
   }
+
   async register(createUserDto: CreateUserDto): Promise<IUser> {
     Logger.log('Attempting to create a new user', this.TAG);
     try {
@@ -49,6 +51,7 @@ export class AuthService {
       throw new UnauthorizedException('Registration failed due to an error');
     }
   }
+
   async login(emailAddress: string, pass: string) {
     Logger.log('Attempting to log in user', this.TAG, emailAddress);
 
@@ -73,6 +76,7 @@ export class AuthService {
       throw new UnauthorizedException('Invalid credentials');
     }
   }
+
   async profile(id: string) {
     Logger.log('profile of user _id: ' + id);
     return this.userService.findOne(id);

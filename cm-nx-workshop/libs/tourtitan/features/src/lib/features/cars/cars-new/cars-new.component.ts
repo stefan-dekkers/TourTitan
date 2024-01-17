@@ -32,7 +32,6 @@ export class CarsNewComponent implements OnInit, OnDestroy {
   private carSubscription: Subscription | undefined;
   errorMessage: string = '';
 
-
   constructor(
     private route: ActivatedRoute,
     private carsService: CarsService,
@@ -90,7 +89,7 @@ export class CarsNewComponent implements OnInit, OnDestroy {
         },
         error: (error) => {
           console.error('Error updating car:', error);
-          this.errorMessage = ('Error updating car: '+ error.error.message)
+          this.errorMessage = 'Error updating car: ' + error.error.message;
         },
       });
     } else {
@@ -104,7 +103,6 @@ export class CarsNewComponent implements OnInit, OnDestroy {
         error: (error) => {
           console.error('Error adding car:', error);
           this.errorMessage = 'Platenumber is already in use';
-
         },
       });
     }
