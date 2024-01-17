@@ -34,15 +34,25 @@
   </form>
 </div>
 <div class="modal-footer">
-  <button
-    type="button"
-    class="btn btn-secondary"
-    data-bs-dismiss="modal"
-    (click)="activeModal.dismiss()"
-  >
-    Cancel
-  </button>
-  <button type="button" class="btn btn-success" (click)="onFinish()">
-    Finish ride
-  </button>
+  <div class="row">
+    <div class="col-lg-6 col-md-6 col-sm-6">
+      <button
+        type="button"
+        class="button-2 input bg-secondary"
+        data-bs-dismiss="modal"
+        (click)="activeModal.dismiss()"
+      >
+        <div class="button-text-2 mx-4">Cancel</div>
+      </button>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-6">
+      <button
+        type="button"
+        class="button-2 input bg-success"
+        (click)="onFinish()"
+      >
+        <div class="button-text-2 mx-4">Finish</div>
+      </button>
+    </div>
+  </div>
 </div>
