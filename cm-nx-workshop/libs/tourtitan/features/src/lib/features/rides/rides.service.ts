@@ -5,6 +5,7 @@ import { map, catchError, tap } from 'rxjs/operators';
 import { ApiResponse, IRide, Status } from '@cm-nx-workshop/shared/api';
 import { Injectable } from '@angular/core';
 import { CarsService } from '../cars/cars.service';
+import { environment } from '@cm-nx-workshop/shared/util-env';
 export const httpOptions = {
   observe: 'body' as const,
   responseType: 'json' as const,
@@ -49,7 +50,6 @@ export class RidesService {
       );
   }
 
-
   public read(id: string | null, options?: any): Observable<IRide> {
     const url = `${this.endpoint}/${id}`;
     console.log(`get ${url}`);
@@ -65,7 +65,11 @@ export class RidesService {
       );
   }
 
-  public update(id: string, ride: IRide, options?: any): Observable<IRide | null> {
+  public update(
+    id: string,
+    ride: IRide,
+    options?: any
+  ): Observable<IRide | null> {
     const url = `${this.endpoint}/${id}`;
     console.log(`update ${this.endpoint}`);
 
@@ -107,7 +111,7 @@ export class RidesService {
 
   public create(ride: IRide, options?: any): Observable<IRide> {
     console.log(`create ${this.endpoint}`);
-    const url = this.endpoint
+    const url = this.endpoint;
     return this.http
       .post<ApiResponse<IRide>>(url, ride, {
         ...httpOptions,
