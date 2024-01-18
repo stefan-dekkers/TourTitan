@@ -59,7 +59,7 @@ export class NewRideComponent implements OnInit, OnDestroy {
     },
   };
   errorMessage: string = '';
-
+  formattedDepartureTime: string = '';
   private rideSubscription: Subscription | undefined;
 
   constructor(
@@ -135,21 +135,42 @@ export class NewRideComponent implements OnInit, OnDestroy {
         },
       });
     } else {
+      if (!(this.ride.departureTime instanceof Date)) {
+        this.ride.departureTime = new Date(this.ride.departureTime);
+      }
+      this.formattedDepartureTime = this.formatDateForDateTimeLocal(
+        this.ride.departureTime
+      );
       console.log('Creating new ride');
       console.log(this.ride);
+      if (this.formattedDepartureTime) {
+        this.ride.departureTime = new Date(this.formattedDepartureTime);
+      }
+
       this.ridesService.create(this.ride).subscribe({
         next: (createdRide) => {
           console.log('Car added successfully:', createdRide);
           this.router.navigate(['/my-rides']);
         },
         error: (error) => {
-          console.error('Error adding car:', error);
-          this.errorMessage = error.message;
+          console.error('Error adding ride:', error);
+          this.errorMessage =
+            error.error?.message ||
+            error.message ||
+            'An error occurred while creating the ride';
         },
       });
     }
   }
+  private formatDateForDateTimeLocal(date: Date): string {
+    return `${date.getFullYear()}-${this.pad(date.getMonth() + 1)}-${this.pad(
+      date.getDate()
+    )}T${this.pad(date.getHours())}:${this.pad(date.getMinutes())}`;
+  }
 
+  private pad(number: number): string {
+    return number < 10 ? `0${number}` : number.toString();
+  }
   isUpdate(): boolean {
     if (this.rideId) {
       return true;

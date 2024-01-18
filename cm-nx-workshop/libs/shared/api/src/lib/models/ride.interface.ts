@@ -35,3 +35,4 @@ export type ICreateRide = Pick<
 >;
 
 export type IUpdateRide = Partial<Omit<IRide, 'id'>>;
+
