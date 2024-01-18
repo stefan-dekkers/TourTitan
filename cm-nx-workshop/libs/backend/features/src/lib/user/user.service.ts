@@ -45,10 +45,10 @@ export class UserService {
     if (existingUser) {
       throw new ConflictException('Email address already in use');
     }
-    // Hash the password
-    const saltRounds = 10;
-    const hashedPassword = await bcrypt.hash(user.password!, saltRounds);
-    user.password = hashedPassword;
+    // // Hash the password
+    // const saltRounds = 10;
+    // const hashedPassword = await bcrypt.hash(user.password!, saltRounds);
+    // user.password = hashedPassword;
     const newUser = this.userRepository.create(user);
     return this.userRepository.save(newUser);
   }
