@@ -54,6 +54,14 @@ export class RideService {
       relations: ['driver', 'vehicle', 'departureLocation', 'arrivalLocation'],
     });
   }
+  async findAllPending(): Promise<IRide[]> {
+    this.logger.log('Finding all pending rides');
+    return this.rideRepository.find({
+      where: {
+        status: Equal(Status.PENDING),
+      },
+    });
+  }
 
   async findAllFinished(): Promise<IRide[]> {
     this.logger.log('Finding all finished rides');
@@ -88,17 +96,24 @@ export class RideService {
   validateRideForCurrentOrNextDay(ride: CreateRideDto): boolean {
     const currentDateTime = new Date();
     const departureDateTime = new Date(ride.departureTime);
-
-    const endOfTomorrow = new Date(currentDateTime);
+    const utcCurrentDateTime = new Date(
+      currentDateTime.getTime() - currentDateTime.getTimezoneOffset() * 60000
+    );
+    const utcDepartureTime = new Date(
+      departureDateTime.getTime() -
+        departureDateTime.getTimezoneOffset() * 60000
+    );
+    const endOfTomorrow = new Date(utcCurrentDateTime);
     endOfTomorrow.setDate(currentDateTime.getDate() + 1);
     endOfTomorrow.setHours(24, 59, 59, 999);
 
     this.logger.debug(
-      `Validating ride: Departure DateTime - ${departureDateTime.toISOString()}, Current DateTime - ${currentDateTime.toISOString()}, End of Tomorrow - ${endOfTomorrow.toISOString()}`
+      `Validating ride: Departure DateTime - ${utcDepartureTime.toISOString()}, Current DateTime - ${utcCurrentDateTime.toISOString()}, End of Tomorrow - ${endOfTomorrow.toISOString()}`
     );
 
     const isValid =
-      departureDateTime > currentDateTime && departureDateTime <= endOfTomorrow;
+      utcDepartureTime > utcCurrentDateTime &&
+      utcDepartureTime <= endOfTomorrow;
 
     if (!isValid) {
       this.logger.warn(
@@ -142,16 +157,23 @@ export class RideService {
     if (!this.validateRideForCurrentOrNextDay(ride)) {
       const currentDateTime = new Date();
       const departureDateTime = new Date(ride.departureTime);
-
-      const endOfTomorrow = new Date(currentDateTime);
-      endOfTomorrow.setDate(currentDateTime.getDate() + 1);
+      const utcCurrentDateTime = new Date(
+        currentDateTime.getTime() - currentDateTime.getTimezoneOffset() * 60000
+      );
+      const utcDepartureTime = new Date(
+        departureDateTime.getTime() -
+          departureDateTime.getTimezoneOffset() * 60000
+      );
+      const endOfTomorrow = new Date(utcCurrentDateTime);
+      endOfTomorrow.setDate(utcCurrentDateTime.getDate() + 1);
       endOfTomorrow.setHours(24, 59, 59, 999);
-
+      const errorMessage = `Invalid departureTime: ${utcDepartureTime.toISOString()} is not within the allowed range (Today: ${utcCurrentDateTime.toISOString()}, Tomorrow: ${endOfTomorrow.toISOString()})`;
+      this.logger.error(errorMessage);
       this.logger.warn(
-        `Invalid ride creation attempt. Current DateTime: ${currentDateTime.toISOString()}, Requested Departure DateTime: ${departureDateTime.toISOString()}`
+        `Invalid ride creation attempt. Current DateTime: ${utcCurrentDateTime.toISOString()}, Requested Departure DateTime: ${utcDepartureTime.toISOString()}`
       );
       throw new ConflictException(
-        `Invalid departureTime: ${departureDateTime.toISOString()} is not within the allowed range (Today: ${currentDateTime.toISOString()}, Tomorrow: ${endOfTomorrow.toISOString()})`
+        `Invalid departureTime: ${utcDepartureTime.toISOString()} is not within the allowed range (Today: ${utcCurrentDateTime.toISOString()}, Tomorrow: ${endOfTomorrow.toISOString()})`
       );
     }
 
@@ -178,9 +200,24 @@ export class RideService {
     if (!vehicle || !vehicle.isAvailable) {
       throw new ConflictException('Vehicle is not available for ride creation');
     }
+    this.logger.log(`Original Departure Time: ${ride.departureTime}`);
+
+    const departureDateTime = new Date(ride.departureTime);
+    this.logger.log(
+      `Local Departure Time (as Date object): ${departureDateTime.toString()}`
+    );
+
+    const utcDepartureTime = new Date(
+      departureDateTime.getTime() -
+        departureDateTime.getTimezoneOffset() * 60000
+    );
+    this.logger.log(
+      `Converted UTC Departure Time: ${utcDepartureTime.toISOString()}`
+    );
 
     ride.vehicle = vehicle;
     ride.departureLocation = vehicle.location;
+    ride.departureTime = utcDepartureTime;
     ride.arrivalLocation = await this.createRideLocation(ride);
     console.log(ride);
 
@@ -192,7 +229,9 @@ export class RideService {
       { id: newRide.vehicle.id },
       { isAvailable: false }
     );
-
+    this.logger.log(
+      `Ride saved with departure time: ${ride.departureTime.toISOString()}`
+    );
     return this.findOne(newRide.id);
   }
 

@@ -102,15 +102,15 @@ export class MyRidesListComponent implements OnInit, OnDestroy {
     );
   }
 
-   listAllPassengers(passengers?: IUser[]): string {
+  listAllPassengers(passengers?: IUser[]): string {
     if (!passengers || passengers.length === 0) {
-      return "No passengers";
+      return 'No passengers';
     }
-  
+
     const passengerNames = passengers.map((passenger) => passenger.name);
     return passengerNames.join(', ');
   }
-    
+
   unjoinRide(id?: string): void {
     console.log(`User ${this.user?.id} unjoining ride ${id}`);
 
@@ -130,26 +130,26 @@ export class MyRidesListComponent implements OnInit, OnDestroy {
 
   formatDateTime(inputDate: Date | undefined): string {
     if (inputDate === undefined) {
-      return ''; // or provide a default value or handle accordingly
+      return ''; // of geef een standaardwaarde of handel het dienovereenkomstig af
     }
 
     const date = new Date(inputDate);
 
-    // Ensure the input date is valid
+    // Zorg ervoor dat de invoerdatum geldig is
     if (isNaN(date.getTime())) {
-      throw new Error('Invalid date format');
+      throw new Error('Ongeldig datumformaat');
     }
 
-    // Get date components
-    const day = String(date.getDate()).padStart(2, '0');
-    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
-    const year = date.getFullYear();
+    // Haal datumcomponenten op in UTC
+    const day = String(date.getUTCDate()).padStart(2, '0');
+    const month = String(date.getUTCMonth() + 1).padStart(2, '0'); // Maanden zijn nul-gebaseerd
+    const year = date.getUTCFullYear();
 
-    // Get time components
-    const hours = String(date.getHours()).padStart(2, '0');
-    const minutes = String(date.getMinutes()).padStart(2, '0');
+    // Haal tijdcomponenten op in UTC
+    const hours = String(date.getUTCHours()).padStart(2, '0');
+    const minutes = String(date.getUTCMinutes()).padStart(2, '0');
 
-    // Construct the formatted date string
+    // Construeer de geformatteerde datumtijd-string
     const formattedDate = `${hours}:${minutes}`;
 
     return formattedDate;
