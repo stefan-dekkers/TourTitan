@@ -99,17 +99,21 @@ export class RideService {
     const utcCurrentDateTime = new Date(
       currentDateTime.getTime() - currentDateTime.getTimezoneOffset() * 60000
     );
+    const utcDepartureTime = new Date(
+      departureDateTime.getTime() -
+        departureDateTime.getTimezoneOffset() * 60000
+    );
     const endOfTomorrow = new Date(utcCurrentDateTime);
     endOfTomorrow.setDate(currentDateTime.getDate() + 1);
     endOfTomorrow.setHours(24, 59, 59, 999);
 
     this.logger.debug(
-      `Validating ride: Departure DateTime - ${departureDateTime.toISOString()}, Current DateTime - ${utcCurrentDateTime.toISOString()}, End of Tomorrow - ${endOfTomorrow.toISOString()}`
+      `Validating ride: Departure DateTime - ${utcDepartureTime.toISOString()}, Current DateTime - ${utcCurrentDateTime.toISOString()}, End of Tomorrow - ${endOfTomorrow.toISOString()}`
     );
 
     const isValid =
-      departureDateTime > utcCurrentDateTime &&
-      departureDateTime <= endOfTomorrow;
+      utcDepartureTime > utcCurrentDateTime &&
+      utcDepartureTime <= endOfTomorrow;
 
     if (!isValid) {
       this.logger.warn(
@@ -156,16 +160,20 @@ export class RideService {
       const utcCurrentDateTime = new Date(
         currentDateTime.getTime() - currentDateTime.getTimezoneOffset() * 60000
       );
+      const utcDepartureTime = new Date(
+        departureDateTime.getTime() -
+          departureDateTime.getTimezoneOffset() * 60000
+      );
       const endOfTomorrow = new Date(utcCurrentDateTime);
       endOfTomorrow.setDate(utcCurrentDateTime.getDate() + 1);
       endOfTomorrow.setHours(24, 59, 59, 999);
-      const errorMessage = `Invalid departureTime: ${departureDateTime.toISOString()} is not within the allowed range (Today: ${utcCurrentDateTime.toISOString()}, Tomorrow: ${endOfTomorrow.toISOString()})`;
+      const errorMessage = `Invalid departureTime: ${utcDepartureTime.toISOString()} is not within the allowed range (Today: ${utcCurrentDateTime.toISOString()}, Tomorrow: ${endOfTomorrow.toISOString()})`;
       this.logger.error(errorMessage);
       this.logger.warn(
-        `Invalid ride creation attempt. Current DateTime: ${utcCurrentDateTime.toISOString()}, Requested Departure DateTime: ${departureDateTime.toISOString()}`
+        `Invalid ride creation attempt. Current DateTime: ${utcCurrentDateTime.toISOString()}, Requested Departure DateTime: ${utcDepartureTime.toISOString()}`
       );
       throw new ConflictException(
-        `Invalid departureTime: ${departureDateTime.toISOString()} is not within the allowed range (Today: ${utcCurrentDateTime.toISOString()}, Tomorrow: ${endOfTomorrow.toISOString()})`
+        `Invalid departureTime: ${utcDepartureTime.toISOString()} is not within the allowed range (Today: ${utcCurrentDateTime.toISOString()}, Tomorrow: ${endOfTomorrow.toISOString()})`
       );
     }
 
