@@ -123,7 +123,6 @@ export class RideService {
 
     return isValid;
   }
-
   async createRideLocation(ride: CreateRideDto): Promise<ILocation> {
     if (
       !ride.arrivalLocation ||
@@ -294,6 +293,7 @@ export class RideService {
     arrivalTime: Date
   ): Promise<IRide> {
     this.logger.log(`Finishing ride with id: ${rideId}`);
+    this.logger.log(`Received arrivalTime: ${arrivalTime}`);
 
     const ride = await this.rideRepository.findOne({
       where: { id: rideId },
@@ -314,22 +314,31 @@ export class RideService {
       );
     }
 
-    const arrivalDateTime =
-      arrivalTime instanceof Date ? arrivalTime : new Date(arrivalTime);
-    arrivalDateTime.setHours(arrivalDateTime.getHours());
+    const arrivalDateTime = new Date(arrivalTime);
     const currentDateTime = new Date();
+    const utcCurrentDateTime = new Date(
+      currentDateTime.getTime() - currentDateTime.getTimezoneOffset() * 60000
+    );
+    this.logger.debug(
+      `Current UTC DateTime: ${utcCurrentDateTime.toISOString()}`
+    );
 
-    // if (arrivalDateTime > currentDateTime) {
-    //   throw new ConflictException('Arrival time cannot be in the future');
-    // }
+    const utcArrivalTime = new Date(
+      arrivalDateTime.getTime() - arrivalDateTime.getTimezoneOffset() * 60000
+    );
+    this.logger.log(
+      `Converted UTC Arrival Time: ${utcArrivalTime.toISOString()}`
+    );
 
-    ride.departureTime.setHours(ride.departureTime.getHours());
+    if (utcArrivalTime > utcCurrentDateTime) {
+      throw new ConflictException('Arrival time cannot be in the future');
+    }
 
-    // if (arrivalDateTime <= ride.departureTime) {
-    //   throw new ConflictException(
-    //     'Arrival time must be later than the departure time'
-    //   );
-    // }
+    if (utcArrivalTime > utcCurrentDateTime) {
+      throw new ConflictException(
+        'Arrival time must be later than the departure time'
+      );
+    }
 
     const vehicle = await this.carRepository.findOne({
       where: { id: ride.vehicle.id },
@@ -360,7 +369,7 @@ export class RideService {
       `newMileage: ${newMileage}  carMileageOld: ${vehicleMileage}  newCarMileage: ${vehicle.mileage} rideDistance: ${ride.distance}`
     );
     ride.status = Status.FINISHED;
-    ride.arrivalTime = arrivalDateTime;
+    ride.arrivalTime = utcArrivalTime;
     await this.rideRepository.save(ride);
 
     return ride;

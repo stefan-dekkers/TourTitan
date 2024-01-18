@@ -5,6 +5,7 @@ import { IUser } from '@cm-nx-workshop/shared/api';
 import { UserService } from '../user/user.service';
 import { CreateUserDto } from '@cm-nx-workshop/backend/dto';
 import { log } from 'console';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class AuthService {
@@ -18,12 +19,15 @@ export class AuthService {
     pass: string
   ): Promise<Omit<IUser, 'password'>> {
     Logger.log('Validating user', this.TAG, emailAddress, pass);
-    // Use .lean() to get a plain object and then await the result
     const user = await this.userService.findOneByEmail(emailAddress);
-    if (!user || pass !== user.password) {
+
+    if (!user) {
       throw new UnauthorizedException('Invalid credentials');
     }
-    // Since you're using .lean(), the password won't be included, but if it is, omit it here
+    const isMatch = await bcrypt.compare(pass, user!.password!);
+    if (!isMatch) {
+      throw new UnauthorizedException('Invalid credentials');
+    }
     const { password, ...result } = user;
     return result;
   }
@@ -55,6 +59,7 @@ export class AuthService {
     // Verify user by validating the email address and password
     const user = await this.validateUser(emailAddress, pass);
     console.log('Returned user:', user);
+
     if (user) {
       // Make a payload for the JWT token with the necessary user information
       const payload = {

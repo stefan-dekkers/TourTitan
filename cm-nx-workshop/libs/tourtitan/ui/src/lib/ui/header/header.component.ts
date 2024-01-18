@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthService } from 'libs/tourtitan/auth/src/lib/auth.service';
 
-
 @Component({
   selector: 'cm-nx-workshop-header',
   templateUrl: './header.component.html',
@@ -11,18 +10,15 @@ import { AuthService } from 'libs/tourtitan/auth/src/lib/auth.service';
 export class HeaderComponent implements OnInit {
   imagePath?: string;
 
-  constructor(
-    private authService: AuthService,
-  ) {}
+  constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
     this.imagePath = 'assets/img/tt-logo-128.png';
   }
-  isLoggedIn(): boolean{
+  isLoggedIn(): boolean {
     if (this.authService.getCurrentUser() === null) {
-      return false
+      return false;
     }
     return true;
   }
-  
 }
